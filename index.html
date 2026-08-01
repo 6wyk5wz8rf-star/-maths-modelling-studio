@@ -4366,6 +4366,184 @@ body #modelRail.open,body #inspector.open{transform:translateX(0)!important}
   body.printBuild44.printPupil .displayAnswer{display:none!important}body.printBuild44.printTeacher .displayAnswer{display:block!important;color:#000!important}
   body.printQuestionSet>*{display:none!important}body.printQuestionSet .printQuestionSheet{display:block!important;color:#111}.printQuestionSheet h1{margin:0 0 5mm;font:700 22pt/1.15 system-ui}.printQuestionSheet .printSub{margin:0 0 8mm;font:500 10pt/1.4 system-ui;color:#555}.printQuestionItem{break-inside:avoid;margin:0 0 8mm;padding:0 0 7mm;border-bottom:1px solid #bbb}.printQuestionItem .printLevel{font:800 8pt/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:#567}.printQuestionItem h2{margin:3mm 0 8mm;font:650 14pt/1.45 system-ui}.printQuestionItem .workingLines{height:25mm;background:repeating-linear-gradient(to bottom,transparent 0,transparent 8mm,#ddd 8.2mm,#ddd 8.4mm)}.printQuestionItem .printAnswer{margin-top:5mm;padding:3mm;border:1px solid #999;font:650 10pt/1.4 system-ui}
 }
+
+/* ===== BUILD 44 · DISPLAY STUDIO DESIGN OVERHAUL =====
+   One composed teaching surface: truthful preview, live model and print. */
+.displayDialog{
+  --display-ink:#183746;--display-text:#34515a;--display-muted:#6e7f7b;
+  --display-paper:#fffdf7;--display-wash:#edf3ef;--display-accent:#de765d;
+  width:min(1280px,calc(100vw - 28px));height:min(860px,calc(var(--app-visual-height,100dvh) - 28px));
+  border-color:#ccd8d3;border-radius:24px;background:#f4f6f3
+}
+.displayDialog .workflowShell{grid-template-rows:auto minmax(0,1fr) auto}
+.displayDialog .workflowHead{padding:20px 24px 18px;background:var(--display-paper);border-bottom-color:#d7e1dc}
+.displayDialog .workflowEyebrow{color:#9a5a4d;font-size:10px;letter-spacing:.15em}
+.displayDialog .workflowHead h2{font-size:clamp(25px,2.5vw,36px);color:var(--display-ink)}
+.displayDialog .workflowHead p{max-width:760px;color:#61766f;font-size:11.5px}
+.displayEditor{grid-template-columns:minmax(330px,390px) minmax(520px,1fr)!important}
+.displayEditor>.workflowPane{padding:20px 20px 28px;background:#f8faf8}
+.displaySection{margin:0 0 18px;padding:0 0 17px;border-bottom:1px solid #dbe4df}
+.displaySection:last-of-type{margin-bottom:0;padding-bottom:0;border-bottom:0}
+.displaySectionHead{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin:0 0 10px}
+.displaySectionHead strong{color:var(--display-ink);font:780 12px/1.2 system-ui}
+.displaySectionHead span{color:#7b8c87;font:650 9px/1.2 system-ui}
+.displayDialog .workflowField textarea{min-height:112px}
+.displayDialog .workflowField label{font-size:10.5px;color:#49635c}
+.displayDialog .workflowField input,.displayDialog .workflowField select,.displayDialog .workflowField textarea{
+  border-color:#cfdcd6;border-radius:10px;color:var(--display-ink);font-size:12px;background:#fffefb
+}
+.displayDialog .workflowField input:focus,.displayDialog .workflowField select:focus,.displayDialog .workflowField textarea:focus{border-color:#4f7a70;box-shadow:0 0 0 3px rgba(79,122,112,.14)}
+.displayOptions{gap:9px 10px}
+.layoutChoices{grid-template-columns:1fr 1fr;gap:8px}
+.layoutChoice{position:relative;min-height:84px;padding:11px 10px 10px 47px;border-color:#d3dfda;border-radius:11px;background:#fffefb;transition:border-color .14s,background .14s,box-shadow .14s,transform .14s}
+.layoutChoice:hover{transform:translateY(-1px);border-color:#9eb6ae;box-shadow:0 7px 18px rgba(35,65,71,.07)}
+.layoutChoice:focus-visible{outline:3px solid rgba(49,95,143,.25);outline-offset:2px}
+.layoutChoice.active{border-color:#315f65;background:#eef4f0;box-shadow:inset 3px 0 0 #315f65}
+.layoutChoice strong{color:#264853;font-size:10.5px}.layoutChoice span{color:#6c8079;font-size:8.75px;line-height:1.35}
+.layoutGlyph{position:absolute;left:10px;top:11px;width:27px;height:35px;border:1px solid #9eb4ad;border-radius:4px;background:#fff;overflow:hidden;box-shadow:0 2px 4px rgba(33,63,70,.05)}
+.layoutGlyph::before,.layoutGlyph::after{content:"";position:absolute;left:4px;right:4px;background:#365e64;border-radius:1px}
+.layoutGlyph::before{top:5px;height:5px}.layoutGlyph::after{top:14px;height:15px;background:#dbe8e3}
+.layoutChoice[data-layout="notice"] .layoutGlyph::before{left:4px;right:auto;width:7px;height:25px}.layoutChoice[data-layout="notice"] .layoutGlyph::after{left:14px;top:5px;height:25px}
+.layoutChoice[data-layout="hidden"] .layoutGlyph::after{background:repeating-linear-gradient(135deg,#dbe8e3 0 4px,#fff 4px 7px)}
+.layoutChoice[data-layout="independent"] .layoutGlyph::after{right:10px}.layoutChoice[data-layout="independent"] .layoutGlyph{background:repeating-linear-gradient(to bottom,#fff 0 27px,#c8d6d1 28px,#fff 29px)}
+
+.displayPreview{position:relative;min-height:100%;padding:clamp(18px,2.4vw,34px);background:radial-gradient(circle at 50% 20%,#344b53,#172b35 72%);overflow:hidden}
+.displayPreview::before{content:"Classroom preview";position:absolute;left:22px;top:14px;color:rgba(255,255,255,.62);font:760 8px/1 system-ui;letter-spacing:.14em;text-transform:uppercase}
+.displayPreviewPage{
+  --preview-head:36%;position:relative;width:min(100%,820px);aspect-ratio:16/9;
+  display:grid;grid-template-rows:var(--preview-head) minmax(0,1fr);overflow:hidden;
+  border-radius:12px;background:var(--display-paper);box-shadow:0 24px 70px rgba(2,15,20,.35),0 0 0 1px rgba(255,255,255,.14);
+  transition:aspect-ratio .18s,grid-template-columns .18s,grid-template-rows .18s
+}
+.displayPreviewPage.portrait{aspect-ratio:1/1.35;max-height:660px;--preview-head:31%}
+.displayPreviewHead{position:relative;z-index:2;padding:clamp(17px,2.2vw,29px) clamp(18px,2.7vw,34px) 14px;border:0;border-bottom:1px solid #dbe4df;background:var(--display-paper)}
+.displayPreviewIdentity{display:flex;align-items:center;gap:8px;margin-bottom:9px}
+.displayPreviewMark{width:21px;height:21px;display:grid;place-items:center;border-radius:6px;background:var(--display-ink);color:#fff;font:850 11px/1 system-ui}
+.displayPreviewHead small{color:#60766e;font-size:8px;letter-spacing:.14em}
+.displayPreviewHead h3{max-width:92%;margin:0;color:var(--display-ink);font:790 clamp(18px,2.55vw,34px)/1.08 system-ui;letter-spacing:-.035em}
+.displayPreviewHead h3.questionLong{font-size:clamp(15px,2vw,27px);line-height:1.14}
+.displayPreviewPromptWrap{display:flex;align-items:flex-start;gap:7px;margin-top:10px}
+.displayPreviewPromptLabel{flex:0 0 auto;padding:4px 6px;border-radius:4px;background:#f1ddd5;color:#864d40;font:820 6.5px/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+.displayPreviewHead p{margin:1px 0 0;color:#294d53;font:720 clamp(9px,1.15vw,14px)/1.35 system-ui}
+.displayPreviewPromptWrap:has(#displayPreviewPrompt:empty){display:none}
+.displayPreviewModel{position:relative;min-height:0;margin:0;border:0;border-radius:0;background:linear-gradient(180deg,#fffdf7,#fafbf7);overflow:hidden;color:var(--display-text)}
+.displayPreviewLive{position:absolute;inset:0;display:grid;place-items:center;overflow:hidden;pointer-events:none;container-type:size}
+.displayPreviewLiveStage{width:160%;height:160%;display:grid;place-items:center;padding:2.5%;transform:scale(.625);transform-origin:center;background:var(--display-paper);overflow:hidden}
+.displayPreviewLiveStage .directDock,.displayPreviewLiveStage .stageTip,.displayPreviewLiveStage .barDragHint,.displayPreviewLiveStage .integrityNote,.displayPreviewLiveStage .methodHint,.displayPreviewLiveStage .nlNote{display:none!important}
+.displayPreviewLiveStage button,.displayPreviewLiveStage input,.displayPreviewLiveStage select{display:none!important;pointer-events:none!important}
+.displayPreviewFallback{position:absolute;inset:0;display:grid;place-items:center;text-align:center;color:#587169;padding:30px}
+.displayPreviewFallback[hidden]{display:none!important}
+.displayPreviewFallback span{display:block;font-size:28px}.displayPreviewFallback strong{display:block;margin-top:7px;font-size:12px}.displayPreviewFallback small{display:block;max-width:340px;margin:5px auto 0;font-size:9px;line-height:1.45}
+.displayPreviewFoot{position:absolute;z-index:4;left:18px;right:18px;bottom:10px;padding:0;color:#5c716b;font-size:7.5px;pointer-events:none}
+.displayPreviewFoot span{padding:4px 7px;border-radius:4px;background:rgba(255,253,247,.9);box-shadow:0 0 0 1px rgba(43,72,78,.09)}
+.displayPreviewFoot span:empty{display:none}
+.displayPreviewPage[data-layout="notice"]{grid-template-columns:31% 69%;grid-template-rows:1fr}
+.displayPreviewPage[data-layout="notice"] .displayPreviewHead{border:0;border-right:1px solid #dbe4df;padding-top:28px}
+.displayPreviewPage[data-layout="notice"] .displayPreviewHead h3{font-size:clamp(15px,2vw,27px)}
+.displayPreviewPage[data-layout="notice"] .displayPreviewPromptWrap{display:block;margin-top:18px}.displayPreviewPage[data-layout="notice"] .displayPreviewPromptLabel{display:inline-block;margin-bottom:7px}
+.displayPreviewPage[data-layout="hidden"] .displayPreviewHead{background:#203e4a;color:#fff;border-color:#203e4a}.displayPreviewPage[data-layout="hidden"] .displayPreviewMark{background:var(--display-accent)}.displayPreviewPage[data-layout="hidden"] .displayPreviewHead small,.displayPreviewPage[data-layout="hidden"] .displayPreviewHead h3,.displayPreviewPage[data-layout="hidden"] .displayPreviewHead p{color:#fff}
+.displayPreviewPage[data-layout="independent"]{grid-template-columns:minmax(0,1fr) 28%;grid-template-rows:35% 65%}
+.displayPreviewPage[data-layout="independent"] .displayPreviewHead{grid-column:1/-1}.displayPreviewPage[data-layout="independent"] .displayPreviewModel{grid-column:1}.displayPreviewPage[data-layout="independent"]::after{content:"Show your thinking";grid-column:2;grid-row:2;padding:19px 13px;color:#3d5a5c;font:780 9px/1.2 system-ui;border-left:1px solid #dbe4df;background:repeating-linear-gradient(to bottom,#fbfaf4 0,#fbfaf4 31px,#d8dfda 32px,#fbfaf4 33px)}
+.displayPreviewPage.portrait[data-layout="notice"],.displayPreviewPage.portrait[data-layout="independent"]{grid-template-columns:1fr;grid-template-rows:31% minmax(0,1fr)}
+.displayPreviewPage.portrait[data-layout="notice"] .displayPreviewHead{border-right:0;border-bottom:1px solid #dbe4df}
+.displayPreviewPage.portrait[data-layout="independent"] .displayPreviewHead{grid-column:1;grid-row:1}.displayPreviewPage.portrait[data-layout="independent"] .displayPreviewModel{grid-column:1;grid-row:2}.displayPreviewPage.portrait[data-layout="independent"]::after{display:none}
+
+/* The projected display is a single high-contrast page, not a header floating over the studio. */
+.displayCompositionHeader,.displayThinkingPanel{display:none}
+.presentation.displayComposition{--composition-gap:clamp(12px,1.55vw,24px);--composition-head:clamp(190px,28vh,280px);--display-model-room:calc(var(--app-visual-height,100dvh) - var(--display-live-head,var(--composition-head)) - 94px);background:#172a34}
+.presentation.displayComposition .app{inset:0!important;padding:var(--composition-gap)!important;background:#172a34!important}
+.presentation.displayComposition .workspaceWrap{padding:0!important;background:transparent!important}
+.presentation.displayComposition .workspace{width:100%!important;height:100%!important;margin:0!important;border:0!important;border-radius:clamp(16px,2vw,28px)!important;background:var(--display-paper,#fffdf7)!important;box-shadow:0 22px 80px rgba(0,12,18,.30)!important;overflow:hidden!important}
+.presentation.displayComposition .displayCompositionHeader{
+  position:fixed;top:var(--composition-gap);left:var(--composition-gap);right:var(--composition-gap);z-index:65;
+  min-height:var(--composition-head);display:grid;grid-template-columns:minmax(0,1fr) minmax(190px,24vw);gap:clamp(20px,3vw,48px);
+  padding:clamp(22px,3vw,42px) clamp(26px,4vw,62px) clamp(18px,2.5vw,34px);
+  border:0;border-bottom:2px solid #dce4df;border-radius:clamp(16px,2vw,28px) clamp(16px,2vw,28px) 0 0;
+  background:#fffdf7;color:#183746;overflow:hidden
+}
+.displayIdentity{display:flex;align-items:center;gap:10px;margin-bottom:clamp(10px,1.4vh,17px)}
+.displayMark{width:clamp(28px,2.8vw,42px);height:clamp(28px,2.8vw,42px);display:grid;place-items:center;border-radius:9px;background:#183746;color:#fff;font:850 clamp(14px,1.5vw,22px)/1 system-ui}
+.displayKicker{color:#5f756e;font:820 clamp(10px,1vw,14px)/1 system-ui;letter-spacing:.16em;text-transform:uppercase}
+.displayCompositionText{min-width:0;position:relative;padding-left:clamp(15px,1.6vw,24px)}
+.displayCompositionText::before{content:"";position:absolute;left:0;top:0;bottom:0;width:5px;border-radius:5px;background:#de765d}
+.displayCompositionHeader h2{max-width:1200px;margin:0;color:#173642;font:790 clamp(31px,3.7vw,58px)/1.05 system-ui;letter-spacing:-.045em;text-wrap:balance}
+.displayCompositionHeader.questionLong h2{font-size:clamp(25px,3vw,46px);line-height:1.1}.displayCompositionHeader.questionVeryLong h2{font-size:clamp(21px,2.5vw,37px);line-height:1.14}
+.displayPromptBlock{align-self:end;padding:clamp(15px,1.8vw,24px);border-radius:12px;background:#edf3ef;border-left:5px solid #527a70}
+.displayPromptLabel{display:block;margin-bottom:7px;color:#5a746b;font:840 clamp(9px,.9vw,12px)/1 system-ui;letter-spacing:.13em;text-transform:uppercase}
+.displayCompositionHeader p{margin:0;color:#21464d;font:740 clamp(17px,1.75vw,26px)/1.34 system-ui}
+.displayPromptBlock:has(#displayPromptText:empty){display:none}
+.displayMeta{align-self:start;display:grid;gap:10px}.displayMeta span{max-width:none;padding:10px 12px;border:1px solid #d4e0db;border-radius:8px;background:#f6f7f3;color:#49645d;font:740 clamp(10px,1vw,14px)/1.35 system-ui}.displayMeta span:empty{display:none}
+.displayAnswer{display:none;margin-top:12px;padding:12px 14px;border-radius:9px;background:#e3efe8;color:#174d3f;font:820 clamp(18px,1.7vw,27px)/1.25 system-ui}.displayAnswer.revealed{display:block;animation:displayReveal .16s ease-out}
+@keyframes displayReveal{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
+.presentation.displayComposition .stage{width:100%!important;height:100%!important;padding:calc(var(--display-live-head,var(--composition-head)) + clamp(18px,2vw,30px)) clamp(25px,4vw,64px) clamp(22px,3vw,44px)!important;background:#fffdf7!important;overflow:hidden!important}
+.presentation.displayComposition .stage>*{max-width:100%!important;max-height:100%!important}
+.presentation.displayComposition .partWholeLocked{width:min(1180px,100%)!important;max-width:100%!important}
+.presentation.displayComposition .wholeLocked{height:clamp(115px,17vh,175px)!important}.presentation.displayComposition .partsLocked{height:clamp(175px,27vh,270px)!important}.presentation.displayComposition .wholeLockedValue{font-size:clamp(58px,7vw,105px)!important}.presentation.displayComposition .lockedPartValue{font-size:clamp(52px,6vw,92px)!important}.presentation.displayComposition .wholeEqualsParts{font-size:clamp(25px,3.2vw,44px)!important}
+.presentation.displayComposition .coordStageWrap,.presentation.displayComposition .angleWrap,.presentation.displayComposition .methodsStudio,.presentation.displayComposition .partitionStudio{height:var(--display-model-room)!important;max-height:var(--display-model-room)!important;min-height:0!important;overflow:hidden!important}
+.presentation.displayComposition .coordWrap{height:calc(100% - 42px)!important;max-height:100%!important}.presentation.displayComposition .coordSvg{height:100%!important}.presentation.displayComposition .coordSummary{min-height:32px!important}
+.presentation.displayComposition .angleSvg{height:min(44vh,470px)!important;max-height:calc(100% - 58px)!important}.presentation.displayComposition .angleReadout{font-size:clamp(40px,5vw,76px)!important}
+.presentation.displayComposition .workedExample{height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important;align-items:center!important}
+.presentation.displayComposition .algorithmPaper{min-height:0!important;height:100%!important;max-height:100%!important;padding:clamp(17px,2vw,28px)!important;overflow:hidden!important;align-content:center!important}
+.presentation.displayComposition .methodCell{height:clamp(48px,6vh,70px)!important;font-size:clamp(36px,4.5vw,68px)!important}.presentation.displayComposition .methodCell.carry,.presentation.displayComposition .methodCell.exchange{height:30px!important;font-size:clamp(18px,2vw,28px)!important}.presentation.displayComposition .placeNameRow .methodCell{height:24px!important;font-size:clamp(9px,1vw,14px)!important}.presentation.displayComposition .methodQuestion{font-size:clamp(25px,3vw,44px)!important}
+.presentation.displayComposition .partitionWorkspace{height:100%!important;max-height:100%!important;min-height:0!important;overflow:hidden!important;gap:18px!important}.presentation.displayComposition .partitionCard{height:100%!important;min-height:0!important;overflow:hidden!important;padding:clamp(12px,1.5vw,20px)!important}.presentation.displayComposition .partitionGrid{height:100%!important;min-height:0!important}.presentation.displayComposition .partitionEquation{margin-bottom:8px!important;font-size:clamp(30px,4vw,58px)!important}.presentation.displayComposition .partitionBreakdown{margin-bottom:8px!important;font-size:clamp(16px,2vw,27px)!important}
+body.presentation.displayComposition[data-model="column"] .methodsStudio,body.presentation.displayComposition[data-model="multiplication"] .methodsStudio,body.presentation.displayComposition[data-model="division"] .methodsStudio,body.presentation.displayComposition[data-model="partitionMultiplication"] .partitionStudio{height:var(--display-model-room)!important;max-height:var(--display-model-room)!important;min-height:0!important}
+body.presentation.displayComposition[data-model="column"] .workedExample,body.presentation.displayComposition[data-model="multiplication"] .workedExample,body.presentation.displayComposition[data-model="division"] .workedExample{height:100%!important;max-height:100%!important;min-height:0!important}
+body.presentation.displayComposition[data-model="column"] .algorithmPaper,body.presentation.displayComposition[data-model="multiplication"] .algorithmPaper,body.presentation.displayComposition[data-model="division"] .algorithmPaper{height:100%!important;min-height:0!important;max-height:100%!important;padding:clamp(17px,2vw,28px)!important;overflow:hidden!important}
+body.presentation.displayComposition[data-model="partitionMultiplication"] .partitionWorkspace{height:100%!important;max-height:100%!important;min-height:0!important}body.presentation.displayComposition[data-model="partitionMultiplication"] .partitionGrid{height:100%!important;min-height:0!important}
+.presentation.displayComposition .directDock,.presentation.displayComposition .stageTip,.presentation.displayComposition .barDragHint,.presentation.displayComposition .integrityNote,.presentation.displayComposition .nlNote{display:none!important}
+.presentation.displayComposition .presentDock{z-index:110!important}
+.presentation.displayComposition[data-display-layout="hidden"] .displayCompositionHeader{background:#203e4a;color:#fff;border-color:#203e4a}
+.presentation.displayComposition[data-display-layout="hidden"] .displayMark{background:#de765d}.presentation.displayComposition[data-display-layout="hidden"] .displayKicker,.presentation.displayComposition[data-display-layout="hidden"] .displayCompositionHeader h2,.presentation.displayComposition[data-display-layout="hidden"] .displayPromptLabel,.presentation.displayComposition[data-display-layout="hidden"] .displayCompositionHeader p{color:#fff}.presentation.displayComposition[data-display-layout="hidden"] .displayPromptBlock{background:rgba(255,255,255,.1);border-left-color:#e6a18e}.presentation.displayComposition[data-display-layout="hidden"] .displayMeta span{color:#fff;background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.18)}
+.presentation.displayComposition[data-display-layout="notice"]{--notice-rail:clamp(280px,31vw,470px);--display-model-room:calc(var(--app-visual-height,100dvh) - 116px)}
+.presentation.displayComposition[data-display-layout="notice"] .displayCompositionHeader{right:auto;bottom:var(--composition-gap);width:var(--notice-rail);min-height:0;grid-template-columns:1fr;align-content:center;border:0;border-right:2px solid #dce4df;border-radius:clamp(16px,2vw,28px) 0 0 clamp(16px,2vw,28px);padding:clamp(28px,4vw,58px)}
+.presentation.displayComposition[data-display-layout="notice"] .displayCompositionHeader h2{font-size:clamp(28px,3.5vw,52px)}
+.presentation.displayComposition[data-display-layout="notice"] .displayPromptBlock{margin-top:clamp(24px,4vh,50px)}
+.presentation.displayComposition[data-display-layout="notice"] .displayMeta{margin-top:18px}
+.presentation.displayComposition[data-display-layout="notice"] .stage{padding:clamp(26px,4vw,60px) clamp(25px,4vw,60px) clamp(25px,4vw,60px) calc(var(--notice-rail) + clamp(20px,3vw,46px))!important}
+.displayThinkingPanel{position:fixed;z-index:66}
+.presentation.displayComposition[data-display-layout="independent"]{--thinking-width:clamp(245px,26vw,390px)}
+.presentation.displayComposition[data-display-layout="independent"] .displayCompositionHeader{right:calc(var(--thinking-width) + var(--composition-gap));grid-template-columns:1fr;min-height:var(--composition-head)}
+.presentation.displayComposition[data-display-layout="independent"] .displayPromptBlock{display:none}
+.presentation.displayComposition[data-display-layout="independent"] .displayThinkingPanel{display:block;top:var(--composition-gap);right:var(--composition-gap);bottom:var(--composition-gap);width:var(--thinking-width);padding:clamp(26px,3vw,44px);border-left:2px solid #dce4df;border-radius:0 clamp(16px,2vw,28px) clamp(16px,2vw,28px) 0;background:repeating-linear-gradient(to bottom,#fbfaf4 0,#fbfaf4 53px,#d8dfda 54px,#fbfaf4 55px);color:#294b51}
+.displayThinkingPanel strong{display:block;padding-bottom:14px;background:#fbfaf4;color:#294b51;font:790 clamp(19px,2vw,29px)/1.15 system-ui;letter-spacing:-.025em}.displayThinkingPanel span{display:block;padding:8px 0 13px;background:#fbfaf4;color:#64766f;font:670 clamp(11px,1vw,14px)/1.4 system-ui}
+.presentation.displayComposition[data-display-layout="independent"] .stage{padding:calc(var(--display-live-head,var(--composition-head)) + 24px) calc(var(--thinking-width) + clamp(24px,3vw,50px)) 30px clamp(26px,4vw,60px)!important}
+
+@media(max-width:840px){
+  .displayEditor{grid-template-columns:1fr!important}.displayDialog .workflowBody{overflow:auto}.displayPreview{min-height:560px}
+  .presentation.displayComposition{--composition-gap:8px;--composition-head:clamp(170px,28vh,230px)}
+  .presentation.displayComposition .displayCompositionHeader{grid-template-columns:1fr;padding:20px 22px 15px;gap:11px}.displayIdentity{margin-bottom:8px}.displayCompositionHeader h2{font-size:clamp(27px,5.4vw,46px)}.displayPromptBlock{padding:10px 13px}.displayMeta{display:none}
+  .presentation.displayComposition .stage{padding-top:calc(var(--display-live-head,var(--composition-head)) + 14px)!important;padding-left:16px!important;padding-right:16px!important}
+  .presentation.displayComposition[data-display-layout="notice"]{--notice-rail:clamp(220px,34vw,300px)}
+  .presentation.displayComposition[data-display-layout="notice"] .displayCompositionHeader{padding:24px 20px}.presentation.displayComposition[data-display-layout="notice"] .displayPromptBlock{margin-top:18px}
+  .presentation.displayComposition[data-display-layout="independent"]{--thinking-width:clamp(190px,29vw,255px)}
+}
+@media(max-width:620px), (orientation:portrait) and (max-width:900px){
+  .presentation.displayComposition{--composition-head:clamp(185px,27vh,255px)}
+  .presentation.displayComposition[data-display-layout="notice"] .displayCompositionHeader,.presentation.displayComposition[data-display-layout="independent"] .displayCompositionHeader{top:var(--composition-gap);left:var(--composition-gap);right:var(--composition-gap);bottom:auto;width:auto;min-height:var(--composition-head);border:0;border-bottom:2px solid #dce4df;border-radius:16px 16px 0 0;padding:20px 22px}
+  .presentation.displayComposition[data-display-layout="notice"] .displayCompositionHeader{grid-template-columns:1fr 1fr;gap:14px}.presentation.displayComposition[data-display-layout="notice"] .displayPromptBlock{margin-top:0}
+  .presentation.displayComposition[data-display-layout="notice"] .stage{padding:calc(var(--display-live-head,var(--composition-head)) + 14px) 14px 18px!important}
+  .presentation.displayComposition[data-display-layout="independent"] .displayThinkingPanel{display:none}
+  .presentation.displayComposition[data-display-layout="independent"] .stage{padding:calc(var(--display-live-head,var(--composition-head)) + 14px) 14px 22vh!important}
+}
+@media(prefers-reduced-motion:reduce){.layoutChoice,.displayAnswer{transition:none!important;animation:none!important}}
+
+@media print{
+  body.printBuild44{--display-ink:#102f3b;--display-paper:#fff}
+  body.printBuild44{display:flex!important;flex-direction:column!important}
+  body.printBuild44 .displayCompositionHeader{order:1!important}body.printBuild44 .app{order:2!important}
+  body.printBuild44 .app,body.printBuild44 .shell,body.printBuild44 .workspaceWrap,body.printBuild44 .workspace,body.printBuild44 .stage{background:#fff!important;background-image:none!important}
+  body.printBuild44 .displayCompositionHeader{display:grid!important;grid-template-columns:minmax(0,1fr) auto!important;gap:8mm!important;padding:0 0 7mm 6mm!important;border:0!important;border-bottom:1.2pt solid #263f47!important;border-left:4pt solid #de765d!important;border-radius:0!important;background:#fff!important;color:#111!important}
+  body.printBuild44 .displayCompositionText{display:grid!important;grid-template-rows:auto auto!important;gap:3mm!important;align-content:start!important}
+  body.printBuild44 .displayIdentity{margin-bottom:3mm!important}.displayMark{width:9mm!important;height:9mm!important;border-radius:2mm!important;font-size:12pt!important}.displayKicker{font-size:8pt!important;color:#465e59!important}
+  body.printBuild44 .displayCompositionHeader h2{margin:0!important;color:#102f3b!important;font-size:24pt!important;line-height:1.08!important}.displayCompositionHeader.questionLong h2{font-size:20pt!important}.displayCompositionHeader.questionVeryLong h2{font-size:17pt!important}
+  body.printBuild44 .displayPromptBlock{align-self:end!important;padding:4mm!important;border:1pt solid #9dacaa!important;border-left:3pt solid #527a70!important;border-radius:2mm!important;background:#fff!important}.displayPromptLabel{font-size:7pt!important}.displayCompositionHeader p{color:#183f45!important;font-size:11pt!important}.displayMeta{display:none!important}
+  body.printBuild44 .stage{height:164mm!important;max-height:164mm!important;padding:8mm 5mm!important;border:0!important;border-radius:0!important;background:#fff!important}
+  body.printBuild44[data-print-orientation="landscape"] .stage{height:138mm!important;max-height:138mm!important}body.printBuild44[data-print-orientation="portrait"] .stage{height:205mm!important;max-height:205mm!important}
+  body.printBuild44 .directDock,body.printBuild44 .stageTip,body.printBuild44 .barDragHint,body.printBuild44 .integrityNote,body.printBuild44 .lockedPartEdit,body.printBuild44 .wholeLockedEdit,body.printBuild44 .barDivider,body.printBuild44 .methodHint{display:none!important}
+  body.printBuild44 .displayThinkingPanel{display:none!important}
+  body.printBuild44.printTeacher .displayAnswer{position:static!important;display:block!important;margin:0!important;padding:3mm!important;border:1pt solid #577!important;background:#fff!important;color:#111!important;font-size:12pt!important;opacity:1!important;transform:none!important;animation:none!important}
+  body.printBuild44[data-display-layout="independent"] .stage{height:130mm!important;max-height:130mm!important;padding-bottom:28mm!important;border-bottom:1pt solid #aaa!important}
+}
 </style>
 
 </head>
@@ -4527,9 +4705,16 @@ body #modelRail.open,body #inspector.open{transform:translateX(0)!important}
 </div>
 
 <section class="displayCompositionHeader" id="displayCompositionHeader" aria-label="Classroom display question">
-  <div class="displayCompositionText"><span class="displayKicker" id="displayKicker">Mathematical thinking</span><h2 id="displayQuestionText"></h2><p id="displayPromptText"></p><div class="displayAnswer" id="displayAnswerText"></div></div>
-  <div class="displayMeta"><span id="displayVocabularyText"></span></div>
+  <div>
+    <div class="displayIdentity"><span class="displayMark" aria-hidden="true">∴</span><span class="displayKicker" id="displayKicker">Mathematical thinking</span></div>
+    <div class="displayCompositionText"><h2 id="displayQuestionText"></h2><div class="displayAnswer" id="displayAnswerText"></div></div>
+  </div>
+  <aside>
+    <div class="displayPromptBlock"><span class="displayPromptLabel">Discuss</span><p id="displayPromptText"></p></div>
+    <div class="displayMeta"><span id="displayModelText"></span><span id="displayVocabularyText"></span></div>
+  </aside>
 </section>
+<aside class="displayThinkingPanel" id="displayThinkingPanel" aria-label="Pupil thinking space"><strong>Show your thinking</strong><span id="displayThinkingPrompt">Represent it. Explain it. Convince us.</span></aside>
 <section class="printQuestionSheet" id="printQuestionSheet" aria-label="Printable question set"></section>
 
 <dialog class="workflowDialog" id="questionDialog" aria-labelledby="questionDialogTitle">
@@ -4555,18 +4740,34 @@ body #modelRail.open,body #inspector.open{transform:translateX(0)!important}
     <header class="workflowHead"><div class="workflowHeadText"><span class="workflowEyebrow">Live model · deliberate classroom composition</span><h2 id="displayDialogTitle">Create display</h2><p>Prepare a clean projection or print layout from the current editable model. The display remains linked to this canvas.</p></div><button class="workflowClose" id="displayClose" type="button" aria-label="Close display editor">×</button></header>
     <div class="workflowBody displayEditor">
       <section class="workflowPane">
-        <div class="displayOptions">
-          <div class="workflowField wide"><label for="displayTitleInput">Title</label><input id="displayTitleInput" type="text" maxlength="100" placeholder="Mathematical thinking"></div>
-          <div class="workflowField wide"><label for="displayQuestionInput">Question</label><textarea id="displayQuestionInput" maxlength="1500" placeholder="Type or use the current source question"></textarea></div>
-          <div class="workflowField"><label for="displayPromptInput">Prompt</label><input id="displayPromptInput" type="text" maxlength="180" placeholder="What do you notice?"></div>
-          <div class="workflowField"><label for="displayVocabularyInput">Vocabulary</label><input id="displayVocabularyInput" type="text" maxlength="180" placeholder="difference · whole · part"></div>
-          <div class="workflowField"><label for="displayAnswerInput">Answer <span aria-hidden="true">·</span> optional</label><input id="displayAnswerInput" type="text" maxlength="220" placeholder="Revealed when you choose"></div>
-          <div class="workflowField"><label for="displayOrientation">Orientation</label><select id="displayOrientation"><option value="landscape">Landscape</option><option value="portrait">Portrait</option></select></div>
+        <div class="displaySection">
+          <div class="displaySectionHead"><strong>Teaching focus</strong><span>What pupils see first</span></div>
+          <div class="displayOptions">
+            <div class="workflowField wide"><label for="displayTitleInput">Short title</label><input id="displayTitleInput" type="text" maxlength="100" placeholder="Mathematical thinking"></div>
+            <div class="workflowField wide"><label for="displayQuestionInput">Question</label><textarea id="displayQuestionInput" maxlength="1500" placeholder="Type or use the current source question"></textarea></div>
+          </div>
         </div>
-        <span class="workflowLabel">Layout</span><div class="layoutChoices" id="displayLayouts"><button class="layoutChoice active" data-layout="question-model"><strong>Question + model</strong><span>Question first, live model below</span></button><button class="layoutChoice" data-layout="notice"><strong>Notice & wonder</strong><span>Model-led discussion prompt</span></button><button class="layoutChoice" data-layout="hidden"><strong>Hidden value</strong><span>Conceal values for reasoning</span></button><button class="layoutChoice" data-layout="independent"><strong>Independent task</strong><span>Question with thinking space</span></button></div>
+        <div class="displaySection">
+          <div class="displaySectionHead"><strong>Discussion support</strong><span>Optional</span></div>
+          <div class="displayOptions">
+            <div class="workflowField wide"><label for="displayPromptInput">Prompt</label><input id="displayPromptInput" type="text" maxlength="180" placeholder="What do you notice? What do you wonder?"></div>
+            <div class="workflowField"><label for="displayVocabularyInput">Vocabulary</label><input id="displayVocabularyInput" type="text" maxlength="180" placeholder="difference · whole · part"></div>
+            <div class="workflowField"><label for="displayAnswerInput">Revealable answer</label><input id="displayAnswerInput" type="text" maxlength="220" placeholder="Optional"></div>
+          </div>
+        </div>
+        <div class="displaySection">
+          <div class="displaySectionHead"><strong>Composition</strong><span>Four purposeful layouts</span></div>
+          <div class="layoutChoices" id="displayLayouts">
+            <button class="layoutChoice active" data-layout="question-model" type="button"><i class="layoutGlyph" aria-hidden="true"></i><strong>Question + model</strong><span>Clear question, then one dominant representation</span></button>
+            <button class="layoutChoice" data-layout="notice" type="button"><i class="layoutGlyph" aria-hidden="true"></i><strong>Notice & wonder</strong><span>Model-led discussion with a prompt rail</span></button>
+            <button class="layoutChoice" data-layout="hidden" type="button"><i class="layoutGlyph" aria-hidden="true"></i><strong>Hidden value</strong><span>High-contrast reasoning with values concealed</span></button>
+            <button class="layoutChoice" data-layout="independent" type="button"><i class="layoutGlyph" aria-hidden="true"></i><strong>Independent task</strong><span>Question, model and genuine thinking space</span></button>
+          </div>
+          <div class="workflowField" style="margin-top:11px"><label for="displayOrientation">Print orientation</label><select id="displayOrientation"><option value="landscape">A4 landscape</option><option value="portrait">A4 portrait</option></select></div>
+        </div>
         <div class="workflowStatus" id="displayStatus" role="status"></div>
       </section>
-      <section class="displayPreview"><div class="displayPreviewPage" id="displayPreviewPage"><div class="displayPreviewHead"><small id="displayPreviewKicker">Mathematical thinking</small><h3 id="displayPreviewQuestion">Your question will appear here.</h3><p id="displayPreviewPrompt"></p></div><div class="displayPreviewModel"><div><span aria-hidden="true">∴</span><strong id="displayPreviewModelName">Choose a model</strong><small id="displayPreviewSummary">The live mathematical model will fill this space.</small></div></div><div class="displayPreviewFoot"><span id="displayPreviewVocabulary"></span><span>Live editable model</span></div></div></section>
+      <section class="displayPreview" aria-label="Classroom display preview"><div class="displayPreviewPage" id="displayPreviewPage" data-layout="question-model"><div class="displayPreviewHead"><div class="displayPreviewIdentity"><span class="displayPreviewMark" aria-hidden="true">∴</span><small id="displayPreviewKicker">Mathematical thinking</small></div><h3 id="displayPreviewQuestion">Your question will appear here.</h3><div class="displayPreviewPromptWrap"><span class="displayPreviewPromptLabel">Discuss</span><p id="displayPreviewPrompt"></p></div></div><div class="displayPreviewModel"><div class="displayPreviewLive" id="displayPreviewLive"></div><div class="displayPreviewFallback" id="displayPreviewFallback"><div><span aria-hidden="true">∴</span><strong id="displayPreviewModelName">Choose a model</strong><small id="displayPreviewSummary">The live mathematical model will fill this space.</small></div></div></div><div class="displayPreviewFoot"><span id="displayPreviewVocabulary"></span><span id="displayPreviewModelChip">Live editable model</span></div></div></section>
     </div>
     <footer class="workflowFoot"><span class="workflowFootNote">Display mode removes application clutter. Printing uses A4 and the browser’s own PDF option.</span><div class="workflowActions"><button class="workflowAction" id="printDisplayPupil" type="button">Print pupil copy</button><button class="workflowAction" id="printDisplayTeacher" type="button">Print teacher copy</button><button class="workflowAction primary" id="launchDisplay" type="button">Create display</button></div></footer>
   </div>
@@ -5043,26 +5244,46 @@ function modelTextSummary(){
 function displayValuesFromInputs(){
   const d=state.workflow.display;d.title=safePlainText($('#displayTitleInput')?.value||'').slice(0,100);d.question=safePlainText($('#displayQuestionInput')?.value||'').slice(0,1500);d.prompt=safePlainText($('#displayPromptInput')?.value||'').slice(0,180);d.vocabulary=safePlainText($('#displayVocabularyInput')?.value||'').slice(0,180);d.answer=safePlainText($('#displayAnswerInput')?.value||'').slice(0,220);d.orientation=$('#displayOrientation')?.value==='portrait'?'portrait':'landscape';saveWorkflowSoon();return d
 }
+function cloneModelIntoDisplayPreview(){
+  const source=$('#stage'),host=$('#displayPreviewLive'),fallback=$('#displayPreviewFallback');if(!source||!host)return;
+  const sourceModel=source.firstElementChild;if(!sourceModel){host.replaceChildren();if(fallback)fallback.hidden=false;return}
+  const clone=sourceModel.cloneNode(true),idMap=new Map(),stamp=`displayPreview${Date.now().toString(36)}`;
+  clone.classList.add('displayPreviewLiveStageModel');clone.setAttribute('aria-hidden','true');
+  [clone,...clone.querySelectorAll('[id]')].filter(element=>element.id).forEach((element,index)=>{const oldId=element.id,newId=`${stamp}-${index}-${oldId}`;idMap.set(oldId,newId);element.id=newId});
+  const referenceAttributes=['fill','stroke','filter','clip-path','mask','marker-start','marker-mid','marker-end','href','xlink:href'];
+  clone.querySelectorAll('*').forEach(element=>{
+    referenceAttributes.forEach(name=>{const value=element.getAttribute(name);if(!value)return;let next=value;idMap.forEach((replacement,original)=>{next=next.replaceAll(`url(#${original})`,`url(#${replacement})`).replaceAll(`#${original}`,`#${replacement}`)});if(next!==value)element.setAttribute(name,next)});
+    element.removeAttribute('tabindex');element.removeAttribute('contenteditable');element.setAttribute('aria-hidden','true');
+  });
+  clone.querySelectorAll('.directDock,.stageTip,.barDragHint,.integrityNote,.methodHint,.nlNote').forEach(element=>element.remove());
+  const shell=document.createElement('div');shell.className='displayPreviewLiveStage';shell.append(clone);host.replaceChildren(shell);if(fallback)fallback.hidden=true
+}
 function renderDisplayPreview(){
-  const d=displayValuesFromInputs(),page=$('#displayPreviewPage');if(!page)return;page.classList.toggle('portrait',d.orientation==='portrait');$('#displayPreviewKicker').textContent=d.title||'Mathematical thinking';$('#displayPreviewQuestion').textContent=d.question||'Your question will appear here.';$('#displayPreviewPrompt').textContent=d.prompt||'';$('#displayPreviewModelName').textContent=MODEL_META[state.active]?.[0]||'Choose a model';$('#displayPreviewSummary').textContent=modelTextSummary();$('#displayPreviewVocabulary').textContent=d.vocabulary?`Vocabulary · ${d.vocabulary}`:'';$$('[data-layout]',$('#displayLayouts')).forEach(button=>button.classList.toggle('active',button.dataset.layout===d.layout))
+  const d=displayValuesFromInputs(),page=$('#displayPreviewPage');if(!page)return;const question=d.question||'Your question will appear here.',layout=['question-model','notice','hidden','independent'].includes(d.layout)?d.layout:'question-model';page.classList.toggle('portrait',d.orientation==='portrait');page.dataset.layout=layout;$('#displayPreviewKicker').textContent=d.title||'Mathematical thinking';const previewQuestion=$('#displayPreviewQuestion');previewQuestion.textContent=question;previewQuestion.classList.toggle('questionLong',question.length>115);$('#displayPreviewPrompt').textContent=d.prompt||'';$('#displayPreviewModelName').textContent=MODEL_META[state.active]?.[0]||'Choose a model';$('#displayPreviewSummary').textContent=modelTextSummary();$('#displayPreviewVocabulary').textContent=d.vocabulary?`Vocabulary · ${d.vocabulary}`:'';$('#displayPreviewModelChip').textContent=MODEL_META[state.active]?.[0]||'Live editable model';cloneModelIntoDisplayPreview();$$('[data-layout]',$('#displayLayouts')).forEach(button=>{const active=button.dataset.layout===layout;button.classList.toggle('active',active);button.setAttribute('aria-pressed',String(active))})
 }
 function openDisplayEditor(){
   if(state.active==='home')return toast('Choose or build a model first');displayDialogReturn=document.activeElement;const d=state.workflow.display;if(!d.question)d.question=state.workflow.activeQuestion||'';if(!d.answer&&state.workflow.analysis?.answer)d.answer=state.workflow.analysis.answer;if(!d.title)d.title=state.workflow.title||'Mathematical thinking';
   $('#displayTitleInput').value=d.title||'';$('#displayQuestionInput').value=d.question||'';$('#displayPromptInput').value=d.prompt||'';$('#displayVocabularyInput').value=d.vocabulary||'';$('#displayAnswerInput').value=d.answer||'';$('#displayOrientation').value=d.orientation||'landscape';$('#displayStatus').textContent='The preview describes the composition. The live model is used when you create or print it.';$('#displayStatus').classList.remove('error');renderDisplayPreview();const dialog=$('#displayDialog');if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');setTimeout(()=>$('#displayQuestionInput').focus(),40)
 }
 function closeDisplayEditor(){displayValuesFromInputs();const dialog=$('#displayDialog');if(typeof dialog.close==='function'&&dialog.open)dialog.close();else dialog.removeAttribute('open');displayDialogReturn?.focus?.()}
+function syncDisplayCompositionGeometry(){
+  if(!document.body.classList.contains('displayComposition'))return;const layout=document.body.dataset.displayLayout,header=$('#displayCompositionHeader');if(!header)return;
+  if(layout==='notice'&&!matchMedia('(max-width:620px), (orientation:portrait) and (max-width:900px)').matches){document.body.style.removeProperty('--display-live-head');return}
+  const height=Math.ceil(header.getBoundingClientRect().height);if(height>0)document.body.style.setProperty('--display-live-head',`${height}px`)
+}
+function queueDisplayGeometry(){requestAnimationFrame(()=>{syncDisplayCompositionGeometry();setTimeout(syncDisplayCompositionGeometry,90)})}
 function renderDisplayComposition(){
-  const d=state.workflow.display;$('#displayKicker').textContent=d.title||'Mathematical thinking';$('#displayQuestionText').textContent=d.question||MODEL_META[state.active]?.[0]||'';$('#displayPromptText').textContent=d.prompt||'';$('#displayVocabularyText').textContent=d.vocabulary?`Vocabulary · ${d.vocabulary}`:'';const answer=$('#displayAnswerText');answer.textContent=d.answer?`Answer · ${d.answer}`:'';answer.classList.remove('revealed');$('#displayAnswerToggle').textContent='Reveal answer';document.body.dataset.displayLayout=d.layout||'question-model'
+  const d=state.workflow.display,question=d.question||MODEL_META[state.active]?.[0]||'',header=$('#displayCompositionHeader'),layout=['question-model','notice','hidden','independent'].includes(d.layout)?d.layout:'question-model';$('#displayKicker').textContent=d.title||'Mathematical thinking';$('#displayQuestionText').textContent=question;$('#displayPromptText').textContent=d.prompt||'';$('#displayModelText').textContent=MODEL_META[state.active]?.[0]?`Model · ${MODEL_META[state.active][0]}`:'';$('#displayVocabularyText').textContent=d.vocabulary?`Vocabulary · ${d.vocabulary}`:'';$('#displayThinkingPrompt').textContent=d.prompt||'Represent it. Explain it. Convince us.';header.classList.toggle('questionLong',question.length>70);header.classList.toggle('questionVeryLong',question.length>150);const answer=$('#displayAnswerText');answer.textContent=d.answer?`Answer · ${d.answer}`:'';answer.classList.remove('revealed');$('#displayAnswerToggle').textContent='Reveal answer';document.body.dataset.displayLayout=layout;document.body.style.removeProperty('--display-live-head');queueDisplayGeometry()
 }
 function launchClassroomDisplay(){
-  const d=displayValuesFromInputs();if(!d.question){$('#displayStatus').textContent='Add a question before creating the display.';$('#displayStatus').classList.add('error');return}$('#displayStatus').classList.remove('error');saveState();closeDisplayEditor();renderDisplayComposition();document.body.classList.add('displayComposition');displayPreviousValues=state.valuesVisible;if(d.layout==='hidden'){state.valuesVisible=false;saveState();renderAll()}startDisplay()
+  const d=displayValuesFromInputs();if(!d.question){$('#displayStatus').textContent='Add a question before creating the display.';$('#displayStatus').classList.add('error');return}$('#displayStatus').classList.remove('error');saveState();closeDisplayEditor();renderDisplayComposition();document.body.classList.add('displayComposition');displayPreviousValues=state.valuesVisible;if(d.layout==='hidden'){state.valuesVisible=false;saveState();renderAll()}startDisplay();queueDisplayGeometry()
 }
-function toggleDisplayAnswer(){const answer=$('#displayAnswerText'),has=!!state.workflow.display.answer;if(!has)return toast('No answer has been prepared');const shown=answer.classList.toggle('revealed');$('#displayAnswerToggle').textContent=shown?'Hide answer':'Reveal answer'}
+function toggleDisplayAnswer(){const answer=$('#displayAnswerText'),has=!!state.workflow.display.answer;if(!has)return toast('No answer has been prepared');const shown=answer.classList.toggle('revealed');$('#displayAnswerToggle').textContent=shown?'Hide answer':'Reveal answer';queueDisplayGeometry()}
 function setPrintPage(orientation){let style=$('#build44PrintPage');if(!style){style=document.createElement('style');style.id='build44PrintPage';document.head.append(style)}style.textContent=`@media print{@page{size:A4 ${orientation==='landscape'?'landscape':'portrait'};margin:12mm}}`}
-function cleanupPrint(){document.body.classList.remove('printBuild44','printPupil','printTeacher','printQuestionSet');clearTimeout(printCleanupTimer)}
+function cleanupPrint(){document.body.classList.remove('printBuild44','printPupil','printTeacher','printQuestionSet');document.body.removeAttribute('data-print-orientation');clearTimeout(printCleanupTimer)}
 function requestPrint(){clearTimeout(printCleanupTimer);printCleanupTimer=setTimeout(cleanupPrint,1800);window.print()}
 function printCurrentDisplay(kind='pupil'){
-  if(state.active==='home')return toast('Choose or build a model first');displayValuesFromInputs();renderDisplayComposition();setPrintPage(state.workflow.display.orientation);document.body.classList.remove('printTeacher','printPupil','printQuestionSet');document.body.classList.add('printBuild44',kind==='teacher'?'printTeacher':'printPupil');if(kind==='teacher')$('#displayAnswerText').classList.add('revealed');saveState();requestPrint()
+  if(state.active==='home')return toast('Choose or build a model first');displayValuesFromInputs();renderDisplayComposition();setPrintPage(state.workflow.display.orientation);document.body.dataset.printOrientation=state.workflow.display.orientation==='portrait'?'portrait':'landscape';document.body.classList.remove('printTeacher','printPupil','printQuestionSet');document.body.classList.add('printBuild44',kind==='teacher'?'printTeacher':'printPupil');if(kind==='teacher')$('#displayAnswerText').classList.add('revealed');saveState();requestPrint()
 }
 function printQuestionSet(kind='pupil'){
   persistQuestionDraft();const items=state.workflow.items.filter(item=>item.include!==false&&item.text).slice(0,WORKFLOW_MAX_QUESTIONS);if(!items.length)return setWorkflowStatus('There are no included questions to print.',true);const sheet=$('#printQuestionSheet');sheet.innerHTML=`<h1>${esc(state.workflow.title||'Mathematics questions')}</h1><p class="printSub">${esc(state.workflow.year||'')} ${state.workflow.year?'· ':''}${kind==='teacher'?'Teacher copy':'Pupil copy'}</p>${items.map((item,index)=>`<article class="printQuestionItem"><span class="printLevel">${esc(item.level||`Question ${index+1}`)}</span><h2>${esc(item.text)}</h2>${kind==='teacher'?`<div class="printAnswer">Answer · ${esc(item.answer||item.analysis?.answer||'Teacher to confirm')}</div>`:'<div class="workingLines"></div>'}</article>`).join('')}`;setPrintPage('portrait');document.body.classList.remove('printBuild44','printTeacher','printPupil');document.body.classList.add('printQuestionSet');requestPrint()
@@ -5860,7 +6081,7 @@ function updateDisplayControls(){
 }
 let displayIdleTimer=null;function wakeDisplayControls(){if(!document.body.classList.contains('presentation'))return;document.body.classList.remove('displayIdle');clearTimeout(displayIdleTimer);displayIdleTimer=setTimeout(()=>document.body.classList.add('displayIdle'),2600)}
 function toggleTeach(force){const next=typeof force==='boolean'?force:!document.body.classList.contains('teachview');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('presentation')}document.body.classList.toggle('teachview',next);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage()},80)}
-function togglePresent(force){document.body.classList.remove('presentationToolsOpen');const more=document.getElementById('displayMore');if(more){more.setAttribute('aria-expanded','false');more.textContent='Tools'};const next=typeof force==='boolean'?force:!document.body.classList.contains('presentation');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('teachview');state.displayControlsVisible=true;state.displayLocked=false}else{state.displayControlsVisible=true;state.displayLocked=false;state.spotlightMode=false;state.pointerMode=false;if(displayPreviousValues!==null){state.valuesVisible=displayPreviousValues;displayPreviousValues=null}document.body.classList.toggle('valuesHidden',!state.valuesVisible);document.body.classList.remove('displayComposition');document.body.removeAttribute('data-display-layout');$('#displayAnswerText')?.classList.remove('revealed');clearSpotlight();$('#teacherPointer')?.classList.remove('visible','active')}document.body.classList.toggle('presentation',next);document.body.classList.toggle('methodActive',!!activeMethodKey());document.body.classList.remove('displayIdle');saveState();if(next)wakeDisplayControls();else clearTimeout(displayIdleTimer);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage()},120)}
+function togglePresent(force){document.body.classList.remove('presentationToolsOpen');const more=document.getElementById('displayMore');if(more){more.setAttribute('aria-expanded','false');more.textContent='Tools'};const next=typeof force==='boolean'?force:!document.body.classList.contains('presentation');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('teachview');state.displayControlsVisible=true;state.displayLocked=false}else{state.displayControlsVisible=true;state.displayLocked=false;state.spotlightMode=false;state.pointerMode=false;if(displayPreviousValues!==null){state.valuesVisible=displayPreviousValues;displayPreviousValues=null}document.body.classList.toggle('valuesHidden',!state.valuesVisible);document.body.classList.remove('displayComposition');document.body.removeAttribute('data-display-layout');document.body.style.removeProperty('--display-live-head');$('#displayAnswerText')?.classList.remove('revealed');clearSpotlight();$('#teacherPointer')?.classList.remove('visible','active')}document.body.classList.toggle('presentation',next);document.body.classList.toggle('methodActive',!!activeMethodKey());document.body.classList.remove('displayIdle');saveState();if(next)wakeDisplayControls();else clearTimeout(displayIdleTimer);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage();if(document.body.classList.contains('displayComposition'))queueDisplayGeometry()},120)}
 function enterFocus(){state.showTeachingNotes=false;state.displayControlsVisible=true;togglePresent(true)}
 async function startDisplay(){state.showTeachingNotes=true;state.displayControlsVisible=true;togglePresent(true);try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen()}catch(e){toast('Display mode is ready. Browser full screen was unavailable.')}}
 async function toggleFullscreen(){if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}togglePresent(false)}else await startDisplay()}
@@ -5907,7 +6128,7 @@ $('#modelsBtn').onclick=()=>toggleDrawer('#modelRail');$('#adjustBtn').onclick=(
 $('#gridToggle').onclick=()=>{state.background=state.background==='plain'?'grid':state.background==='grid'?'dots':state.background==='dots'?'lines':'plain';commit();renderAll()};
 $('#inkToggle').onclick=toggleInk;$('#eraseInk').onclick=toggleEraser;$('#clearInk').onclick=clearInk;
 const ink=$('#inkCanvas');ink.addEventListener('pointerdown',startDraw);ink.addEventListener('pointermove',moveDraw);ink.addEventListener('pointerup',endDraw);ink.addEventListener('pointercancel',endDraw);ink.addEventListener('pointerleave',endDraw);
-$('#displayExit').onclick=async()=>{if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}}togglePresent(false)};$('#displayPrevStep').onclick=()=>changeActiveMethodStep(-1);$('#displayNextStep').onclick=()=>changeActiveMethodStep(1);$('#displayTeaching').onclick=()=>{state.showTeachingNotes=!state.showTeachingNotes;saveState();updateDisplayControls()};$('#displayModelOnly').onclick=()=>{state.showTeachingNotes=false;state.displayControlsVisible=false;saveState();updateDisplayControls()};$('#displayMore').onclick=()=>{const open=!document.body.classList.contains('presentationToolsOpen');document.body.classList.toggle('presentationToolsOpen',open);$('#displayMore').setAttribute('aria-expanded',String(open));$('#displayMore').textContent=open?'Close tools':'Tools'};$('#displayDockToggle').onclick=()=>{state.displayControlsVisible=!state.displayControlsVisible;saveState();updateDisplayControls()};$('#displayLabels').onclick=()=>{state.labels=!state.labels;commit();renderAll();updateDisplayControls()};$('#displayValues').onclick=toggleValues;$('#displayPlaceMode').onclick=togglePlaceLabelMode;$('#displaySpotlight').onclick=toggleSpotlight;$('#displayPointer').onclick=togglePointer;$('#displayInk').onclick=()=>{toggleInk();updateDisplayControls()};$('#displayEraseInk').onclick=()=>{toggleEraser();updateDisplayControls()};$('#displayClearInk').onclick=clearInk;$('#displayLock').onclick=()=>{state.displayLocked=!state.displayLocked;saveState();updateDisplayControls();toast(state.displayLocked?'Model locked':'Model unlocked')};document.addEventListener('fullscreenchange',()=>{syncVisualViewport();if(!document.fullscreenElement&&document.body.classList.contains('presentation'))togglePresent(false)});document.addEventListener('pointermove',e=>{wakeDisplayControls();moveTeacherPointer(e)},{passive:true});document.addEventListener('pointerdown',e=>{wakeDisplayControls();spotlightAt(e.target)},{passive:true});window.addEventListener('resize',()=>setTimeout(resizeInk,60));
+$('#displayExit').onclick=async()=>{if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}}togglePresent(false)};$('#displayPrevStep').onclick=()=>changeActiveMethodStep(-1);$('#displayNextStep').onclick=()=>changeActiveMethodStep(1);$('#displayTeaching').onclick=()=>{state.showTeachingNotes=!state.showTeachingNotes;saveState();updateDisplayControls()};$('#displayModelOnly').onclick=()=>{state.showTeachingNotes=false;state.displayControlsVisible=false;saveState();updateDisplayControls()};$('#displayMore').onclick=()=>{const open=!document.body.classList.contains('presentationToolsOpen');document.body.classList.toggle('presentationToolsOpen',open);$('#displayMore').setAttribute('aria-expanded',String(open));$('#displayMore').textContent=open?'Close tools':'Tools'};$('#displayDockToggle').onclick=()=>{state.displayControlsVisible=!state.displayControlsVisible;saveState();updateDisplayControls()};$('#displayLabels').onclick=()=>{state.labels=!state.labels;commit();renderAll();updateDisplayControls()};$('#displayValues').onclick=toggleValues;$('#displayPlaceMode').onclick=togglePlaceLabelMode;$('#displaySpotlight').onclick=toggleSpotlight;$('#displayPointer').onclick=togglePointer;$('#displayInk').onclick=()=>{toggleInk();updateDisplayControls()};$('#displayEraseInk').onclick=()=>{toggleEraser();updateDisplayControls()};$('#displayClearInk').onclick=clearInk;$('#displayLock').onclick=()=>{state.displayLocked=!state.displayLocked;saveState();updateDisplayControls();toast(state.displayLocked?'Model locked':'Model unlocked')};document.addEventListener('fullscreenchange',()=>{syncVisualViewport();if(!document.fullscreenElement&&document.body.classList.contains('presentation'))togglePresent(false)});document.addEventListener('pointermove',e=>{wakeDisplayControls();moveTeacherPointer(e)},{passive:true});document.addEventListener('pointerdown',e=>{wakeDisplayControls();spotlightAt(e.target)},{passive:true});window.addEventListener('resize',()=>setTimeout(()=>{resizeInk();queueDisplayGeometry()},60));
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}if(e.key==='Escape'){if(document.body.classList.contains('drawerOpen')){closeDrawers();return}if(document.body.classList.contains('presentation'))togglePresent(false)}if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowRight'){e.preventDefault();changeActiveMethodStep(1)}if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowLeft'){e.preventDefault();changeActiveMethodStep(-1)}if(e.key.toLowerCase()==='p'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&state.active!=='home')startDisplay();if(e.key.toLowerCase()==='c'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&state.active!=='home'){e.preventDefault();openConnections()}if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();toggleDrawer('#modelRail')}});
 renderAll();updateDisplayControls();$('#inkCanvas').classList.toggle('inking',state.ink);$('#inkCanvas').classList.toggle('erasing',state.ink&&state.inkTool==='eraser');$('#inkToggle').classList.toggle('active',state.ink&&state.inkTool==='pen');$('#eraseInk').classList.toggle('active',state.ink&&state.inkTool==='eraser');
 })();
