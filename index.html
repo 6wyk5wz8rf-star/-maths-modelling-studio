@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Maths Modelling Studio · Build 42</title>
+<title>Maths Modelling Studio · Build 43</title>
 <style>
 :root{
   --ink:#18384d;
@@ -4058,8 +4058,137 @@ body[data-model="home"] .floatTools{display:none!important}
 }
 </style>
 
+<style>
+/* ===== BUILD 43 · ONE CANVAS =====
+   The model library and adjustment sheet are now contextual layers. One
+   presentation action replaces the historical Focus / Teach / Display split.
+*/
+:root{
+  --toolbar-h:60px;
+  --b43-canvas:#eef1ef;
+  --b43-paper:#fffefb;
+  --b43-ink:#17323d;
+  --b43-accent:#2e6876;
+  --b43-line:rgba(23,50,61,.12);
+  --b43-ease:220ms cubic-bezier(.2,.75,.2,1);
+}
+html,body{background:var(--b43-canvas)!important}
+.topbar{
+  min-height:var(--toolbar-h)!important;padding:7px 10px!important;
+  background:rgba(250,251,248,.9)!important;border-bottom-color:var(--b43-line)!important
+}
+#modelsBtn{display:inline-flex!important}
+.brandMark{width:32px!important;height:32px!important;border-radius:9px!important;font-size:16px!important}
+.brand p{display:none!important}.brand h1{font-size:14px!important}
+.historyCluster{border:0!important;background:transparent!important;padding:0!important}
+.lessonBtn{width:42px!important;padding:0!important;font-size:0!important}
+.lessonBtn:before{content:"▤";font-size:17px}.lessonCount{position:absolute;right:-3px;top:-3px}
+.presentCluster>#fullBtn{min-width:92px!important;border-radius:11px!important;background:var(--b43-ink)!important}
+.modeMenu{display:none!important}
+.shell,.shell body[data-model="home"]{grid-template-columns:minmax(0,1fr)!important}
+.workspaceWrap{padding:7px!important}
+.workspace{border-radius:16px!important;border-color:rgba(23,50,61,.08)!important;box-shadow:0 12px 38px rgba(23,50,61,.075)!important}
+.stageHeader{min-height:50px!important;padding:6px 9px 6px 15px!important}
+.stageTitle{font-size:14px!important}.stageHint{font-size:8.5px!important}
+.stageActions>.btn{min-height:36px!important}.stageMenu>summary{width:36px!important;height:36px!important}
+
+/* The library is a single temporary choice, never permanent furniture. */
+.modelRail{
+  position:fixed!important;z-index:120!important;top:0!important;bottom:0!important;left:0!important;
+  width:min(332px,88vw)!important;padding:16px 12px 30px!important;
+  background:rgba(249,250,247,.985)!important;border-right:1px solid var(--b43-line)!important;
+  box-shadow:0 24px 80px rgba(18,43,52,.22)!important;
+  transform:translateX(-104%)!important;transition:transform var(--b43-ease)!important
+}
+.modelRail.open{transform:translateX(0)!important}
+.railSearchWrap{position:sticky;top:-16px;z-index:3;margin:-16px -12px 6px;padding:16px 12px 10px!important;background:rgba(249,250,247,.96);backdrop-filter:blur(14px)}
+.railSearch{min-height:44px!important;font-size:12px!important}
+.railLabel{padding-top:17px!important}
+.modelBtn{min-height:46px!important;font-size:11.5px!important}
+.modelIcon{width:30px!important;height:30px!important}
+
+/* Both contextual sheets share one dismissible scrim. */
+.canvasScrim{position:fixed;inset:0;z-index:110;border:0;padding:0;background:rgba(17,39,47,.28);opacity:0;pointer-events:none;transition:opacity var(--b43-ease);backdrop-filter:blur(2px)}
+body.drawerOpen .canvasScrim{opacity:1;pointer-events:auto}
+.inspector{position:fixed!important;z-index:120!important;top:0!important;right:0!important;bottom:0!important;width:min(350px,92vw)!important}
+.inspectorHead{padding-right:58px!important}
+.inspectorHead:after{content:"Esc";position:absolute;right:16px;top:19px;color:var(--b42-muted);font-size:8px;font-weight:800;letter-spacing:.08em}
+
+/* Tools exist only when wanted and read as one small material palette. */
+.floatTools{opacity:.48!important;transition:opacity var(--b43-ease),transform var(--b43-ease)!important}
+.floatTools:hover,.floatTools:focus-within{opacity:1!important}
+.directDock{box-shadow:none!important;background:rgba(255,254,251,.82)!important}
+.panelTitle{font-size:8px!important}.panel{padding-block:14px!important}
+.quickGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.quickCard{min-height:116px!important}
+
+/* Presentation is one decisive state: model first, tools on demand. */
+.presentation .stage{background:var(--b43-paper)!important;padding-top:58px!important}
+.presentation .presentDock{border-color:var(--b43-line)!important;box-shadow:0 8px 28px rgba(23,50,61,.11)!important}
+.presentation .presentDock button{font-weight:700!important}
+.presentation .floatTools{display:none!important}
+
+@media(max-width:760px){
+  .brandMark{display:none!important}.brand h1{font-size:12px!important}
+  .topbar{gap:5px!important}.historyCluster{display:none!important}
+  .workspaceWrap{padding:3px!important}.workspace{border-radius:12px!important}
+  .lessonBtn{width:38px!important}.presentCluster>#fullBtn{min-width:80px!important}
+  .quickGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .stageHeader{min-height:47px!important}.stageTitle{font-size:13px!important}
+}
+@media(max-width:430px){.brand{display:flex!important}.brandText{display:none!important}.brandMark{display:grid!important}}
+
+/* ===== BUILD 43R · CONNECTED CANVAS =====
+   A quantity can now travel between representations without being rebuilt.
+   Motion explains continuity; direct manipulation changes the mathematics.
+*/
+#representBtn{max-width:190px;white-space:nowrap;overflow:hidden}
+#representBtn .representIcon{font-size:15px;line-height:1}
+#quantityThread{overflow:hidden;text-overflow:ellipsis}
+.connectionDialog{
+  width:min(760px,calc(100vw - 28px));max-height:min(760px,calc(100dvh - 28px));
+  padding:0;border:1px solid rgba(23,50,61,.13);border-radius:26px;
+  color:var(--b43-ink);background:rgba(255,254,251,.985);
+  box-shadow:0 34px 100px rgba(17,39,47,.25);overflow:hidden
+}
+.connectionDialog::backdrop{background:rgba(17,39,47,.34);backdrop-filter:blur(4px)}
+.connectionHead{display:flex;align-items:flex-start;gap:16px;padding:22px 24px 15px;border-bottom:1px solid var(--b43-line)}
+.connectionHeadText{min-width:0;flex:1}.connectionEyebrow{display:block;margin-bottom:4px;color:#6e7f84;font:800 9px/1 system-ui;text-transform:uppercase;letter-spacing:.14em}
+.connectionHead h2{margin:0;font-size:clamp(22px,3vw,32px);font-weight:650;letter-spacing:-.035em}
+.connectionClose{width:40px;height:40px;border:1px solid var(--b43-line);border-radius:50%;background:#fff;color:var(--b43-ink);font-size:22px}
+.connectionBody{padding:20px 24px 24px;overflow:auto}
+.connectionSource{display:flex;align-items:baseline;gap:10px;min-height:70px;padding:4px 2px 18px}
+.connectionSource strong{font-size:clamp(34px,6vw,64px);font-weight:620;letter-spacing:-.055em;line-height:1}
+.connectionSource span{color:#718188;font:750 11px/1.4 system-ui}
+.connectionPrompt{margin:0 0 12px;color:#5b6f77;font:750 11px/1.45 system-ui}
+.connectionGrid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.connectionCard{display:grid;grid-template-columns:44px minmax(0,1fr) 22px;align-items:center;gap:12px;min-height:88px;padding:14px;border:1px solid var(--b43-line);border-radius:18px;background:#fff;color:var(--b43-ink);text-align:left;transition:transform var(--b43-ease),border-color var(--b43-ease),background var(--b43-ease)}
+.connectionCard:hover,.connectionCard:focus-visible{transform:translateY(-1px);border-color:rgba(46,104,118,.32);background:#f7faf8}
+.connectionIcon{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:#eaf2ef;color:#315f68;font:850 19px system-ui}
+.connectionCard strong{display:block;font-size:13px;margin-bottom:3px}.connectionCard small{display:block;color:#73848a;font:700 10px/1.35 system-ui}.connectionArrow{font-size:18px;color:#869398}
+.connectionFoot{margin:15px 2px 0;color:#7b898e;font:700 9.5px/1.5 system-ui}
+.representationArrival{animation:representation-arrival 360ms cubic-bezier(.2,.75,.2,1)}
+@keyframes representation-arrival{from{opacity:.2;transform:scale(.985)}to{opacity:1;transform:none}}
+
+.partsLocked.linkedDirect{position:relative;overflow:visible!important}
+.barDivider{position:absolute;z-index:8;top:-13px;bottom:-13px;width:38px;transform:translateX(-50%);border:0;background:transparent;cursor:ew-resize;touch-action:none;padding:0}
+.barDivider::before{content:"";position:absolute;left:18px;top:13px;bottom:13px;width:3px;border-radius:4px;background:#315f68;box-shadow:0 0 0 4px rgba(255,254,251,.8)}
+.barDividerGrip{position:absolute;left:7px;top:50%;width:25px;height:38px;transform:translateY(-50%);border:1px solid rgba(23,50,61,.18);border-radius:999px;background:#fff;box-shadow:0 5px 16px rgba(23,50,61,.14)}
+.barDividerGrip::before{content:"↔";display:grid;place-items:center;width:100%;height:100%;color:#315f68;font:850 12px system-ui}
+.barDivider:focus-visible .barDividerGrip{outline:3px solid rgba(46,104,118,.25);outline-offset:3px}
+.barDragHint{margin-top:9px;color:#718188;font:750 10px/1.4 system-ui;text-align:center}
+body.modelLocked .barDivider{pointer-events:none;opacity:.35}
+
+@media(max-width:620px){
+  #representBtn{width:40px!important;padding:0!important}#quantityThread{display:none}
+  .connectionDialog{border-radius:20px}.connectionHead{padding:18px}.connectionBody{padding:16px 18px 20px}.connectionGrid{grid-template-columns:1fr}.connectionCard{min-height:76px}
+}
+@media(prefers-reduced-motion:reduce){.representationArrival,.connectionCard{animation:none!important;transition:none!important}}
+</style>
+
 </head>
 <body>
+<button class="canvasScrim" id="canvasScrim" aria-label="Close open panel" tabindex="-1"></button>
 <div class="app">
   <header class="topbar">
     <button class="iconBtn mobileDrawerBtn" id="modelsBtn" title="Models" aria-label="Open model library">☰</button>
@@ -4070,7 +4199,7 @@ body[data-model="home"] .floatTools{display:none!important}
         <button class="iconBtn" id="undoBtn" title="Undo" aria-label="Undo">↶</button>
         <button class="iconBtn" id="redoBtn" title="Redo" aria-label="Redo">↷</button>
       </div>
-      <button class="btn lessonBtn" id="lessonBtn" title="Build a sequence of model scenes"><span class="lessonWord">Lesson</span><span class="lessonCount" id="lessonCount">0</span></button>
+      <button class="btn lessonBtn" id="lessonBtn" title="Open lesson sequence" aria-label="Open lesson sequence"><span class="lessonWord">Lesson</span><span class="lessonCount" id="lessonCount">0</span></button>
       <div class="presentCluster">
         <button class="btn primary" id="fullBtn" title="Open the model for classroom display">Present</button>
         <details class="modeMenu" id="modeMenu">
@@ -4121,7 +4250,7 @@ body[data-model="home"] .floatTools{display:none!important}
           <div><div class="stageTitle" id="stageTitle">Start</div><div class="stageHint" id="stageHint">Choose a model, then adjust it from the right.</div></div>
           <div class="spacer"></div>
           <div class="stageActions">
-            <button class="btn ghost" id="representBtn" title="Carry this number into the next useful representation">⇄ Represent</button>
+            <button class="btn ghost" id="representBtn" title="See this quantity in another representation" aria-haspopup="dialog"><span class="representIcon" aria-hidden="true">⇄</span><span id="quantityThread">Connect</span></button>
             <button class="btn ghost" id="placeModeBtn" title="Switch place-value headings between words and HTO">HTO</button>
             <details class="stageMenu" id="stageMenu">
               <summary title="Model actions" aria-label="More model actions">•••</summary>
@@ -4173,6 +4302,18 @@ body[data-model="home"] .floatTools{display:none!important}
 </div>
 <div class="teacherPointer" id="teacherPointer" aria-hidden="true"></div>
 <div class="toast" id="toast"></div>
+<dialog class="connectionDialog" id="connectionDialog" aria-labelledby="connectionTitle">
+  <div class="connectionHead">
+    <div class="connectionHeadText"><span class="connectionEyebrow">Same quantity · new view</span><h2 id="connectionTitle">See it another way</h2></div>
+    <button class="connectionClose" id="connectionClose" aria-label="Close connections">×</button>
+  </div>
+  <div class="connectionBody">
+    <div class="connectionSource" id="connectionSource"></div>
+    <p class="connectionPrompt" id="connectionPrompt">Choose the representation that makes the next idea easiest to see.</p>
+    <div class="connectionGrid" id="connectionGrid"></div>
+    <p class="connectionFoot">The quantity stays fixed. Only the representation changes. Undo returns to the previous canvas.</p>
+  </div>
+</dialog>
 <dialog class="lessonDialog" id="lessonDialog" aria-labelledby="lessonDialogTitle">
   <div class="lessonDialogHead">
     <div class="lessonDialogTitle"><h2 id="lessonDialogTitle">Lesson deck</h2><p>Capture exact model states, then move through them as one calm teaching sequence.</p></div>
@@ -4220,7 +4361,7 @@ window.visualViewport?.addEventListener('scroll',syncVisualViewport,{passive:tru
 window.addEventListener('orientationchange',()=>setTimeout(syncVisualViewport,120),{passive:true});
 
 const MODEL_META = {
-  home:['Start','Choose a model. Build it, question it, then open Teach, Focus or Display.'],
+  home:['Start','Choose a model. Build it, connect it, then present it.'],
   placeValue:['Place value counters','Build, move, exchange and partition counters directly in each place-value column.'],
   numberLine:['Number line','Adjust the range, add points and jumps, then hide labels for questioning.'],
   baseTen:['Base ten blocks','Build, remove, exchange and partition base-ten blocks without leaving the model.'],
@@ -4267,7 +4408,11 @@ let inkCtx=null, drawing=false, lastPoint=null, selectedCounterPlace=null, curre
 const inkLayers={};
 
 function loadState(){
-  try{const saved=localStorage.getItem('maths-modelling-studio-v32')||localStorage.getItem('maths-modelling-studio-v31')||localStorage.getItem('maths-modelling-studio-v30')||localStorage.getItem('maths-modelling-studio-v29')||localStorage.getItem('maths-modelling-studio-v28')||localStorage.getItem('maths-modelling-studio-v27')||localStorage.getItem('maths-modelling-studio-v26')||localStorage.getItem('maths-modelling-studio-v25')||localStorage.getItem('maths-modelling-studio-v24')||localStorage.getItem('maths-modelling-studio-v23')||localStorage.getItem('maths-modelling-studio-v22')||localStorage.getItem('maths-modelling-studio-v21')||localStorage.getItem('maths-modelling-studio-v20')||localStorage.getItem('maths-modelling-studio-v19')||localStorage.getItem('maths-modelling-studio-v18')||localStorage.getItem('maths-modelling-studio-v17')||localStorage.getItem('maths-modelling-studio-v16')||localStorage.getItem('maths-modelling-studio-v15')||localStorage.getItem('maths-modelling-studio-v14')||localStorage.getItem('maths-modelling-studio-v13')||localStorage.getItem('maths-modelling-studio-v12')||localStorage.getItem('maths-modelling-studio-v11')||localStorage.getItem('maths-modelling-studio-v10')||localStorage.getItem('maths-modelling-studio-v9')||localStorage.getItem('maths-modelling-studio-v7')||localStorage.getItem('maths-modelling-studio-v5')||localStorage.getItem('maths-modelling-studio-v4')||localStorage.getItem('maths-modelling-studio-v2');return saved?Object.assign(deepCopy(defaults),JSON.parse(saved)):deepCopy(defaults)}catch(e){return deepCopy(defaults)}
+  try{
+    const versions=[34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,7,5,4,2];
+    const saved=versions.map(v=>localStorage.getItem(`maths-modelling-studio-v${v}`)).find(Boolean);
+    return saved?Object.assign(deepCopy(defaults),JSON.parse(saved)):deepCopy(defaults)
+  }catch(e){return deepCopy(defaults)}
 }
 function ensureV4State(){
   if(state.anchorNumber===undefined)state.anchorNumber=2436;
@@ -4305,7 +4450,7 @@ function ensureV4State(){
     for(const [k,v] of Object.entries(defaults[key]))if(state[key][k]===undefined)state[key][k]=deepCopy(v);
   }
 }
-function saveState(){try{localStorage.setItem('maths-modelling-studio-v33',JSON.stringify(state));localStorage.setItem('maths-modelling-studio-v32',JSON.stringify(state))}catch(e){}}
+function saveState(){try{const snapshot=JSON.stringify(state);localStorage.setItem('maths-modelling-studio-v34',snapshot);localStorage.setItem('maths-modelling-studio-v33',snapshot)}catch(e){}}
 function commit(){
   if(isRestoring)return;
   history=history.slice(0,historyIndex+1);history.push(deepCopy(state));
@@ -4319,27 +4464,139 @@ function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show'
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function fmt(n){if(Number.isInteger(n))return String(n);return String(round(n,3))}
 
-
-function activeAnchorNumber(){
+function quantityContext(){
   const a=state.active;
-  if(a==='placeValue')return Object.entries(state.placeValue.counts).reduce((sum,[k,v])=>sum+(Number(v)||0)*({Th:1000,H:100,T:10,O:1,t:.1,h:.01}[k]||0),0);
-  if(a==='baseTen')return Number(state.baseTen.number)||0;
-  if(a==='numberLine')return Number(state.numberLine.points?.at(-1) ?? state.anchorNumber)||0;
-  if(a==='bar')return Number(state.bar.whole)||state.bar.segments.reduce((x,y)=>x+(Number(y.value)||0),0);
-  if(a==='grid')return Number(state.grid.count)||0;
-  if(a==='column')return Number(state.column.top)||0;
-  if(a==='multiplication')return Number(state.multiplication.top)||0;
-  if(a==='partitionMultiplication')return Number(state.partitionMultiplication.top)||0;
-  if(a==='division')return Number(state.division.dividend)||0;
-  return Number(state.anchorNumber)||0;
+  if(a==='home'||a==='board'||a==='shapes'||a==='coordinates'||a==='angle'||a==='clock')return null;
+  if(a==='placeValue'){const value=pvValue();return {source:a,value,equation:fmt(value),label:'built with place-value counters'}}
+  if(a==='baseTen'){const value=btValue();return {source:a,value,equation:fmt(value),label:'built with base-ten blocks'}}
+  if(a==='numberLine'){
+    const value=Number(state.numberLine.points?.at(-1));
+    if(!Number.isFinite(value))return null;
+    return {source:a,value,equation:fmt(value),label:'the last marked point'};
+  }
+  if(a==='bar'){
+    const value=Number(state.bar.mode==='equal'?state.bar.equal.groups*state.bar.equal.value:state.bar.mode==='comparison'?Math.max(state.bar.comparison.topValue,state.bar.comparison.bottomValue):barMath(state.bar).whole);
+    return Number.isFinite(value)?{source:a,value,equation:fmt(value),label:'the whole represented by this model'}:null;
+  }
+  if(a==='fractions'){
+    const value=state.fractions.aN/state.fractions.aD;
+    return {source:a,value,equation:`${state.fractions.aN}/${state.fractions.aD} = ${fmt(value)}`,label:'Strip A as a quantity'};
+  }
+  if(a==='array'){
+    const value=state.array.rows*state.array.cols;
+    return {source:a,value,equation:`${state.array.rows} × ${state.array.cols} = ${value}`,label:'the total in this array',factors:[state.array.rows,state.array.cols]};
+  }
+  if(a==='grid'){const gridWhole=state.grid.mode==='hundred'?100:state.grid.mode==='twenty'?20:10;return {source:a,value:Number(state.grid.count)||0,equation:`${state.grid.count} of ${gridWhole}`,label:'the shaded amount',gridWhole}}
+  if(a==='areaPerimeter'){
+    const m=areaCells(state.areaPerimeter);
+    return {source:a,value:m.area,equation:`${m.area} square units`,label:'the area inside this shape',factors:state.areaPerimeter.shape==='compound'?null:[m.L,m.W]};
+  }
+  if(a==='column'){
+    const s=state.column,value=s.mode==='add'?s.top+s.bottom:s.top-s.bottom;
+    return {source:a,value,equation:`${s.top} ${s.mode==='add'?'+':'−'} ${s.bottom} = ${value}`,label:'the result of this calculation'};
+  }
+  if(a==='multiplication'){
+    const s=state.multiplication,value=s.top*s.multiplier;
+    return {source:a,value,equation:`${s.top} × ${s.multiplier} = ${value}`,label:'the product',factors:[s.top,s.multiplier]};
+  }
+  if(a==='partitionMultiplication'){
+    const s=state.partitionMultiplication,value=s.top*s.bottom;
+    return {source:a,value,equation:`${s.top} × ${s.bottom} = ${value}`,label:'the combined partial products',factors:[s.top,s.bottom]};
+  }
+  if(a==='division'){
+    const s=state.division,value=s.dividend/s.divisor;
+    return {source:a,value,equation:`${s.dividend} ÷ ${s.divisor} = ${fmt(value)}`,label:s.dividend%s.divisor?'the quotient as a decimal':'the quotient'};
+  }
+  return null;
 }
+function factorPair(value){
+  const n=Math.round(Number(value));if(!Number.isInteger(Number(value))||n<1||n>225)return null;
+  for(let r=Math.min(15,Math.floor(Math.sqrt(n)));r>=1;r--)if(n%r===0&&n/r<=15)return [r,n/r];
+  return null;
+}
+function gridFraction(ctx){
+  if(ctx?.source!=='grid'||!ctx.gridWhole)return null;let a=Math.round(ctx.value),b=Math.round(ctx.gridWhole);
+  const gcd=(x,y)=>{while(y)[x,y]=[y,x%y];return Math.abs(x)||1},g=gcd(a,b);a/=g;b/=g;
+  return b<=24?{n:a,d:b}:null;
+}
+const CONNECTION_CATALOG={
+  placeValue:['●','Place value counters','See what every digit is worth'],
+  baseTen:['▦','Base ten blocks','Make hundreds, tens and ones tangible'],
+  numberLine:['↔','Number line','Locate the quantity and see distance'],
+  bar:['▭','Bar model','Split the whole and expose relationships'],
+  fractions:['½','Fraction strip','See the quantity as part of one whole'],
+  array:['⠿','Array','Reveal factors as rows and columns'],
+  grid:['▦','Hundred grid','See the quantity against one hundred'],
+  multiplication:['×','Short multiplication','Connect equal groups to a written product'],
+  partitionMultiplication:['▦','Partitioned multiplication','Expose every partial product']
+};
+function connectionOptions(ctx){
+  if(!ctx||!Number.isFinite(ctx.value))return [];
+  const v=ctx.value,whole=Number.isInteger(v),pair=ctx.factors||factorPair(v),source=ctx.source;
+  let order=['numberLine','bar','placeValue','baseTen','grid','array'];
+  if(source==='placeValue')order=['baseTen','numberLine','bar','grid'];
+  if(source==='baseTen')order=['placeValue','numberLine','bar','grid'];
+  if(source==='bar')order=['numberLine','placeValue','baseTen','grid'];
+  if(source==='fractions')order=['numberLine','grid'];
+  if(source==='grid')order=['fractions','bar','numberLine','array'];
+  if(source==='array'||source==='areaPerimeter')order=[pair&&Math.min(...pair)<=9?'multiplication':'partitionMultiplication','bar','grid','numberLine','placeValue'];
+  if(['column','multiplication','partitionMultiplication','division'].includes(source))order=['placeValue','baseTen','numberLine','bar','grid'];
+  const valid=model=>model!==source&&(
+    model==='numberLine'||
+    (model==='bar'&&whole&&v>=0)||
+    (model==='placeValue'&&v>=0&&v<=9999999&&(whole||v<1000))||
+    (model==='baseTen'&&whole&&v>=0&&v<=9999)||
+    (model==='grid'&&((whole&&v>=0&&v<=100)||(source==='fractions'&&v>=0&&v<=1)))||
+    (model==='fractions'&&((source==='grid'&&!!gridFraction(ctx))||(v>=0&&v<=1)))||
+    (model==='array'&&!!pair)||
+    ((model==='multiplication'||model==='partitionMultiplication')&&!!pair)
+  );
+  return [...new Set(order)].filter(valid).slice(0,6).map(model=>({model,meta:CONNECTION_CATALOG[model]}));
+}
+function updateConnectionControl(){
+  const ctx=quantityContext(),button=$('#representBtn'),label=$('#quantityThread');if(!button||!label)return;
+  const count=connectionOptions(ctx).length;button.disabled=!count;
+  label.textContent=count?`Connect · ${ctx.equation.length>18?fmt(ctx.value):ctx.equation}`:'Connect';
+}
+function openConnections(){
+  const ctx=quantityContext(),options=connectionOptions(ctx);if(!ctx||!options.length)return toast('Build or mark a quantity first');
+  $('#connectionSource').innerHTML=`<strong>${esc(ctx.equation)}</strong><span>${esc(ctx.label)}</span>`;
+  $('#connectionGrid').innerHTML=options.map(({model,meta})=>`<button class="connectionCard" data-connect="${model}"><span class="connectionIcon" aria-hidden="true">${meta[0]}</span><span><strong>${meta[1]}</strong><small>${meta[2]}</small></span><span class="connectionArrow" aria-hidden="true">→</span></button>`).join('');
+  $$('[data-connect]',$('#connectionGrid')).forEach(button=>button.onclick=()=>applyConnection(button.dataset.connect,ctx));
+  const dialog=$('#connectionDialog');if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');
+}
+function closeConnections(){const dialog=$('#connectionDialog');if(typeof dialog.close==='function'&&dialog.open)dialog.close();else dialog.removeAttribute('open')}
+function approximateFraction(value){let best={n:0,d:1,error:Infinity};for(let d=1;d<=24;d++){const n=Math.round(value*d),error=Math.abs(value-n/d);if(error<best.error)best={n,d,error}}return best}
+function seedConnection(model,ctx){
+  const v=ctx.value;
+  if(model==='grid'&&ctx.source==='fractions'){state.grid.mode='hundred';state.grid.count=clamp(Math.round(v*100),0,100);state.grid.showNumbers=true;state.grid.multiple=0;return}
+  if(['placeValue','baseTen','numberLine','bar','grid'].includes(model)){seedRepresentation(model,v);return}
+  if(model==='fractions'){
+    if(ctx.source==='grid'){const f=gridFraction(ctx);if(!f)return;Object.assign(state.fractions,{aN:f.n,aD:f.d,bN:0,bD:f.d,compare:false,showRelation:true})}
+    else{const f=approximateFraction(v);Object.assign(state.fractions,{aN:f.n,aD:f.d,bN:0,bD:f.d,compare:false,showRelation:true})}
+    return;
+  }
+  const pair=ctx.factors||factorPair(v);if(!pair)return;
+  if(model==='array'){Object.assign(state.array,{rows:clamp(pair[0],1,15),cols:clamp(pair[1],1,15),split:0,mode:'array',showTotal:true,showEquation:true});return}
+  if(model==='multiplication'){
+    const multiplier=Math.min(...pair),top=Math.max(...pair);Object.assign(state.multiplication,{top,multiplier,step:0});return;
+  }
+  if(model==='partitionMultiplication')Object.assign(state.partitionMultiplication,{top:pair[0],bottom:pair[1],step:0,showEquation:true,showGrid:true});
+}
+function applyConnection(model,ctx){
+  saveCurrentInkLayer();seedConnection(model,ctx);state.active=model;state.ink=false;state.inkTool='pen';commit();closeConnections();closeDrawers();renderAll();
+  const stage=$('#stage');stage.classList.add('representationArrival');setTimeout(()=>stage.classList.remove('representationArrival'),420);
+  toast(`Same quantity · ${MODEL_META[model][0]}`);
+}
+
+
 function seedRepresentation(model,n){
   n=Math.max(0,round(Number(n)||0,2)); state.anchorNumber=n;
-  const whole=Math.floor(n), digits=String(whole).padStart(4,'0').slice(-4).split('').map(Number);
+  const whole=Math.floor(n), wideDigits=String(whole).padStart(7,'0').slice(-7).split('').map(Number),digits=wideDigits.slice(-4);
   if(model==='placeValue'){
     const tenths=Math.floor((n-whole)*10+1e-8), hundredths=Math.floor((n*100+1e-8)%10);
-    state.placeValue.preset=(tenths||hundredths)?'decimal':'whole4';
-    state.placeValue.counts={Th:digits[0],H:digits[1],T:digits[2],O:digits[3],t:tenths,h:hundredths};
+    state.placeValue.preset=(tenths||hundredths)?'decimal':whole>=10000?'whole6':'whole4';
+    state.placeValue.counts={M:wideDigits[0],HTh:wideDigits[1],TTh:wideDigits[2],Th:wideDigits[3],H:wideDigits[4],T:wideDigits[5],O:wideDigits[6],t:tenths,h:hundredths};
   }else if(model==='baseTen'){
     state.baseTen.number=whole;state.baseTen.counts={Th:digits[0],H:digits[1],T:digits[2],O:digits[3]};
   }else if(model==='numberLine'){
@@ -4353,13 +4610,6 @@ function seedRepresentation(model,n){
     state.column.top=whole;state.column.bottom=Math.max(1,Math.floor(whole*.38));state.column.step=0;
   }
 }
-function representNext(){
-  const flow=['placeValue','baseTen','numberLine','bar','grid','column'];
-  const n=activeAnchorNumber();let i=flow.indexOf(state.active);let next=flow[(i+1+flow.length)%flow.length];
-  if(n>100&&next==='grid')next='column';
-  seedRepresentation(next,n);state.active=next;state.ink=false;state.inkTool='pen';commit();renderAll();closeDrawers();toast(`${fmt(n)} shown as ${MODEL_META[next][0].toLowerCase()}`);
-}
-
 function setModel(model){
   saveCurrentInkLayer();
   closeActionMenus();
@@ -4370,7 +4620,18 @@ function setModel(model){
   state.inkTool='pen';
   commit(); renderAll(); closeDrawers();
 }
-function closeDrawers(){ $('#modelRail').classList.remove('open');$('#inspector').classList.remove('open'); }
+function updateDrawerState(){
+  const open=$('#modelRail').classList.contains('open')||$('#inspector').classList.contains('open');
+  document.body.classList.toggle('drawerOpen',open);
+  $('#modelsBtn').setAttribute('aria-expanded',String($('#modelRail').classList.contains('open')));
+  $('#adjustBtn').setAttribute('aria-expanded',String($('#inspector').classList.contains('open')));
+}
+function toggleDrawer(which){
+  const target=$(which),other=which==='#modelRail'?$('#inspector'):$('#modelRail'),opening=!target.classList.contains('open');
+  other.classList.remove('open');target.classList.toggle('open',opening);updateDrawerState();
+  if(opening&&which==='#modelRail')setTimeout(()=>$('#modelSearch')?.focus(),230);
+}
+function closeDrawers(){ $('#modelRail').classList.remove('open');$('#inspector').classList.remove('open');updateDrawerState(); }
 function closeActionMenus(){ $('#modeMenu')?.removeAttribute('open');$('#stageMenu')?.removeAttribute('open'); }
 function renderAll(){
   $$('.modelBtn').forEach(b=>b.classList.toggle('active',b.dataset.model===state.active));
@@ -4381,6 +4642,8 @@ function renderAll(){
   const inkCanvas=$('#inkCanvas');if(inkCanvas){inkCanvas.classList.toggle('inking',!!state.ink);inkCanvas.classList.toggle('erasing',!!state.ink&&state.inkTool==='eraser')}
   $('#inkToggle')?.classList.toggle('active',!!state.ink&&state.inkTool==='pen');
   $('#eraseInk')?.classList.toggle('active',!!state.ink&&state.inkTool==='eraser');
+  $('#fullBtn').disabled=state.active==='home';
+  updateConnectionControl();
   updateDisplayControls();
 }
 
@@ -4418,7 +4681,7 @@ function renderHome(stage){
   $$('.quickCard',stage).forEach(b=>b.onclick=()=>setModel(b.dataset.model));
 }
 function quick(model,icon,title,desc){return `<button class="quickCard" data-model="${model}"><div>${icon}</div><strong>${title}</strong><span>${desc}</span></button>`}
-function controlsHome(c){c.innerHTML=panel('Three-step flow','<div class="help"><strong>1.</strong> Choose a model.<br><strong>2.</strong> Adjust it on the right.<br><strong>3.</strong> Press Present to remove the interface.</div>')}
+function controlsHome(c){c.innerHTML=panel('Three-step flow','<div class="help"><strong>1.</strong> Choose a model.<br><strong>2.</strong> Build directly on the canvas.<br><strong>3.</strong> Connect or Present when the idea is ready.</div>')}
 
 const PV_PRESETS={whole4:['Th','H','T','O'],whole6:['M','HTh','TTh','Th','H','T','O'],decimal:['H','T','O','t','h'],simple:['H','T','O']};
 const PV_NAMES={M:'Millions',HTh:'Hundred thousands',TTh:'Ten thousands',Th:'Thousands',H:'Hundreds',T:'Tens',O:'Ones',t:'Tenths',h:'Hundredths'};
@@ -4572,7 +4835,9 @@ function renderBar(stage){
     canvas=`<div class="equalBarWrap"><div class="equalPartsBar" style="grid-template-columns:repeat(${groups},1fr)">${Array.from({length:groups},(_,i)=>{const pal=partPalette(i);return `<div class="equalPart" style="--part-fill:${pal.fill};--part-accent:${pal.edge}">${state.labels?fmt(value):''}</div>`}).join('')}</div><div class="equalEquation">${state.labels?`${groups} × ${fmt(value)} = ${e.revealTotal?fmt(total):'?'}`:''}</div></div>`;
   }else{
     const wholeHidden=(s.cherry?.wholeUnknown||false)||!s.reveal;
-    canvas=`<div class="partWholeLocked"><div class="wholeLocked" data-barwhole style="--whole-fill:${WHOLE_PALETTE.fill};--whole-edge:${WHOLE_PALETTE.edge}"><div class="wholeLockedEdit"><button data-barwholeadjust="-1" aria-label="Decrease whole">−</button><button data-barwholeadjust="1" aria-label="Increase whole">+</button></div><div class="wholeLockedValue">${state.valuesVisible?(wholeHidden?'?':fmt(m.whole)):''}</div><div class="wholeLockedLabel">Whole</div></div><div class="partsLocked">${s.segments.map((seg,i)=>{const flex=s.proportional&&m.sum>0?m.values[i]/m.sum:1/s.segments.length,hidden=seg.unknown||!s.reveal,pal=partPalette(i);return `<div class="lockedPart ${hidden?'unknown':''}" data-barseg="${i}" style="flex:${Math.max(.04,flex)};--part-fill:${pal.fill};--part-accent:${pal.edge}"><div class="lockedPartEdit"><button data-baradjust="${i},-1">−</button><button data-baradjust="${i},1">+</button></div><div class="lockedPartValue">${state.valuesVisible?(hidden?'?':esc(seg.value)):''}</div><div class="lockedPartLabel">${state.labels?esc(seg.label):''}</div></div>`}).join('')}</div><div class="wholeEqualsParts">${state.valuesVisible?`${m.values.map((v,i)=>s.segments[i].unknown?'?':fmt(v)).join(' + ')} = ${wholeHidden?'?':fmt(m.whole)}`:''}</div>${!m.consistent&&!s.autoWhole?`<div class="integrityNote" style="color:var(--danger)">Parts total ${fmt(m.sum)}, but the whole is ${fmt(m.whole)}. Turn on Calculate whole or correct the values.</div>`:`<div class="integrityNote">The whole bar and the parts bar always match exactly.</div>`}</div>`;
+    const directDivider=linkedBarActive(s)&&s.segments.length===2&&m.whole>0;
+    const dividerLeft=directDivider?clamp(m.values[0]/m.whole*100,4,96):50;
+    canvas=`<div class="partWholeLocked"><div class="wholeLocked" data-barwhole style="--whole-fill:${WHOLE_PALETTE.fill};--whole-edge:${WHOLE_PALETTE.edge}"><div class="wholeLockedEdit"><button data-barwholeadjust="-1" aria-label="Decrease whole">−</button><button data-barwholeadjust="1" aria-label="Increase whole">+</button></div><div class="wholeLockedValue">${state.valuesVisible?(wholeHidden?'?':fmt(m.whole)):''}</div><div class="wholeLockedLabel">Whole</div></div><div class="partsLocked ${directDivider?'linkedDirect':''}">${s.segments.map((seg,i)=>{const flex=s.proportional&&m.sum>0?m.values[i]/m.sum:1/s.segments.length,hidden=seg.unknown||!s.reveal,pal=partPalette(i);return `<div class="lockedPart ${hidden?'unknown':''}" data-barseg="${i}" style="flex:${Math.max(.04,flex)};--part-fill:${pal.fill};--part-accent:${pal.edge}"><div class="lockedPartEdit"><button data-baradjust="${i},-1">−</button><button data-baradjust="${i},1">+</button></div><div class="lockedPartValue">${state.valuesVisible?(hidden?'?':esc(seg.value)):''}</div><div class="lockedPartLabel">${state.labels?esc(seg.label):''}</div></div>`}).join('')}${directDivider?`<button class="barDivider" id="barDivider" style="left:${dividerLeft}%" role="slider" aria-label="Change the two parts" aria-valuemin="0" aria-valuemax="${m.whole}" aria-valuenow="${m.values[0]}" aria-valuetext="${m.values[0]} and ${m.values[1]}"><span class="barDividerGrip" aria-hidden="true"></span></button>`:''}</div><div class="wholeEqualsParts">${state.valuesVisible?`${m.values.map((v,i)=>s.segments[i].unknown?'?':fmt(v)).join(' + ')} = ${wholeHidden?'?':fmt(m.whole)}`:''}</div>${directDivider?'<div class="barDragHint">Drag the divider. The whole stays fixed while both parts change.</div>':''}${!m.consistent&&!s.autoWhole?`<div class="integrityNote" style="color:var(--danger)">Parts total ${fmt(m.sum)}, but the whole is ${fmt(m.whole)}. Turn on Calculate whole or correct the values.</div>`:`<div class="integrityNote">The whole bar and the parts bar always match exactly.</div>`}</div>`;
   }
   const direct=(s.mode==='partwhole'||s.mode==='cherry')&&linkedBarActive(s)?`<span class="stepperLabel">Whole</span><span class="stepper linkedWholeStepper"><button data-barwholeadjust="-1">−</button><strong>${m.whole}</strong><button data-barwholeadjust="1">+</button></span><span class="directPill">Linked parts</span><button class="directBtn soft" id="barRevealStage">${s.reveal?'Hide values':'Reveal values'}</button>`:s.mode==='partwhole'?`<button class="directBtn" id="barAddStage">+ Part</button><button class="directBtn" id="barRemoveStage">− Part</button><button class="directBtn soft" id="barRevealStage">${s.reveal?'Hide values':'Reveal values'}</button>`:s.mode==='cherry'?`<span class="directPill">Cherry model · exactly 2 parts</span><button class="directBtn soft" id="barRevealStage">${s.reveal?'Hide values':'Reveal values'}</button>`:s.mode==='comparison'?`<button class="directBtn" data-barunknown="top">Hide A</button><button class="directBtn" data-barunknown="bottom">Hide B</button><button class="directBtn soft" data-barunknown="difference">Hide difference</button><button class="directBtn" data-barunknown="none">Reveal all</button>`:`<span class="stepperLabel">Groups</span><span class="stepper"><button data-barequal="groups,-1">−</button><strong>${s.equal.groups}</strong><button data-barequal="groups,1">+</button></span><span class="stepperLabel">In each</span><span class="stepper"><button data-barequal="value,-1">−</button><strong>${s.equal.value}</strong><button data-barequal="value,1">+</button></span><button class="directBtn soft" id="barEqualReveal">${s.equal.revealTotal?'Hide total':'Reveal total'}</button>`;
   stage.innerHTML=`<div class="barStudio"><div class="directDock">${modeTabs}${direct}</div><div class="barCanvas">${canvas}</div></div>`;
@@ -4587,6 +4852,23 @@ function renderBar(stage){
   $$('[data-barequal]',stage).forEach(b=>b.onclick=()=>{const [k,d]=b.dataset.barequal.split(',');s.equal[k]=clamp(Number(s.equal[k])+Number(d),k==='groups'?1:0,k==='groups'?12:999);commit();renderAll()});
   if($('#barEqualReveal',stage))$('#barEqualReveal',stage).onclick=()=>{s.equal.revealTotal=!s.equal.revealTotal;commit();renderAll()};
   $$('[data-cherry]',stage).forEach(n=>n.onclick=()=>{if(n.dataset.cherry==='whole')s.cherry.wholeUnknown=!s.cherry.wholeUnknown;else s.segments[Number(n.dataset.cherry)].unknown=!s.segments[Number(n.dataset.cherry)].unknown;commit();renderAll()});
+  const divider=$('#barDivider',stage),parts=$('.partsLocked',stage);
+  if(divider&&parts){
+    let dragging=false;
+    const moveDivider=e=>{
+      const rect=parts.getBoundingClientRect(),whole=linkedWhole(s),ratio=clamp((e.clientX-rect.left)/rect.width,0,1),first=clamp(Math.round(whole*ratio),0,whole);
+      setLinkedPart(s,0,first);divider.style.left=`${whole?first/whole*100:50}%`;divider.setAttribute('aria-valuenow',String(first));divider.setAttribute('aria-valuetext',`${first} and ${whole-first}`);
+      const partEls=$$('.lockedPart',parts),values=$$('.lockedPartValue',parts),equation=$('.wholeEqualsParts',stage);
+      if(partEls[0])partEls[0].style.flex=Math.max(.04,whole?first/whole:.5);if(partEls[1])partEls[1].style.flex=Math.max(.04,whole?(whole-first)/whole:.5);
+      if(values[0]&&!s.segments[0].unknown&&state.valuesVisible)values[0].textContent=String(first);if(values[1]&&!s.segments[1].unknown&&state.valuesVisible)values[1].textContent=String(whole-first);
+      if(equation&&state.valuesVisible)equation.textContent=`${s.segments[0].unknown?'?':first} + ${s.segments[1].unknown?'?':whole-first} = ${whole}`;
+    };
+    divider.onpointerdown=e=>{if(state.displayLocked)return;dragging=true;divider.setPointerCapture(e.pointerId);moveDivider(e);e.preventDefault()};
+    divider.onpointermove=e=>{if(dragging){moveDivider(e);e.preventDefault()}};
+    divider.onpointerup=e=>{if(!dragging)return;dragging=false;commit();renderAll()};
+    divider.onpointercancel=()=>{if(dragging){dragging=false;commit();renderAll()}};
+    divider.onkeydown=e=>{if(e.key!=='ArrowLeft'&&e.key!=='ArrowRight')return;e.preventDefault();adjustLinkedPart(s,0,e.key==='ArrowLeft'?-1:1);commit();renderAll()};
+  }
 }
 
 function controlsBar(c){
@@ -5160,7 +5442,9 @@ function clearInk(){const c=$('#inkCanvas');if(inkCtx)inkCtx.clearRect(0,0,c.wid
 
 $$('.modelBtn').forEach(b=>b.onclick=()=>setModel(b.dataset.model));
 const modelSearch=$('#modelSearch');if(modelSearch){modelSearch.addEventListener('input',()=>{const q=modelSearch.value.trim().toLowerCase();$$('.modelBtn').forEach(b=>{b.hidden=!!q&&!b.textContent.toLowerCase().includes(q)});$$('.railLabel').forEach(label=>{const next=[];let el=label.nextElementSibling;while(el&&!el.classList.contains('railLabel')){if(el.classList.contains('modelBtn'))next.push(el);el=el.nextElementSibling}label.hidden=!!q&&next.length>0&&next.every(x=>x.hidden)});});modelSearch.addEventListener('keydown',e=>{if(e.key==='Escape'){modelSearch.value='';modelSearch.dispatchEvent(new Event('input'));modelSearch.blur()}if(e.key==='Enter'){const first=$$('.modelBtn').find(b=>!b.hidden);if(first)first.click()}})}
-$('#undoBtn').onclick=undo;$('#redoBtn').onclick=redo;$('#resetBtn').onclick=resetCurrent;$('#representBtn').onclick=representNext;$('#placeModeBtn').onclick=togglePlaceLabelMode;$('#randomQuick').onclick=randomiseCurrent;$('#saveFavouriteQuick').onclick=saveFavourite;$('#loadFavouriteQuick').onclick=loadFavourite;$('#clearModelQuick').onclick=clearCurrent;
+$('#undoBtn').onclick=undo;$('#redoBtn').onclick=redo;$('#resetBtn').onclick=resetCurrent;$('#representBtn').onclick=openConnections;$('#placeModeBtn').onclick=togglePlaceLabelMode;$('#randomQuick').onclick=randomiseCurrent;$('#saveFavouriteQuick').onclick=saveFavourite;$('#loadFavouriteQuick').onclick=loadFavourite;$('#clearModelQuick').onclick=clearCurrent;
+$('#connectionClose').onclick=closeConnections;
+$('#connectionDialog').addEventListener('click',e=>{if(e.target===$('#connectionDialog'))closeConnections()});
 $('#lessonBtn').onclick=openLessonDialog;
 $('#lessonClose').onclick=closeLessonDialog;
 $('#lessonDialog').addEventListener('click',e=>{if(e.target===$('#lessonDialog'))closeLessonDialog()});
@@ -5173,12 +5457,12 @@ $('#labelsQuick').onclick=()=>{state.labels=!state.labels;commit();renderAll()};
 $('#presentBtn').onclick=enterFocus;$('#teachBtn').onclick=()=>toggleTeach();$('#fullBtn').onclick=startDisplay;
 $$('.stagePopover button,.modePopover button').forEach(button=>button.addEventListener('click',closeActionMenus));
 document.addEventListener('pointerdown',event=>$$('#modeMenu[open],#stageMenu[open]').forEach(menu=>{if(!menu.contains(event.target))menu.removeAttribute('open')}),{passive:true});
-$('#modelsBtn').onclick=()=>$('#modelRail').classList.toggle('open');$('#adjustBtn').onclick=()=>$('#inspector').classList.toggle('open');
+$('#modelsBtn').onclick=()=>toggleDrawer('#modelRail');$('#adjustBtn').onclick=()=>toggleDrawer('#inspector');$('#canvasScrim').onclick=closeDrawers;
 $('#gridToggle').onclick=()=>{state.background=state.background==='plain'?'grid':state.background==='grid'?'dots':state.background==='dots'?'lines':'plain';commit();renderAll()};
 $('#inkToggle').onclick=toggleInk;$('#eraseInk').onclick=toggleEraser;$('#clearInk').onclick=clearInk;
 const ink=$('#inkCanvas');ink.addEventListener('pointerdown',startDraw);ink.addEventListener('pointermove',moveDraw);ink.addEventListener('pointerup',endDraw);ink.addEventListener('pointercancel',endDraw);ink.addEventListener('pointerleave',endDraw);
 $('#displayExit').onclick=async()=>{if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}}togglePresent(false)};$('#displayPrevStep').onclick=()=>changeActiveMethodStep(-1);$('#displayNextStep').onclick=()=>changeActiveMethodStep(1);$('#displayTeaching').onclick=()=>{state.showTeachingNotes=!state.showTeachingNotes;saveState();updateDisplayControls()};$('#displayModelOnly').onclick=()=>{state.showTeachingNotes=false;state.displayControlsVisible=false;saveState();updateDisplayControls()};$('#displayMore').onclick=()=>{const open=!document.body.classList.contains('presentationToolsOpen');document.body.classList.toggle('presentationToolsOpen',open);$('#displayMore').setAttribute('aria-expanded',String(open));$('#displayMore').textContent=open?'Close tools':'Tools'};$('#displayDockToggle').onclick=()=>{state.displayControlsVisible=!state.displayControlsVisible;saveState();updateDisplayControls()};$('#displayLabels').onclick=()=>{state.labels=!state.labels;commit();renderAll();updateDisplayControls()};$('#displayValues').onclick=toggleValues;$('#displayPlaceMode').onclick=togglePlaceLabelMode;$('#displaySpotlight').onclick=toggleSpotlight;$('#displayPointer').onclick=togglePointer;$('#displayInk').onclick=()=>{toggleInk();updateDisplayControls()};$('#displayEraseInk').onclick=()=>{toggleEraser();updateDisplayControls()};$('#displayClearInk').onclick=clearInk;$('#displayLock').onclick=()=>{state.displayLocked=!state.displayLocked;saveState();updateDisplayControls();toast(state.displayLocked?'Model locked':'Model unlocked')};document.addEventListener('fullscreenchange',()=>{syncVisualViewport();if(!document.fullscreenElement&&document.body.classList.contains('presentation'))togglePresent(false)});document.addEventListener('pointermove',e=>{wakeDisplayControls();moveTeacherPointer(e)},{passive:true});document.addEventListener('pointerdown',e=>{wakeDisplayControls();spotlightAt(e.target)},{passive:true});window.addEventListener('resize',()=>setTimeout(resizeInk,60));
-document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}if(e.key==='Escape'&&document.body.classList.contains('presentation'))togglePresent(false);if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowRight'){e.preventDefault();changeActiveMethodStep(1)}if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowLeft'){e.preventDefault();changeActiveMethodStep(-1)}if(e.key.toLowerCase()==='p'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))togglePresent();if(e.key.toLowerCase()==='t'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))toggleTeach();if(e.key.toLowerCase()==='f'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))toggleFullscreen();if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();$('#modelSearch')?.focus()}});
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}if(e.key==='Escape'){if(document.body.classList.contains('drawerOpen')){closeDrawers();return}if(document.body.classList.contains('presentation'))togglePresent(false)}if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowRight'){e.preventDefault();changeActiveMethodStep(1)}if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowLeft'){e.preventDefault();changeActiveMethodStep(-1)}if(e.key.toLowerCase()==='p'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&state.active!=='home')startDisplay();if(e.key.toLowerCase()==='c'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&state.active!=='home'){e.preventDefault();openConnections()}if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();toggleDrawer('#modelRail')}});
 renderAll();updateDisplayControls();$('#inkCanvas').classList.toggle('inking',state.ink);$('#inkCanvas').classList.toggle('erasing',state.ink&&state.inkTool==='eraser');$('#inkToggle').classList.toggle('active',state.ink&&state.inkTool==='pen');$('#eraseInk').classList.toggle('active',state.ink&&state.inkTool==='eraser');
 })();
 </script>
