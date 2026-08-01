@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Maths Modelling Studio · Build 43</title>
+<title>Maths Modelling Studio · Build 44</title>
 <style>
 :root{
   --ink:#18384d;
@@ -4186,20 +4186,204 @@ body.modelLocked .barDivider{pointer-events:none;opacity:.35}
 @media(prefers-reduced-motion:reduce){.representationArrival,.connectionCard{animation:none!important;transition:none!important}}
 </style>
 
+<style>
+/* ===== BUILD 44 · CLASSROOM FIT =====
+   A layout-only release: the model engine is unchanged. The canvas always
+   owns the viewport; the model library is a legible, dismissible layer; and
+   presentation remains useful when browser fullscreen is unavailable.
+*/
+:root{
+  --preview-bottom-clearance:0px;
+  --app-usable-height:var(--app-visual-height,100dvh);
+  --library-width:clamp(340px,29vw,408px);
+}
+html,body{
+  width:100%!important;
+  height:var(--app-visual-height,100dvh)!important;
+  max-height:none!important;
+}
+.app{
+  width:100%!important;
+  height:var(--app-visual-height,100dvh)!important;
+  max-height:none!important;
+}
+.topbar{
+  height:var(--toolbar-h)!important;
+  min-height:var(--toolbar-h)!important;
+  padding-inline:max(10px,env(safe-area-inset-left)) max(10px,env(safe-area-inset-right))!important;
+}
+.shell,
+body[data-model="home"] .shell{
+  width:100%!important;
+  height:calc(var(--app-visual-height,100dvh) - var(--toolbar-h))!important;
+  max-height:none!important;
+  grid-template-columns:minmax(0,1fr)!important;
+}
+.workspaceWrap{
+  grid-column:1 / -1!important;
+  width:100%!important;
+  height:100%!important;
+}
+.workspace{width:100%!important;height:100%!important}
+.stageHint{font-size:10px!important;line-height:1.35!important}
+
+/* The library opens as a proper sheet instead of occupying a narrow grid cell. */
+.modelRail{
+  width:min(var(--library-width),100vw)!important;
+  padding:0 14px max(28px,env(safe-area-inset-bottom))!important;
+}
+body #modelRail.open,body #inspector.open{transform:translateX(0)!important}
+.railTop{
+  position:sticky;top:0;z-index:6;
+  margin:0 -14px 7px;padding:max(14px,env(safe-area-inset-top)) 14px 12px;
+  background:rgba(249,250,247,.975);border-bottom:1px solid var(--b43-line);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+}
+.railHeading{display:flex;align-items:center;gap:12px;margin-bottom:11px}
+.railHeadingText{min-width:0;flex:1}
+.railHeading strong{display:block;color:var(--b43-ink);font-size:17px;font-weight:730;letter-spacing:-.025em}
+.railHeading span{display:block;margin-top:2px;color:#78878c;font-size:9.5px;font-weight:650}
+.railClose{
+  width:40px;height:40px;flex:0 0 auto;border:1px solid var(--b43-line);border-radius:12px;
+  background:#fff;color:var(--b43-ink);font-size:22px;line-height:1
+}
+.railClose:hover{background:var(--b42-blue-soft)}
+.railSearchWrap{
+  position:relative!important;top:auto!important;margin:0!important;padding:0!important;background:transparent!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important
+}
+.railSearch{width:100%!important;min-height:46px!important;padding-inline:36px 13px!important;font-size:12px!important}
+.railSearchWrap:before{left:13px!important;top:13px!important}
+.railLabel{padding:18px 10px 6px!important}
+.modelBtn{
+  min-height:49px!important;padding:8px 10px!important;gap:11px!important;
+  font-size:12.25px!important;line-height:1.25!important
+}
+.modelBtn[hidden],.railLabel[hidden]{display:none!important}
+.modelIcon{width:31px!important;height:31px!important;flex:0 0 31px!important}
+.canvasScrim{background:rgba(18,38,45,.34)!important}
+
+/* Make the two primary classroom actions self-explanatory on larger screens. */
+@media(min-width:900px){
+  #modelsBtn,#adjustBtn{width:auto!important;padding-inline:12px!important;gap:7px!important;font-size:15px!important}
+  #modelsBtn:after{content:"Models";font-size:11px;font-weight:740}
+  #adjustBtn:after{content:"Adjust";font-size:11px;font-weight:740}
+  .brand{margin-left:2px}
+  .presentCluster>#fullBtn{min-width:108px!important}
+}
+
+/* Presentation is a true viewport layer even when Safari declines Fullscreen API. */
+.presentation .app{
+  position:fixed!important;inset:0!important;z-index:40!important;
+  width:100vw!important;height:var(--app-visual-height,100dvh)!important;max-height:none!important
+}
+.presentation .shell,
+.presentation .workspaceWrap,
+.presentation .workspace,
+.presentation .stage{
+  width:100%!important;height:100%!important;max-height:none!important
+}
+.presentation .stage{padding-bottom:max(18px,env(safe-area-inset-bottom))!important}
+.presentation .presentDock{max-width:calc(100vw - 20px)!important}
+.presentation .presentDock button{min-height:44px!important}
+
+@media(max-width:760px){
+  :root{--library-width:100vw}
+  .modelRail{border-right:0!important}
+  .stageHint{font-size:9px!important}
+}
+@media(max-height:720px){
+  .modelBtn{min-height:46px!important}
+  .railLabel{padding-top:14px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .modelRail,.inspector,.canvasScrim{transition:none!important}
+}
+</style>
+
+<style id="build44-question-display">
+/* ===== BUILD 44 · QUESTION → MODEL → DISPLAY ===== */
+.workflowBtn{display:inline-flex;align-items:center;gap:7px;min-height:40px;padding:0 13px;border:1px solid #dbe5e1;border-radius:12px;background:#fff;color:#294653;font:750 11px/1 system-ui;white-space:nowrap}
+.workflowBtn:hover{background:#f1f6f4;border-color:#c8d9d2}.workflowBtn .workflowIcon{font-size:15px}
+.questionContext{display:none;max-width:min(36vw,520px);min-width:0;border:0;background:transparent;text-align:left;color:#365360;padding:3px 8px;border-radius:9px}
+.questionContext.visible{display:block}.questionContext:hover{background:#edf4f1}
+.questionContext strong,.questionContext span{display:block;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.questionContext strong{font-size:9px;text-transform:uppercase;letter-spacing:.1em;color:#7a8c90}.questionContext span{margin-top:2px;font-size:11px;font-weight:720}
+.stageHeader .stageActions{flex:0 0 auto}
+
+.workflowDialog{width:min(1060px,calc(100vw - 24px));height:min(820px,calc(var(--app-visual-height,100dvh) - 24px));max-width:none;max-height:none;padding:0;border:1px solid #d9e3df;border-radius:26px;background:#f8faf8;color:#294653;box-shadow:0 28px 90px rgba(26,57,69,.24);overflow:hidden}
+.workflowDialog::backdrop{background:rgba(22,43,51,.48);backdrop-filter:blur(3px)}
+.workflowShell{height:100%;display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+.workflowHead{display:flex;align-items:flex-start;gap:18px;padding:22px 24px 18px;border-bottom:1px solid #e0e8e4;background:rgba(252,253,251,.98)}
+.workflowHeadText{min-width:0;flex:1}.workflowEyebrow{display:block;margin-bottom:5px;color:#6e8780;font:800 9px/1 system-ui;letter-spacing:.13em;text-transform:uppercase}
+.workflowHead h2{margin:0;color:#203f4b;font:760 clamp(22px,2.4vw,31px)/1.05 system-ui;letter-spacing:-.035em}.workflowHead p{max-width:660px;margin:8px 0 0;color:#688078;font:500 11px/1.55 system-ui}
+.workflowClose{width:42px;height:42px;flex:0 0 auto;border:1px solid #dce5e1;border-radius:13px;background:#fff;color:#294653;font-size:22px}
+.workflowBody{min-height:0;display:grid;grid-template-columns:minmax(320px,.9fr) minmax(380px,1.1fr);overflow:hidden}
+.workflowPane{min-height:0;padding:20px 22px;overflow:auto}.workflowPane+.workflowPane{border-left:1px solid #e0e8e4;background:#fff}
+.workflowPane h3{margin:0 0 5px;color:#294653;font:760 16px/1.2 system-ui;letter-spacing:-.02em}.workflowHelp{margin:0 0 15px;color:#70847e;font:500 10.5px/1.5 system-ui}
+.workflowGrid{display:grid;grid-template-columns:1fr 140px;gap:10px}.workflowField{display:grid;gap:6px;margin-bottom:12px}.workflowField label,.workflowLabel{color:#526a64;font:750 10px/1.25 system-ui}
+.workflowField input,.workflowField select,.workflowField textarea,.questionItem textarea{width:100%;border:1px solid #d9e3df;border-radius:12px;background:#fff;color:#294653;font:600 12px/1.5 system-ui;outline:0}
+.workflowField input,.workflowField select{min-height:42px;padding:0 11px}.workflowField textarea{min-height:154px;padding:12px;resize:vertical}
+.workflowField input:focus,.workflowField select:focus,.workflowField textarea:focus,.questionItem textarea:focus{border-color:#6e978b;box-shadow:0 0 0 3px rgba(110,151,139,.13)}
+.workflowActions{display:flex;flex-wrap:wrap;gap:8px}.workflowAction{min-height:40px;padding:0 13px;border:1px solid #d7e2de;border-radius:11px;background:#fff;color:#294653;font:760 10.5px/1 system-ui}.workflowAction:hover{background:#eef5f2}.workflowAction.primary{border-color:#294f5d;background:#294f5d;color:#fff}.workflowAction.soft{background:#eaf2ef;border-color:#d7e5df}.workflowAction.danger{color:#9b4e4e}.workflowAction:disabled{opacity:.45;cursor:not-allowed}
+.fileChoice{position:relative;overflow:hidden}.fileChoice input{position:absolute;inset:0;opacity:0;cursor:pointer}
+.workflowStatus{min-height:34px;margin-top:12px;padding:9px 11px;border-radius:10px;background:#eef4f1;color:#557068;font:650 10px/1.45 system-ui}.workflowStatus.error{background:#fff0ef;color:#8b4848}.workflowStatus:empty{display:none}
+.questionList{display:grid;gap:9px;margin-top:13px}.questionItem{display:grid;grid-template-columns:28px minmax(0,1fr);gap:9px;padding:10px;border:1px solid #e0e8e4;border-radius:15px;background:#fbfcfb;transition:border-color .15s,box-shadow .15s}.questionItem.selected{border-color:#7b9f94;box-shadow:0 0 0 3px rgba(123,159,148,.1)}
+.questionOrder{width:28px;height:28px;display:grid;place-items:center;border-radius:9px;background:#e8f0ed;color:#45645b;font:800 10px/1 system-ui}.questionItem textarea{min-height:58px;padding:8px 10px;resize:vertical}.questionItemTools{display:flex;align-items:center;flex-wrap:wrap;gap:5px;margin-top:7px}.questionTiny{min-height:30px;padding:0 8px;border:1px solid #dbe4e0;border-radius:8px;background:#fff;color:#526b64;font:720 9px/1 system-ui}.questionTiny:hover{background:#edf4f1}.questionTiny.delete{margin-left:auto;color:#9b5252}.modelToggle{display:flex;align-items:center;gap:5px;color:#617871;font:700 9px/1 system-ui}.modelToggle input{accent-color:#52796f}
+.analysisEmpty{height:100%;min-height:320px;display:grid;place-items:center;text-align:center;color:#758984}.analysisEmpty span{display:block;font-size:36px;margin-bottom:10px}.analysisEmpty strong{display:block;color:#3b5952;font-size:14px}.analysisEmpty p{max-width:300px;margin:7px auto 0;font-size:10.5px;line-height:1.55}
+.analysisCard{display:grid;gap:14px}.analysisSummary{padding:15px;border:1px solid #dce6e2;border-radius:17px;background:#f7faf8}.analysisBand{display:flex;flex-wrap:wrap;align-items:center;gap:7px;margin-bottom:10px}.matchLabel{padding:5px 8px;border-radius:999px;background:#deece6;color:#476b60;font:800 9px/1 system-ui}.structureLabel{color:#274b58;font:780 14px/1.2 system-ui}.analysisQuestion{margin:0;color:#294653;font:650 13px/1.55 system-ui}.analysisFacts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.analysisFact{min-width:0;padding:10px;border-radius:12px;background:#edf3f0}.analysisFact span,.analysisFact strong{display:block;overflow:hidden;text-overflow:ellipsis}.analysisFact span{color:#71847f;font:700 8.5px/1.2 system-ui;text-transform:uppercase;letter-spacing:.08em}.analysisFact strong{margin-top:5px;color:#31534b;font:760 11px/1.35 system-ui;white-space:normal}
+.recommendations{display:grid;gap:8px}.recommendation{display:grid;grid-template-columns:38px minmax(0,1fr) auto;align-items:center;gap:10px;width:100%;padding:11px;border:1px solid #dfe7e4;border-radius:14px;background:#fff;text-align:left;color:#31504a}.recommendation:hover,.recommendation.selected{border-color:#759b8f;background:#f1f7f4}.recommendationIcon{width:38px;height:38px;display:grid;place-items:center;border-radius:11px;background:#e8f0ed;font-size:18px}.recommendation strong,.recommendation small{display:block}.recommendation strong{font:760 12px/1.25 system-ui}.recommendation small{margin-top:3px;color:#70837d;font:550 9.5px/1.35 system-ui}.recommendationTag{color:#5f786f;font:800 8px/1 system-ui;text-transform:uppercase;letter-spacing:.06em}
+.proposalBox{padding:13px;border-radius:14px;background:#eef4f1}.proposalBox h4{margin:0 0 8px;font:760 11px/1.2 system-ui}.proposalRows{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.proposalRow{padding:8px;border-radius:9px;background:#fff}.proposalRow span,.proposalRow strong{display:block}.proposalRow span{color:#758982;font:700 8px/1 system-ui;text-transform:uppercase}.proposalRow strong{margin-top:4px;font:740 10px/1.3 system-ui}.buildRow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:4px}.buildNote{color:#70847d;font:600 9.5px/1.4 system-ui}
+.proposalValueGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin:0 0 8px}.proposalValue{display:grid;gap:4px}.proposalValue label{color:#758982;font:700 8px/1 system-ui;text-transform:uppercase}.proposalValue input,.proposalUnknown{width:100%;min-height:34px;padding:0 8px;border:1px solid #d8e3df;border-radius:8px;background:#fff;color:#31534b;font:740 10px/1 system-ui}.proposalUnknown{margin-top:5px}
+.workflowFoot{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 22px;border-top:1px solid #e0e8e4;background:#fbfcfb}.workflowFootNote{color:#6f837d;font:600 9.5px/1.35 system-ui}
+
+.displayDialog{width:min(1120px,calc(100vw - 24px));height:min(780px,calc(var(--app-visual-height,100dvh) - 24px))}.displayEditor{grid-template-columns:minmax(330px,.72fr) minmax(430px,1.28fr)}
+.displayOptions{display:grid;grid-template-columns:1fr 1fr;gap:10px}.displayOptions .workflowField.wide{grid-column:1/-1}
+.layoutChoices{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}.layoutChoice{min-height:58px;padding:9px;border:1px solid #dbe4e1;border-radius:12px;background:#fff;color:#3b5b53;text-align:left}.layoutChoice strong,.layoutChoice span{display:block}.layoutChoice strong{font:760 10px/1.2 system-ui}.layoutChoice span{margin-top:4px;color:#758781;font:550 8.5px/1.25 system-ui}.layoutChoice.active{border-color:#6d9589;background:#eef5f2}
+.displayPreview{min-height:100%;display:grid;place-items:center;padding:18px;background:#e7eeeb}.displayPreviewPage{width:min(100%,700px);aspect-ratio:16/9;display:grid;grid-template-rows:auto minmax(0,1fr) auto;overflow:hidden;border-radius:18px;background:#fff;box-shadow:0 18px 54px rgba(34,66,76,.15);transition:aspect-ratio .2s}.displayPreviewPage.portrait{aspect-ratio:1/1.35;max-height:620px}.displayPreviewHead{padding:clamp(14px,2.2vw,25px);border-bottom:1px solid #e5ebe8}.displayPreviewHead small{display:block;color:#6f8b81;font:800 7px/1 system-ui;text-transform:uppercase;letter-spacing:.12em}.displayPreviewHead h3{margin:6px 0 0;color:#244654;font:760 clamp(16px,2.3vw,28px)/1.12 system-ui}.displayPreviewHead p{margin:8px 0 0;color:#385750;font:650 clamp(9px,1.25vw,14px)/1.45 system-ui}.displayPreviewModel{display:grid;place-items:center;margin:clamp(12px,2vw,24px);border:1px solid #e3ebe8;border-radius:15px;background:linear-gradient(180deg,#fbfcfb,#f5f8f6);color:#668078;text-align:center}.displayPreviewModel span{display:block;font-size:34px}.displayPreviewModel strong{display:block;margin-top:7px;font:760 13px/1.25 system-ui}.displayPreviewModel small{display:block;margin:5px auto 0;max-width:320px;font:550 9px/1.45 system-ui}.displayPreviewFoot{display:flex;justify-content:space-between;gap:8px;padding:12px 20px;color:#6e817b;font:650 8px/1.3 system-ui}
+
+.displayCompositionHeader{display:none}.presentation.displayComposition .displayCompositionHeader{position:fixed;top:0;left:0;right:0;z-index:65;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;padding:max(18px,env(safe-area-inset-top)) max(30px,env(safe-area-inset-right)) 16px max(30px,env(safe-area-inset-left));border-bottom:1px solid rgba(38,73,82,.12);background:rgba(252,253,251,.98)}
+.displayCompositionText{min-width:0}.displayKicker{display:block;color:#69847a;font:800 9px/1 system-ui;letter-spacing:.12em;text-transform:uppercase}.displayCompositionHeader h2{max-width:1100px;margin:7px 0 0;color:#203f4b;font:760 clamp(24px,3.4vw,52px)/1.08 system-ui;letter-spacing:-.035em}.displayCompositionHeader p{max-width:1100px;margin:8px 0 0;color:#3b5b53;font:650 clamp(14px,1.5vw,22px)/1.4 system-ui}.displayMeta{display:flex;align-items:flex-start;gap:8px}.displayMeta span{max-width:220px;padding:8px 11px;border-radius:10px;background:#eef4f1;color:#557067;font:700 10px/1.35 system-ui}.displayAnswer{display:none;margin-top:9px;color:#264f42;font:800 clamp(15px,1.7vw,24px)/1.25 system-ui}.displayAnswer.revealed{display:block}.presentation.displayComposition .stage{padding-top:clamp(176px,24vh,238px)!important}.presentation.displayComposition[data-display-layout="notice"] .displayCompositionHeader h2{font-size:clamp(20px,2.6vw,40px)}.presentation.displayComposition[data-display-layout="hidden"] .displayCompositionHeader{background:#f4f8f5}.presentation.displayComposition[data-display-layout="independent"] .stage{padding-bottom:20vh!important}
+#displayAnswerToggle{display:none}.presentation.displayComposition #displayAnswerToggle{display:block}
+.modelA11ySummary{position:absolute;width:1px;height:1px;margin:-1px;padding:0;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0}
+.printQuestionSheet{display:none}
+
+@media(max-width:840px){
+  .workflowDialog{width:100vw;height:var(--app-visual-height,100dvh);border:0;border-radius:0}.workflowBody,.displayEditor{grid-template-columns:1fr;overflow:auto}.workflowPane{overflow:visible}.workflowPane+.workflowPane{border-left:0;border-top:1px solid #e0e8e4}.workflowGrid{grid-template-columns:1fr}.analysisFacts{grid-template-columns:1fr 1fr}.displayPreview{min-height:520px}.questionContext{max-width:30vw}.workflowWord{display:none}
+  .presentation.displayComposition .displayCompositionHeader{grid-template-columns:1fr;padding:16px 18px 13px}.displayMeta{display:none}.presentation.displayComposition .stage{padding-top:clamp(165px,25vh,225px)!important}
+}
+@media(max-width:560px){.questionContext{display:none!important}.workflowBtn{width:40px;padding:0;justify-content:center}.workflowBtn .workflowWord{display:none}.workflowHead{padding:17px}.workflowPane{padding:17px}.workflowFoot{padding:11px 17px}.analysisFacts{grid-template-columns:1fr}.displayOptions{grid-template-columns:1fr}.displayOptions .workflowField.wide{grid-column:auto}}
+@media(prefers-reduced-motion:reduce){.questionItem,.displayPreviewPage{transition:none!important}}
+
+@media print{
+  @page{size:A4 portrait;margin:12mm}
+  body.printBuild44{height:auto!important;max-height:none!important;background:#fff!important}
+  body.printBuild44>*:not(.app):not(.displayCompositionHeader):not(.printQuestionSheet){display:none!important}
+  body.printBuild44 .topbar,body.printBuild44 .modelRail,body.printBuild44 .inspector,body.printBuild44 .stageHeader,body.printBuild44 .floatTools,body.printBuild44 .presentDock{display:none!important}
+  body.printBuild44 .app,body.printBuild44 .shell,body.printBuild44 .workspaceWrap,body.printBuild44 .workspace{position:static!important;display:block!important;width:100%!important;height:auto!important;min-height:0!important;max-height:none!important;padding:0!important;border:0!important;box-shadow:none!important}
+  body.printBuild44 .stage{display:grid!important;width:100%!important;height:175mm!important;min-height:0!important;max-height:175mm!important;padding:8mm!important;overflow:hidden!important;border:1px solid #d7dfdc!important;background:#fff!important;break-inside:avoid}
+  body.printBuild44 .displayCompositionHeader{position:static!important;display:block!important;padding:0 0 8mm!important;border:0!important;background:#fff!important}.displayCompositionHeader h2{font-size:25pt!important}.displayCompositionHeader p{font-size:13pt!important}.displayMeta{display:none!important}
+  body.printBuild44.printPupil .displayAnswer{display:none!important}body.printBuild44.printTeacher .displayAnswer{display:block!important;color:#000!important}
+  body.printQuestionSet>*{display:none!important}body.printQuestionSet .printQuestionSheet{display:block!important;color:#111}.printQuestionSheet h1{margin:0 0 5mm;font:700 22pt/1.15 system-ui}.printQuestionSheet .printSub{margin:0 0 8mm;font:500 10pt/1.4 system-ui;color:#555}.printQuestionItem{break-inside:avoid;margin:0 0 8mm;padding:0 0 7mm;border-bottom:1px solid #bbb}.printQuestionItem .printLevel{font:800 8pt/1 system-ui;text-transform:uppercase;letter-spacing:.08em;color:#567}.printQuestionItem h2{margin:3mm 0 8mm;font:650 14pt/1.45 system-ui}.printQuestionItem .workingLines{height:25mm;background:repeating-linear-gradient(to bottom,transparent 0,transparent 8mm,#ddd 8.2mm,#ddd 8.4mm)}.printQuestionItem .printAnswer{margin-top:5mm;padding:3mm;border:1px solid #999;font:650 10pt/1.4 system-ui}
+}
+</style>
+
 </head>
 <body>
 <button class="canvasScrim" id="canvasScrim" aria-label="Close open panel" tabindex="-1"></button>
 <div class="app">
   <header class="topbar">
-    <button class="iconBtn mobileDrawerBtn" id="modelsBtn" title="Models" aria-label="Open model library">☰</button>
+    <button class="iconBtn mobileDrawerBtn" id="modelsBtn" title="Models" aria-label="Open model library" aria-controls="modelRail" aria-expanded="false">☰</button>
     <div class="brand"><span class="brandMark" aria-hidden="true">∴</span><div class="brandText"><h1>Maths Modelling Studio</h1><p>Mathematical instruments</p></div></div>
     <div class="topspacer"></div>
     <div class="topActions">
+      <button class="workflowBtn" id="questionBtn" title="Start from a mathematical question"><span class="workflowIcon" aria-hidden="true">?</span><span class="workflowWord">Question</span></button>
       <div class="historyCluster" aria-label="History">
         <button class="iconBtn" id="undoBtn" title="Undo" aria-label="Undo">↶</button>
         <button class="iconBtn" id="redoBtn" title="Redo" aria-label="Redo">↷</button>
       </div>
       <button class="btn lessonBtn" id="lessonBtn" title="Open lesson sequence" aria-label="Open lesson sequence"><span class="lessonWord">Lesson</span><span class="lessonCount" id="lessonCount">0</span></button>
+      <button class="workflowBtn" id="createDisplayBtn" title="Turn this question and model into a classroom display"><span class="workflowIcon" aria-hidden="true">▣</span><span class="workflowWord">Create display</span></button>
       <div class="presentCluster">
         <button class="btn primary" id="fullBtn" title="Open the model for classroom display">Present</button>
         <details class="modeMenu" id="modeMenu">
@@ -4211,13 +4395,16 @@ body.modelLocked .barDivider{pointer-events:none;opacity:.35}
           </div>
         </details>
       </div>
-      <button class="iconBtn mobileDrawerBtn" id="adjustBtn" title="Adjust" aria-label="Open model adjustments">⚙</button>
+      <button class="iconBtn mobileDrawerBtn" id="adjustBtn" title="Adjust" aria-label="Open model adjustments" aria-controls="inspector" aria-expanded="false">⚙</button>
     </div>
   </header>
 
   <main class="shell">
     <nav class="modelRail" id="modelRail" aria-label="Choose a model">
-      <div class="railSearchWrap"><input id="modelSearch" class="railSearch" type="search" placeholder="Find a model…" aria-label="Find a model"></div>
+      <div class="railTop">
+        <div class="railHeading"><div class="railHeadingText"><strong>Models</strong><span>Choose a mathematical instrument</span></div><button class="railClose" id="railClose" type="button" aria-label="Close model library">×</button></div>
+        <div class="railSearchWrap"><input id="modelSearch" class="railSearch" type="search" placeholder="Find a model…" aria-label="Find a model"></div>
+      </div>
       <div class="railLabel railPrimary">Studio</div>
       <button class="modelBtn active" data-model="home"><span class="modelIcon">⌂</span>Start</button>
       <div class="railLabel railSection">Number & structure</div>
@@ -4248,6 +4435,7 @@ body.modelLocked .barDivider{pointer-events:none;opacity:.35}
       <div class="workspace">
         <div class="stageHeader">
           <div><div class="stageTitle" id="stageTitle">Start</div><div class="stageHint" id="stageHint">Choose a model, then adjust it from the right.</div></div>
+          <button class="questionContext" id="questionContext" type="button" title="Edit the source question"><strong>Source question</strong><span id="questionContextText"></span></button>
           <div class="spacer"></div>
           <div class="stageActions">
             <button class="btn ghost" id="representBtn" title="See this quantity in another representation" aria-haspopup="dialog"><span class="representIcon" aria-hidden="true">⇄</span><span id="quantityThread">Connect</span></button>
@@ -4267,6 +4455,7 @@ body.modelLocked .barDivider{pointer-events:none;opacity:.35}
           </div>
         </div>
         <div class="stage" id="stage"></div>
+        <div class="modelA11ySummary" id="modelA11ySummary" aria-live="polite"></div>
         <canvas id="inkCanvas"></canvas>
         <div class="floatTools">
           <button class="iconBtn" id="gridToggle" title="Background">▦</button>
@@ -4286,6 +4475,7 @@ body.modelLocked .barDivider{pointer-events:none;opacity:.35}
   <button class="methodDisplayStep primaryStep" id="displayNextStep" title="Reveal the next teaching step">Next →</button>
   <button class="methodDisplayStep" id="displayTeaching" title="Show or hide supporting details">Details</button>
   <button class="methodDisplayStep" id="displayModelOnly" title="Hide notes and controls">Model only</button>
+  <button id="displayAnswerToggle" title="Reveal or hide the prepared answer">Reveal answer</button>
   <button id="displayMore" title="Show presentation tools" aria-expanded="false">Tools</button>
   <div class="presentMore" id="presentMore" aria-label="Presentation tools">
     <button id="displayLabels" title="Show or hide labels">Labels</button>
@@ -4301,7 +4491,7 @@ body.modelLocked .barDivider{pointer-events:none;opacity:.35}
   <button id="displayDockToggle" title="Collapse display controls" aria-label="Collapse display controls">Hide</button>
 </div>
 <div class="teacherPointer" id="teacherPointer" aria-hidden="true"></div>
-<div class="toast" id="toast"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 <dialog class="connectionDialog" id="connectionDialog" aria-labelledby="connectionTitle">
   <div class="connectionHead">
     <div class="connectionHeadText"><span class="connectionEyebrow">Same quantity · new view</span><h2 id="connectionTitle">See it another way</h2></div>
@@ -4335,6 +4525,52 @@ body.modelLocked .barDivider{pointer-events:none;opacity:.35}
   <button class="lessonPlayerNext" id="lessonNext">Next →</button>
   <button id="lessonStop">Finish</button>
 </div>
+
+<section class="displayCompositionHeader" id="displayCompositionHeader" aria-label="Classroom display question">
+  <div class="displayCompositionText"><span class="displayKicker" id="displayKicker">Mathematical thinking</span><h2 id="displayQuestionText"></h2><p id="displayPromptText"></p><div class="displayAnswer" id="displayAnswerText"></div></div>
+  <div class="displayMeta"><span id="displayVocabularyText"></span></div>
+</section>
+<section class="printQuestionSheet" id="printQuestionSheet" aria-label="Printable question set"></section>
+
+<dialog class="workflowDialog" id="questionDialog" aria-labelledby="questionDialogTitle">
+  <div class="workflowShell">
+    <header class="workflowHead"><div class="workflowHeadText"><span class="workflowEyebrow">Question → structure → model</span><h2 id="questionDialogTitle">Start from a question</h2><p>Paste one question or a short set. The studio uses transparent pattern rules, shows its reasoning, and lets you choose before anything changes.</p></div><button class="workflowClose" id="questionClose" type="button" aria-label="Close question studio">×</button></header>
+    <div class="workflowBody">
+      <section class="workflowPane" aria-labelledby="questionWriteTitle">
+        <h3 id="questionWriteTitle">Write or paste</h3><p class="workflowHelp">Text stays on this device. Up to eight questions are reviewed at once so the workflow remains fast.</p>
+        <div class="workflowGrid"><div class="workflowField"><label for="questionTitle">Lesson focus <span aria-hidden="true">·</span> optional</label><input id="questionTitle" type="text" maxlength="120" placeholder="e.g. Comparing additive structures"></div><div class="workflowField"><label for="questionYear">Year level</label><select id="questionYear"><option value="">Unspecified</option><option>Year 1</option><option>Year 2</option><option>Year 3</option><option>Year 4</option><option>Year 5</option><option>Year 6</option></select></div></div>
+        <div class="workflowField"><label for="questionDraft">Question text</label><textarea id="questionDraft" maxlength="12000" placeholder="Aisha has 37 stickers. Noah has 15 more than Aisha. How many stickers does Noah have?"></textarea></div>
+        <div class="workflowActions"><button class="workflowAction primary" id="analyseQuestions" type="button">Analyse questions</button><label class="workflowAction fileChoice" for="questionFile">Import text file<input id="questionFile" type="file" accept=".txt,.md,.csv,text/plain,text/markdown,text/csv"></label><button class="workflowAction soft" id="generateSequence" type="button">Make 4-step sequence</button></div>
+        <div class="workflowStatus" id="questionStatus" role="status"></div>
+        <div class="questionList" id="questionList" aria-label="Questions for review"></div>
+      </section>
+      <section class="workflowPane" aria-labelledby="analysisTitle"><h3 id="analysisTitle">Model proposal</h3><p class="workflowHelp">Recommendations describe what each representation would emphasise. They are suggestions, not automatic claims.</p><div id="analysisPanel"></div></section>
+    </div>
+    <footer class="workflowFoot"><span class="workflowFootNote">Pasted HTML is converted to plain text. Existing models are never replaced until you choose Build model.</span><div class="workflowActions"><button class="workflowAction" id="printQuestionPupil" type="button">Print pupil set</button><button class="workflowAction" id="printQuestionTeacher" type="button">Print teacher set</button></div></footer>
+  </div>
+</dialog>
+
+<dialog class="workflowDialog displayDialog" id="displayDialog" aria-labelledby="displayDialogTitle">
+  <div class="workflowShell">
+    <header class="workflowHead"><div class="workflowHeadText"><span class="workflowEyebrow">Live model · deliberate classroom composition</span><h2 id="displayDialogTitle">Create display</h2><p>Prepare a clean projection or print layout from the current editable model. The display remains linked to this canvas.</p></div><button class="workflowClose" id="displayClose" type="button" aria-label="Close display editor">×</button></header>
+    <div class="workflowBody displayEditor">
+      <section class="workflowPane">
+        <div class="displayOptions">
+          <div class="workflowField wide"><label for="displayTitleInput">Title</label><input id="displayTitleInput" type="text" maxlength="100" placeholder="Mathematical thinking"></div>
+          <div class="workflowField wide"><label for="displayQuestionInput">Question</label><textarea id="displayQuestionInput" maxlength="1500" placeholder="Type or use the current source question"></textarea></div>
+          <div class="workflowField"><label for="displayPromptInput">Prompt</label><input id="displayPromptInput" type="text" maxlength="180" placeholder="What do you notice?"></div>
+          <div class="workflowField"><label for="displayVocabularyInput">Vocabulary</label><input id="displayVocabularyInput" type="text" maxlength="180" placeholder="difference · whole · part"></div>
+          <div class="workflowField"><label for="displayAnswerInput">Answer <span aria-hidden="true">·</span> optional</label><input id="displayAnswerInput" type="text" maxlength="220" placeholder="Revealed when you choose"></div>
+          <div class="workflowField"><label for="displayOrientation">Orientation</label><select id="displayOrientation"><option value="landscape">Landscape</option><option value="portrait">Portrait</option></select></div>
+        </div>
+        <span class="workflowLabel">Layout</span><div class="layoutChoices" id="displayLayouts"><button class="layoutChoice active" data-layout="question-model"><strong>Question + model</strong><span>Question first, live model below</span></button><button class="layoutChoice" data-layout="notice"><strong>Notice & wonder</strong><span>Model-led discussion prompt</span></button><button class="layoutChoice" data-layout="hidden"><strong>Hidden value</strong><span>Conceal values for reasoning</span></button><button class="layoutChoice" data-layout="independent"><strong>Independent task</strong><span>Question with thinking space</span></button></div>
+        <div class="workflowStatus" id="displayStatus" role="status"></div>
+      </section>
+      <section class="displayPreview"><div class="displayPreviewPage" id="displayPreviewPage"><div class="displayPreviewHead"><small id="displayPreviewKicker">Mathematical thinking</small><h3 id="displayPreviewQuestion">Your question will appear here.</h3><p id="displayPreviewPrompt"></p></div><div class="displayPreviewModel"><div><span aria-hidden="true">∴</span><strong id="displayPreviewModelName">Choose a model</strong><small id="displayPreviewSummary">The live mathematical model will fill this space.</small></div></div><div class="displayPreviewFoot"><span id="displayPreviewVocabulary"></span><span>Live editable model</span></div></div></section>
+    </div>
+    <footer class="workflowFoot"><span class="workflowFootNote">Display mode removes application clutter. Printing uses A4 and the browser’s own PDF option.</span><div class="workflowActions"><button class="workflowAction" id="printDisplayPupil" type="button">Print pupil copy</button><button class="workflowAction" id="printDisplayTeacher" type="button">Print teacher copy</button><button class="workflowAction primary" id="launchDisplay" type="button">Create display</button></div></footer>
+  </div>
+</dialog>
 <script>
 (() => {
 'use strict';
@@ -4347,8 +4583,7 @@ function syncVisualViewport(){
   const vv=window.visualViewport;
   const h=Math.max(320,Math.floor(vv?.height||window.innerHeight||document.documentElement.clientHeight));
   const w=Math.max(320,Math.floor(vv?.width||window.innerWidth||document.documentElement.clientWidth));
-  const coarse=window.matchMedia?.('(pointer:coarse)').matches;
-  const clearance=document.fullscreenElement?0:(coarse?72:54);
+  const clearance=0;
   const usable=Math.max(280,h-clearance);
   document.documentElement.style.setProperty('--app-visual-height',`${h}px`);
   document.documentElement.style.setProperty('--app-visual-width',`${w}px`);
@@ -4383,6 +4618,7 @@ const MODEL_META = {
 
 const defaults = {
   active:'home', anchorNumber:2436, labels:true, valuesVisible:true, spotlightMode:false, pointerMode:false, placeLabelMode:'words', background:'plain', ink:false, inkTool:'pen', displayLocked:false, showTeachingNotes:true, displayControlsVisible:true,
+  workflow:{draft:'',title:'',year:'',items:[],selected:0,selectedModel:'',activeQuestion:'',analysis:null,display:{layout:'question-model',title:'Mathematical thinking',question:'',prompt:'What do you notice?',vocabulary:'',answer:'',orientation:'landscape'}},
   placeValue:{preset:'whole4', counts:{Th:2,H:4,T:3,O:6,t:0,h:0}, showExpanded:true, showNumber:true},
   numberLine:{min:0,max:20,step:1,labelMode:'all', points:[5,12], jumps:[{a:5,b:12,label:'+7'}], prompt:'What do you notice?', snap:true,tool:'point',jumpStart:null},
   baseTen:{number:2436, counts:{Th:2,H:4,T:3,O:6}, showNumber:true},
@@ -4429,6 +4665,11 @@ function ensureV4State(){
   if(state.clock?.snap===undefined)state.clock.snap=5;
   if(state.clock?.showWords===undefined)state.clock.showWords=true;
   if(state.coordinates?.closeShape===undefined)state.coordinates.closeShape=true;
+  if(!state.workflow||typeof state.workflow!=='object')state.workflow=deepCopy(defaults.workflow);
+  for(const [k,v] of Object.entries(defaults.workflow))if(state.workflow[k]===undefined)state.workflow[k]=deepCopy(v);
+  if(!state.workflow.display||typeof state.workflow.display!=='object')state.workflow.display=deepCopy(defaults.workflow.display);
+  for(const [k,v] of Object.entries(defaults.workflow.display))if(state.workflow.display[k]===undefined)state.workflow.display[k]=deepCopy(v);
+  if(!Array.isArray(state.workflow.items))state.workflow.items=[];state.workflow.items=state.workflow.items.slice(0,8).filter(item=>item&&typeof item==='object').map((item,index)=>({id:String(item.id||`saved-${index}`),text:String(item.text||'').slice(0,1500),include:item.include!==false,level:String(item.level||''),answer:String(item.answer||''),analysis:item.analysis&&typeof item.analysis==='object'?item.analysis:null})).filter(item=>item.text);state.workflow.selected=clamp(Number(state.workflow.selected)||0,0,Math.max(0,state.workflow.items.length-1));
   for(const key of ['areaPerimeter','shapes']){if(!state[key])state[key]=deepCopy(defaults[key]);for(const [k,v] of Object.entries(defaults[key]))if(state[key][k]===undefined)state[key][k]=deepCopy(v);}
   if(!state.numberLine)state.numberLine=deepCopy(defaults.numberLine);
   for(const [k,v] of Object.entries(defaults.numberLine))if(state.numberLine[k]===undefined)state.numberLine[k]=deepCopy(v);
@@ -4633,16 +4874,213 @@ function toggleDrawer(which){
 }
 function closeDrawers(){ $('#modelRail').classList.remove('open');$('#inspector').classList.remove('open');updateDrawerState(); }
 function closeActionMenus(){ $('#modeMenu')?.removeAttribute('open');$('#stageMenu')?.removeAttribute('open'); }
+
+const WORKFLOW_MAX_QUESTIONS=8,WORKFLOW_MAX_TEXT=12000;
+const STRUCTURE_LABELS={placeValue:'Place value',order:'Ordering and comparison',addition:'Addition / part–whole',subtraction:'Subtraction / difference',multiplication:'Multiplication / equal groups',division:'Division / sharing',fractions:'Fractions',area:'Area',perimeter:'Perimeter',shape:'Shape properties',time:'Time and elapsed time',coordinates:'Coordinates',written:'Written calculation',unknown:'Structure needs teacher choice'};
+const QUESTION_MODEL_INFO={
+  placeValue:['●','Place value counters','Make the value of each digit visible'],numberLine:['↔','Number line','Emphasise order, interval or difference'],baseTen:['▦','Base ten blocks','Make exchange and regrouping tangible'],bar:['▭','Bar model','Emphasise the relationship between quantities'],fractions:['½','Fraction strips','Show equal parts and comparison'],array:['⠿','Array or equal groups','Show factors, grouping and sharing'],grid:['▦','Frame or grid','Show a fraction, percentage or repeated pattern'],areaPerimeter:['▧','Area & perimeter','Keep the inside and boundary mathematically distinct'],shapes:['◇','Shape studio','Inspect properties, symmetry and angles'],clock:['◷','Clock','Represent a time or elapsed movement'],coordinates:['⌖','Coordinates','Plot ordered pairs precisely'],column:['＋','Column method','Reveal place-value calculation steps'],multiplication:['×','Short multiplication','Reveal multiplication and exchange step by step'],partitionMultiplication:['▦','Partitioned multiplication','Expose each partial product'],division:['÷','Bus-stop division','Make each quotient digit and remainder visible'],board:['✎','Blank board','Keep the wording and choose the structure manually']
+};
+let workflowSaveTimer=null,questionDialogReturn=null,displayDialogReturn=null,printCleanupTimer=null,displayPreviousValues=null;
+function saveWorkflowSoon(){clearTimeout(workflowSaveTimer);workflowSaveTimer=setTimeout(saveState,280)}
+function setWorkflowStatus(message,error=false){const el=$('#questionStatus');if(!el)return;el.textContent=message||'';el.classList.toggle('error',!!error)}
+function safePlainText(input){
+  let text=String(input??'').slice(0,WORKFLOW_MAX_TEXT);
+  if(/<\/?[a-z][\s\S]*?>/i.test(text)){const parsed=new DOMParser().parseFromString(text,'text/html');text=parsed.body.textContent||''}
+  return text.replace(/\u00a0/g,' ').replace(/[\u200B-\u200D\uFEFF]/g,'').replace(/[‐‑‒–—]/g,'-').replace(/\r\n?/g,'\n').replace(/[ \t]+/g,' ').replace(/ *\n */g,'\n').replace(/\n{3,}/g,'\n\n').trim();
+}
+function cleanQuestionLead(text){return text.replace(/^\s*(?:Q(?:uestion)?\s*)?\d{1,2}\s*[.)\]:-]\s*/i,'').replace(/^\s*[•●▪◦*-]\s*/,'').trim()}
+function splitQuestionText(input){
+  const text=safePlainText(input);if(!text)return [];
+  const rawLines=text.split(/\n+/).map(cleanQuestionLead).filter(Boolean);let chunks=[];
+  for(const line of rawLines){
+    if(line.length>50&&((line.match(/\?/g)||[]).length>1)){const parts=line.match(/[^?]+\?/g)||[line];chunks.push(...parts.map(cleanQuestionLead))}
+    else if(/[?!.]$/.test(line)||!chunks.length)chunks.push(line);
+    else chunks[chunks.length-1]+=' '+line;
+  }
+  if(chunks.length===1&&chunks[0].length>280){const sentences=chunks[0].split(/(?<=[?])\s+(?=[A-Z0-9])/);if(sentences.length>1)chunks=sentences}
+  return chunks.map(x=>x.replace(/\s+/g,' ').trim()).filter(x=>x.length>2).slice(0,WORKFLOW_MAX_QUESTIONS);
+}
+function parseNumericToken(raw){
+  const token=raw.replace(/[£$€,]/g,'').trim();
+  if(/^[-+]?\d+\s+\d+\/\d+$/.test(token)){const [whole,fraction]=token.split(/\s+/),[n,d]=fraction.split('/').map(Number);return d?Math.sign(Number(whole)||1)*(Math.abs(Number(whole))+n/d):NaN}
+  if(/^[-+]?\d+\/\d+$/.test(token)){const [n,d]=token.split('/').map(Number);return d?n/d:NaN}
+  return Number(token);
+}
+function extractMathValues(text){
+  const clean=cleanQuestionLead(text),dateRanges=[];for(const match of clean.matchAll(/\b\d{1,2}[/-]\d{1,2}[/-]\d{2,4}\b/g))dateRanges.push([match.index,match.index+match[0].length]);
+  const pattern=/[£$€]?[-+]?\d{1,3}(?:,\d{3})+(?:\.\d+)?|[£$€]?[-+]?\d+(?:\.\d+)?\s+\d+\/\d+|[£$€]?[-+]?\d+\/\d+|[£$€]?[-+]?\d+(?:\.\d+)?/g,values=[];
+  for(const match of clean.matchAll(pattern)){
+    const index=match.index||0;if(dateRanges.some(([a,b])=>index>=a&&index<b))continue;
+    const before=clean.slice(Math.max(0,index-5),index),after=clean.slice(index+match[0].length,index+match[0].length+8);if(/(?:year|q)\s*$/i.test(before)&&/^\s*[.:]/.test(after))continue;
+    const value=parseNumericToken(match[0]);if(!Number.isFinite(value))continue;
+    const tail=clean.slice(index+match[0].length).match(/^\s*(cm²|m²|km²|mm²|cm|mm|km|kg|g|ml|l|p|%|minutes?|hours?|seconds?|degrees?|°)/i);
+    values.push({raw:match[0],value:round(value,4),unit:tail?.[1]||'',kind:match[0].includes('/')?'fraction':'number'});
+    if(values.length>=12)break;
+  }
+  return values;
+}
+function phraseScore(text,phrases,weight=2){return phrases.reduce((score,phrase)=>score+(text.includes(phrase)?weight:0),0)}
+function inferAnswer(structure,values,text){
+  const nums=values.map(v=>v.value),a=nums[0],b=nums[1];if(!Number.isFinite(a))return '';
+  if(structure==='addition'&&Number.isFinite(b))return fmt(a+b);
+  if(structure==='subtraction'&&Number.isFinite(b))return fmt(Math.abs(a-b));
+  if(structure==='multiplication'&&Number.isFinite(b))return fmt(a*b);
+  if(structure==='division'&&Number.isFinite(b)&&b!==0)return fmt(a/b);
+  if(structure==='area'&&Number.isFinite(b))return fmt(a*b);
+  if(structure==='perimeter'&&Number.isFinite(b))return fmt(2*(a+b));
+  if(structure==='fractions'){const fraction=values.find(v=>v.kind==='fraction'),quantity=values.find(v=>v.kind==='number'&&v!==fraction);if(fraction&&quantity&&/\bof\b/.test(text))return fmt(fraction.value*quantity.value)}
+  return '';
+}
+function questionRecommendations(structure,values,text){
+  const max=Math.max(0,...values.map(v=>Math.abs(v.value))),integerValues=values.every(v=>Number.isInteger(v.value));let models=[];
+  if(structure==='placeValue')models=['placeValue',max<=9999?'baseTen':'numberLine'];
+  else if(structure==='order')models=['numberLine','placeValue'];
+  else if(structure==='addition'||structure==='subtraction')models=['bar','numberLine',max<=999999?'column':'placeValue'];
+  else if(structure==='multiplication')models=['array','bar',max<=999?'multiplication':'partitionMultiplication'];
+  else if(structure==='division')models=['array','bar','division'];
+  else if(structure==='fractions')models=['fractions','numberLine',values.some(v=>Math.abs(v.value)<=1)?'grid':'bar'];
+  else if(structure==='area'||structure==='perimeter')models=['areaPerimeter','array'];
+  else if(structure==='shape')models=['shapes','board'];
+  else if(structure==='time')models=['clock','numberLine'];
+  else if(structure==='coordinates')models=['coordinates','shapes'];
+  else if(structure==='written')models=[/\d\s*[×x]\s*\d/i.test(text)?'multiplication':/[÷]/.test(text)?'division':'column','placeValue'];
+  else models=['bar','numberLine','board'];
+  return [...new Set(models)].filter(model=>QUESTION_MODEL_INFO[model]&&(model!=='baseTen'||integerValues&&max<=9999)).slice(0,3).map((model,index)=>({model,tag:index===0?'Likely representation':'Another useful option',info:QUESTION_MODEL_INFO[model]}));
+}
+function analyseQuestion(text,forcedStructure=''){
+  const question=safePlainText(text),lower=` ${question.toLowerCase()} `,signal=lower.replace(/[.,?!;:()[\]{}]/g,' ').replace(/\s+/g,' '),values=extractMathValues(question),scores={placeValue:0,order:0,addition:0,subtraction:0,multiplication:0,division:0,fractions:0,area:0,perimeter:0,shape:0,time:0,coordinates:0,written:0};
+  scores.placeValue+=phraseScore(signal,[' place value ',' digit ',' partition ',' expanded form ',' nearest ',' round '],3);
+  scores.order+=phraseScore(signal,[' order ',' compare ',' greater than ',' less than ',' between ',' ascending ',' descending ',' nearest '],3);
+  scores.addition+=phraseScore(signal,[' altogether ',' total ',' in all ',' sum ',' combined ',' more are added ',' more than ',' increased by '],3)+(question.includes('+')?5:0);
+  scores.subtraction+=phraseScore(signal,[' difference ',' fewer than ',' less than ',' left ',' remain ',' remains ',' decrease ',' decreased by ',' reduced by ',' gave away ',' spent ',' how many more ',' how much more '],3)+(question.includes('-')?4:0);
+  scores.multiplication+=phraseScore(signal,[' groups of ',' each ',' every ',' times ',' product ',' double ',' triple ',' rows of ',' columns of ',' equal groups '],3)+(/\d\s*[×x]\s*\d/i.test(question)?5:0);
+  scores.division+=phraseScore(signal,[' shared equally ',' share ',' divided ',' divide ',' quotient ',' groups can ',' how many groups ',' per group '],3)+(question.includes('÷')?5:0);
+  scores.fractions+=phraseScore(signal,[' fraction ',' half ',' quarter ',' third ',' equal parts ',' equivalent ',' numerator ',' denominator '],3)+(values.some(v=>v.kind==='fraction')?5:0);
+  scores.area+=phraseScore(signal,[' area ',' square units ',' square centimetres ',' length and width '],5);
+  scores.perimeter+=phraseScore(signal,[' perimeter ',' distance around ',' boundary '],5);
+  scores.shape+=phraseScore(signal,[' shape ',' sides ',' vertices ',' vertex ',' angles ',' symmetry ',' symmetrical ',' polygon ',' prism ',' hexagon '],4);
+  scores.time+=phraseScore(signal,[' time ',' minutes ',' hours ',' elapsed ',' later ',' earlier ',' clock '],3)+(/\b\d{1,2}:\d{2}\b/.test(question)?5:0);
+  scores.coordinates+=phraseScore(signal,[' coordinate ',' quadrant ',' plotted ',' x-axis ',' y-axis ',' translate ',' reflect '],4);
+  scores.written+=phraseScore(signal,[' column method ',' written method ',' formal method ',' regroup ',' exchange '],5);
+  if(signal.includes(' shared equally ')||signal.includes(' divided by '))scores.division+=5;
+  if(signal.includes(' rows of ')||signal.includes(' equal groups '))scores.multiplication+=3;
+  if(/\bmissing\b|\bunknown\b|\bbox\b|\bblank\b/.test(lower)){scores.addition+=1;scores.subtraction+=1}
+  const ranked=Object.entries(scores).sort((a,b)=>b[1]-a[1]),best=forcedStructure||((ranked[0]?.[1]||0)>0?ranked[0][0]:'unknown'),top=ranked[0]?.[1]||0,second=ranked[1]?.[1]||0;
+  const match=best==='unknown'?'Needs teacher choice':top>=7&&top-second>=2?'Strong match':top>=3?'Likely representation':'Needs teacher choice';
+  const answer=inferAnswer(best,values,lower),unknown=(question.match(/(?:how many|how much|what is|find|calculate|work out|which)[^?.]*/i)||[])[0]||'The value requested by the question';
+  return {question,structure:best,match,values,units:[...new Set(values.map(v=>v.unit).filter(Boolean))],unknown,answer,recommendations:questionRecommendations(best,values,lower)};
+}
+function currentQuestionItem(){return state.workflow.items[clamp(Number(state.workflow.selected)||0,0,Math.max(0,state.workflow.items.length-1))]||null}
+function persistQuestionDraft(){state.workflow.draft=$('#questionDraft')?.value||'';state.workflow.title=$('#questionTitle')?.value||'';state.workflow.year=$('#questionYear')?.value||'';saveWorkflowSoon()}
+function analyseDraft(){
+  persistQuestionDraft();const questions=splitQuestionText(state.workflow.draft);if(!questions.length){setWorkflowStatus('No readable question was found. Keep the wording and add one question or choose a model manually.',true);return}
+  state.workflow.items=questions.map((text,index)=>({id:`q${Date.now()}-${index}`,text,include:true,level:'',answer:'',analysis:analyseQuestion(text)}));state.workflow.selected=0;state.workflow.selectedModel=state.workflow.items[0].analysis.recommendations[0]?.model||'bar';saveState();renderQuestionWorkspace();setWorkflowStatus(`${questions.length} question${questions.length===1?'':'s'} ready for review. Check the wording, then choose a representation.`)
+}
+function renderQuestionWorkspace(){renderQuestionList();renderAnalysisPanel()}
+function renderQuestionList(){
+  const list=$('#questionList');if(!list)return;const items=state.workflow.items;
+  list.innerHTML=items.map((item,index)=>`<article class="questionItem ${index===state.workflow.selected?'selected':''}" data-question-index="${index}"><div class="questionOrder">${index+1}</div><div><textarea data-question-text="${index}" aria-label="Question ${index+1}">${esc(item.text)}</textarea><div class="questionItemTools">${item.level?`<span class="matchLabel">${esc(item.level)}</span>`:''}<label class="modelToggle"><input type="checkbox" data-question-include="${index}" ${item.include!==false?'checked':''}> include</label><button class="questionTiny" data-question-move="${index},-1" ${index===0?'disabled':''}>↑</button><button class="questionTiny" data-question-move="${index},1" ${index===items.length-1?'disabled':''}>↓</button><button class="questionTiny" data-question-split="${index}">Split</button><button class="questionTiny" data-question-merge="${index}" ${index===items.length-1?'disabled':''}>Merge next</button><button class="questionTiny delete" data-question-delete="${index}">Delete</button></div></div></article>`).join('');
+  $$('[data-question-index]',list).forEach(card=>card.addEventListener('click',event=>{if(event.target.closest('button,input,textarea,label'))return;state.workflow.selected=Number(card.dataset.questionIndex);const item=currentQuestionItem();if(item&&!item.analysis)item.analysis=analyseQuestion(item.text);state.workflow.selectedModel=item?.analysis?.recommendations?.[0]?.model||'bar';saveState();renderQuestionWorkspace()}));
+  $$('[data-question-text]',list).forEach(area=>{area.addEventListener('focus',()=>{const index=Number(area.dataset.questionText);if(index===state.workflow.selected)return;state.workflow.selected=index;const item=items[index];if(!item.analysis)item.analysis=analyseQuestion(item.text);state.workflow.selectedModel=item.analysis.recommendations[0]?.model||'bar';$$('.questionItem',list).forEach((card,i)=>card.classList.toggle('selected',i===index));saveState();renderAnalysisPanel()});area.addEventListener('input',()=>{const index=Number(area.dataset.questionText),item=items[index];item.text=safePlainText(area.value);item.analysis=null;if(index===state.workflow.selected){item.analysis=analyseQuestion(item.text);state.workflow.selectedModel=item.analysis.recommendations[0]?.model||'bar';renderAnalysisPanel()}saveWorkflowSoon()})});
+  $$('[data-question-include]',list).forEach(input=>input.onchange=()=>{items[Number(input.dataset.questionInclude)].include=input.checked;saveState()});
+  $$('[data-question-move]',list).forEach(button=>button.onclick=()=>{const [index,delta]=button.dataset.questionMove.split(',').map(Number),next=index+delta;if(next<0||next>=items.length)return;[items[index],items[next]]=[items[next],items[index]];state.workflow.selected=next;saveState();renderQuestionWorkspace()});
+  $$('[data-question-delete]',list).forEach(button=>button.onclick=()=>{const index=Number(button.dataset.questionDelete);items.splice(index,1);state.workflow.selected=clamp(state.workflow.selected,0,Math.max(0,items.length-1));saveState();renderQuestionWorkspace()});
+  $$('[data-question-merge]',list).forEach(button=>button.onclick=()=>{const index=Number(button.dataset.questionMerge);if(!items[index+1])return;items[index].text=`${items[index].text} ${items[index+1].text}`.trim();items[index].analysis=analyseQuestion(items[index].text);items.splice(index+1,1);state.workflow.selected=index;saveState();renderQuestionWorkspace()});
+  $$('[data-question-split]',list).forEach(button=>button.onclick=()=>{const index=Number(button.dataset.questionSplit),area=$(`[data-question-text="${index}"]`,list),position=area.selectionStart||Math.floor(area.value.length/2);if(position<2||position>area.value.length-2)return setWorkflowStatus('Place the cursor where this question should split, then choose Split.',true);const left=safePlainText(area.value.slice(0,position)),right=safePlainText(area.value.slice(position));if(!left||!right||items.length>=WORKFLOW_MAX_QUESTIONS)return setWorkflowStatus('This split would not create two useful questions, or the eight-question limit has been reached.',true);items.splice(index,1,{id:`q${Date.now()}a`,text:left,include:true,analysis:analyseQuestion(left)},{id:`q${Date.now()}b`,text:right,include:true,analysis:analyseQuestion(right)});state.workflow.selected=index;saveState();renderQuestionWorkspace()})
+}
+function renderAnalysisPanel(){
+  const panel=$('#analysisPanel'),item=currentQuestionItem();if(!panel)return;if(!item){panel.innerHTML='<div class="analysisEmpty"><div><span aria-hidden="true">⌁</span><strong>No proposal yet</strong><p>Write or paste a question, then choose Analyse questions. Nothing on the current canvas will change.</p></div></div>';return}
+  const analysis=item.analysis&&Array.isArray(item.analysis.recommendations)&&Array.isArray(item.analysis.values)?item.analysis:analyseQuestion(item.text);item.analysis=analysis;const selected=state.workflow.selectedModel||analysis.recommendations[0]?.model||'bar',values=analysis.values;
+  panel.innerHTML=`<div class="analysisCard"><div class="analysisSummary"><div class="analysisBand"><span class="matchLabel">${esc(analysis.match)}</span><span class="structureLabel">${esc(STRUCTURE_LABELS[analysis.structure]||analysis.structure)}</span></div><p class="analysisQuestion">${esc(item.text)}</p></div><div class="analysisFacts"><div class="analysisFact"><span>Values found</span><strong>${values.length?values.map(v=>esc(v.raw+(v.unit?' '+v.unit:''))).join(' · '):'None yet'}</strong></div><div class="analysisFact"><span>Likely unknown</span><strong>${esc(analysis.unknown)}</strong></div><div class="analysisFact"><span>Expected answer</span><strong>${esc(analysis.answer||'Teacher to confirm')}</strong></div></div><div class="workflowField"><label for="analysisStructure">Correct the detected structure</label><select id="analysisStructure">${Object.entries(STRUCTURE_LABELS).map(([key,label])=>`<option value="${key}" ${analysis.structure===key?'selected':''}>${esc(label)}</option>`).join('')}</select></div><div class="recommendations">${analysis.recommendations.map(({model,tag,info})=>`<button class="recommendation ${selected===model?'selected':''}" data-recommend-model="${model}"><span class="recommendationIcon" aria-hidden="true">${info[0]}</span><span><strong>${info[1]}</strong><small>${info[2]}</small></span><span class="recommendationTag">${tag}</span></button>`).join('')}</div><div class="proposalBox"><h4>Build proposal · teacher check</h4>${values.length?`<div class="proposalValueGrid">${values.slice(0,6).map((value,index)=>`<div class="proposalValue"><label>Value ${index+1}</label><input type="number" step="any" data-analysis-value="${index}" value="${esc(value.value)}" aria-label="Detected value ${index+1}"></div>`).join('')}</div>`:'<div class="proposalRow"><span>Known values</span><strong>Enter values after choosing the model</strong></div>'}<label class="workflowLabel" for="analysisUnknown">What should be hidden or found?</label><input class="proposalUnknown" id="analysisUnknown" type="text" maxlength="180" value="${esc(analysis.unknown)}"></div><div class="buildRow"><span class="buildNote">The model will remain fully editable. This is one undoable change.</span><button class="workflowAction primary" id="buildQuestionModel" type="button">Build model</button></div></div>`;
+  $('#analysisStructure').onchange=()=>{item.analysis=analyseQuestion(item.text,$('#analysisStructure').value);state.workflow.selectedModel=item.analysis.recommendations[0]?.model||'bar';saveState();renderAnalysisPanel()};
+  $$('[data-recommend-model]',panel).forEach(button=>button.onclick=()=>{state.workflow.selectedModel=button.dataset.recommendModel;saveState();renderAnalysisPanel()});$('#buildQuestionModel').onclick=buildQuestionModel;
+  $$('[data-analysis-value]',panel).forEach(input=>input.onchange=()=>{const value=Number(input.value);if(!Number.isFinite(value))return;analysis.values[Number(input.dataset.analysisValue)].value=value;analysis.answer=inferAnswer(analysis.structure,analysis.values,analysis.question.toLowerCase());item.analysis=analysis;saveState();renderAnalysisPanel()});$('#analysisUnknown').onchange=()=>{analysis.unknown=safePlainText($('#analysisUnknown').value).slice(0,180)||'Teacher to identify';item.analysis=analysis;saveState();renderAnalysisPanel()};
+}
+function alignedQuestions(analysis){
+  const n=analysis.values.map(v=>Math.abs(v.value)).filter(Number.isFinite),a=Math.max(2,Math.round(n[0]||24)),b=Math.max(2,Math.round(n[1]||6)),items=[];
+  const add=(level,text,answer)=>items.push({id:`s${Date.now()}-${items.length}`,text,answer:String(answer),level,include:true,analysis:null});
+  if(analysis.structure==='addition'){const total=a+b;add('Begin',`Which operation would combine ${a} and ${b}?`,'addition');add('Build',`${a} + ${b} = ?`,total);add('Reason',`${a} + □ = ${total}. Find the missing part.`,b);add('Stretch',`A pupil says ${a} + ${b} = ${total+10}. Explain the place-value error.`,`${total}; one ten too many`)}
+  else if(analysis.structure==='subtraction'){const hi=Math.max(a,b),lo=Math.min(a,b),d=hi-lo;add('Begin',`Which model would show the difference between ${hi} and ${lo}?`,'comparison bar or number line');add('Build',`${hi} − ${lo} = ?`,d);add('Reason',`${lo} + □ = ${hi}. Find the missing part.`,d);add('Stretch',`Is ${hi} − ${lo} the same difference as ${hi+10} − ${lo+10}? Explain.`,`Yes; both are ${d}`)}
+  else if(analysis.structure==='multiplication'){const x=clamp(a,2,15),y=clamp(b,2,15),p=x*y;add('Begin',`Describe ${x} equal groups of ${y} as a multiplication.`,`${x} × ${y}`);add('Build',`${x} × ${y} = ?`,p);add('Reason',`□ × ${y} = ${p}. Find the missing factor.`,x);add('Stretch',`Show how to partition ${x} × ${y} into two smaller products.`,`Any correct distributive split totalling ${p}`)}
+  else if(analysis.structure==='division'){const divisor=clamp(Math.min(a,b),2,12),quotient=clamp(Math.max(a,b),2,20),dividend=divisor*quotient;add('Begin',`Should ${dividend} ÷ ${divisor} be shown as grouping or sharing? Explain.`,'Either with a correct interpretation');add('Build',`${dividend} ÷ ${divisor} = ?`,quotient);add('Reason',`□ ÷ ${divisor} = ${quotient}. Find the dividend.`,dividend);add('Stretch',`What changes if one more is added to ${dividend} before sharing?`,`Quotient ${quotient}, remainder 1`)}
+  else if(analysis.structure==='fractions'){add('Begin','Shade three quarters of one whole.','3/4');add('Build','Write an equivalent fraction to 3/4 with denominator 8.','6/8');add('Reason','Which is greater: 3/4 or 2/3? Explain using equal wholes.','3/4');add('Stretch','Find 3/4 of 28.',21)}
+  else if(analysis.structure==='placeValue'||analysis.structure==='order'){const value=Math.max(1000,a);add('Begin',`What is the value of each digit in ${value}?`,'place values identified');add('Build',`Partition ${value} in two different ways.`,`${value}`);add('Reason',`Which number is 100 more than ${value}?`,value+100);add('Stretch',`Round ${value} to the nearest hundred.`,Math.round(value/100)*100)}
+  else if(analysis.structure==='area'||analysis.structure==='perimeter'){const l=clamp(a,2,12),w=clamp(b,2,10);add('Begin',`Sketch a rectangle ${l} units by ${w} units.`,'correct rectangle');add('Build',`Find its area.`,l*w);add('Reason',`Find its perimeter.`,2*(l+w));add('Stretch',`Create a different rectangle with area ${l*w}.`,'any valid factor pair')}
+  return items.filter((item,index,array)=>item.text&&item.answer&&!/NaN|Infinity/.test(item.answer)&&array.findIndex(x=>x.text===item.text)===index);
+}
+function generateAlignedSequence(){
+  let item=currentQuestionItem();if(!item&&$('#questionDraft')?.value){const text=splitQuestionText($('#questionDraft').value)[0];if(text)item={text,analysis:analyseQuestion(text)}}
+  if(!item)return setWorkflowStatus('Add and analyse a question before creating a sequence.',true);const analysis=item.analysis||analyseQuestion(item.text),sequence=alignedQuestions(analysis);if(sequence.length!==4)return setWorkflowStatus('This structure needs teacher-authored questions. Keep the original wording and choose a model manually.',true);
+  sequence.forEach(q=>q.analysis=analyseQuestion(q.text));state.workflow.items=sequence;state.workflow.selected=0;state.workflow.selectedModel=sequence[0].analysis.recommendations[0]?.model||'bar';saveState();renderQuestionWorkspace();setWorkflowStatus('A four-step sequence is ready: Begin, Build, Reason and Stretch. Every item has been checked for a valid answer and distinct wording.')
+}
+function seedQuestionModel(model,analysis){
+  const values=analysis.values.map(v=>v.value).filter(Number.isFinite),a=values[0]??0,b=values[1]??0,positive=values.map(Math.abs),max=Math.max(10,...positive),min=Math.min(0,...values);
+  if(['placeValue','baseTen'].includes(model))seedRepresentation(model,positive[0]||0);
+  else if(model==='numberLine'){const answer=Number(analysis.answer);state.numberLine.min=Math.floor(Math.min(min,...values,Number.isFinite(answer)?answer:0));state.numberLine.max=Math.ceil(Math.max(max,Number.isFinite(answer)?answer:0));if(state.numberLine.min===state.numberLine.max)state.numberLine.max+=10;state.numberLine.step=(state.numberLine.max-state.numberLine.min)>100?10:1;state.numberLine.points=values.slice(0,4);state.numberLine.jumps=[];if(values.length>=2&&['addition','subtraction'].includes(analysis.structure)){const end=analysis.structure==='addition'?a+b:a-b;state.numberLine.jumps=[{a,b:end,label:analysis.structure==='addition'?`+${fmt(b)}`:`−${fmt(b)}`}]}state.numberLine.prompt=analysis.question;state.numberLine.labelMode='all'}
+  else if(model==='bar'){if(['multiplication','division'].includes(analysis.structure)){const groups=clamp(Math.round(positive[0]||4),1,12),value=clamp(Math.round(positive[1]||6),1,50);Object.assign(state.bar,{mode:'equal',equal:{groups,value,revealTotal:false}})}else if(/more than|fewer than|difference|compare/i.test(analysis.question)){Object.assign(state.bar,{mode:'comparison',comparison:{topLabel:'First quantity',topValue:positive[0]||50,bottomLabel:'Second quantity',bottomValue:positive[1]||30,unknown:'difference'}})}else{const total=analysis.structure==='addition'?(a+b):positive[0]||50,part=analysis.structure==='subtraction'?positive[1]||20:positive[0]||30,missing=round(Math.abs(total-part),3);Object.assign(state.bar,{mode:'partwhole',whole:String(total),autoWhole:false,linkedParts:true,reveal:true,segments:[{label:'Known part',value:String(part),unknown:false},{label:'Unknown part',value:String(missing),unknown:true}]})}}
+  else if(model==='fractions'){const fractions=analysis.values.filter(v=>v.kind==='fraction');const f1=fractions[0]||{raw:'3/4'},f2=fractions[1]||{raw:'1/2'},toPair=f=>{const raw=String(f.raw).trim().split(/\s+/).at(-1),[n,d]=raw.split('/').map(Number);return [n||1,clamp(d||4,1,24)]},[aN,aD]=toPair(f1),[bN,bD]=toPair(f2);Object.assign(state.fractions,{aN:clamp(aN,0,aD),aD,bN:clamp(bN,0,bD),bD,compare:fractions.length>1,showRelation:true,lockWhole:true})}
+  else if(model==='array'){let rows=clamp(Math.round(positive[0]||4),1,15),cols=clamp(Math.round(positive[1]||6),1,15);if(analysis.structure==='division'&&values.length>=2){rows=clamp(Math.round(positive[1]),1,15);cols=clamp(Math.round(positive[0]/rows),1,15)}Object.assign(state.array,{rows,cols,split:0,showTotal:analysis.structure!=='division',showEquation:true,mode:analysis.structure==='division'?'groups':'array'})}
+  else if(model==='grid'){const fraction=analysis.values.find(v=>v.kind==='fraction');Object.assign(state.grid,{mode:'hundred',count:fraction?clamp(Math.round(fraction.value*100),0,100):clamp(Math.round(positive[0]||37),0,100),showNumbers:true,multiple:0,tool:'shade'})}
+  else if(model==='areaPerimeter'){Object.assign(state.areaPerimeter,{shape:'rectangle',length:clamp(Math.round(positive[0]||6),1,14),width:clamp(Math.round(positive[1]||4),1,10),view:analysis.structure==='area'?'area':analysis.structure==='perimeter'?'perimeter':'both',showGrid:true,showWorking:false})}
+  else if(model==='shapes'){const lower=analysis.question.toLowerCase(),shape=Object.keys(SHAPE_2D).find(key=>lower.includes(key.toLowerCase()))||(['triangle','square','rectangle','circle','parallelogram','trapezium'].find(key=>lower.includes(key))||'rectangle');Object.assign(state.shapes,{dimension:'2d',shape2d:shape==='triangle'?'rightTriangle':shape,showProperties:true,showSymmetry:/symmetr/.test(lower),showAngles:/angle|vert/.test(lower)})}
+  else if(model==='clock'){const time=analysis.question.match(/\b(\d{1,2}):(\d{2})\b/);if(time){state.clock.hour=clamp(Number(time[1]),0,23);state.clock.minute=clamp(Number(time[2]),0,59)}state.clock.showDigital=true;state.clock.showWords=true}
+  else if(model==='coordinates'){const pairs=[...analysis.question.matchAll(/\((-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)\)/g)].map(m=>[Number(m[1]),Number(m[2])]).slice(0,10);if(pairs.length)state.coordinates.points=pairs;state.coordinates.range=clamp(Math.ceil(Math.max(5,...pairs.flat().map(Math.abs))),5,20)}
+  else if(model==='column'){Object.assign(state.column,{mode:analysis.structure==='subtraction'?'subtract':'add',top:Math.max(0,Math.round(positive[0]||2786)),bottom:Math.max(0,Math.round(positive[1]||1457)),step:0,showPlaceNames:true})}
+  else if(model==='multiplication'){Object.assign(state.multiplication,{top:Math.max(1,Math.round(positive[0]||326)),multiplier:clamp(Math.round(positive[1]||4),1,9),step:0,showPlaceNames:true})}
+  else if(model==='partitionMultiplication'){Object.assign(state.partitionMultiplication,{top:clamp(Math.round(positive[0]||23),1,999),bottom:clamp(Math.round(positive[1]||14),1,99),step:0,showEquation:true,showGrid:true})}
+  else if(model==='division'){let divisor=clamp(Math.round(positive[1]||4),1,12),dividend=Math.max(divisor,Math.round(positive[0]||972));Object.assign(state.division,{dividend,divisor,step:0,showPlaceNames:true,showQuestion:false})}
+  else if(model==='board')state.board.title=analysis.question;
+}
+function buildQuestionModel(){
+  const item=currentQuestionItem();if(!item)return;const analysis=item.analysis||analyseQuestion(item.text),model=state.workflow.selectedModel||analysis.recommendations[0]?.model||'bar';if(!QUESTION_MODEL_INFO[model])return setWorkflowStatus('Choose a supported model before building.',true);
+  saveCurrentInkLayer();seedQuestionModel(model,analysis);state.active=model;state.workflow.activeQuestion=item.text;state.workflow.analysis=deepCopy(analysis);state.workflow.display.question=item.text;if(analysis.answer)state.workflow.display.answer=analysis.answer;state.ink=false;state.inkTool='pen';commit();closeQuestionDialog();renderAll();toast(`${QUESTION_MODEL_INFO[model][1]} built from the question`)
+}
+function openQuestionDialog(){questionDialogReturn=document.activeElement;const dialog=$('#questionDialog');$('#questionDraft').value=state.workflow.draft||'';$('#questionTitle').value=state.workflow.title||'';$('#questionYear').value=state.workflow.year||'';renderQuestionWorkspace();setWorkflowStatus(state.workflow.items.length?'Review the detected structure and representation before building.':'Paste a question or a short set. The current model will remain untouched.');if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');setTimeout(()=>$('#questionDraft').focus(),40)}
+function closeQuestionDialog(){persistQuestionDraft();const dialog=$('#questionDialog');if(typeof dialog.close==='function'&&dialog.open)dialog.close();else dialog.removeAttribute('open');questionDialogReturn?.focus?.()}
+function modelTextSummary(){
+  const a=state.active;if(a==='home')return 'Start screen with choices for mathematical models.';if(a==='placeValue')return `Place-value counters representing ${fmt(pvValue())}.`;if(a==='baseTen')return `Base-ten blocks representing ${fmt(btValue())}.`;if(a==='numberLine')return `Number line from ${fmt(state.numberLine.min)} to ${fmt(state.numberLine.max)} with ${state.numberLine.points.length} marked point${state.numberLine.points.length===1?'':'s'} and ${state.numberLine.jumps.length} jump${state.numberLine.jumps.length===1?'':'s'}.`;if(a==='bar'){const s=state.bar;if(s.mode==='equal')return `Equal-parts bar showing ${s.equal.groups} groups of ${s.equal.value}.`;if(s.mode==='comparison')return `Comparison bar showing ${s.comparison.topValue} and ${s.comparison.bottomValue}.`;return `Part-whole bar showing a whole of ${s.whole} and ${s.segments.length} parts.`}if(a==='fractions')return `Fraction strips showing ${state.fractions.aN}/${state.fractions.aD}${state.fractions.compare?` and ${state.fractions.bN}/${state.fractions.bD}`:''}.`;if(a==='array')return `Array showing ${state.array.rows} rows and ${state.array.cols} columns, ${state.array.rows*state.array.cols} in total.`;if(a==='grid')return `${state.grid.mode} grid with ${state.grid.count} cells shaded.`;if(a==='areaPerimeter'){const m=areaCells(state.areaPerimeter);return `${state.areaPerimeter.shape} with area ${m.area} square units and perimeter ${m.perimeter} units.`}if(a==='shapes')return `Shape model showing ${state.shapes.dimension==='2d'?SHAPE_2D[state.shapes.shape2d]?.name:SHAPE_3D[state.shapes.shape3d]?.name}.`;if(a==='clock')return `Clock showing ${fmt(state.clock.hour)}:${String(state.clock.minute).padStart(2,'0')}.`;if(a==='coordinates')return `Coordinate grid with ${state.coordinates.points.length} plotted point${state.coordinates.points.length===1?'':'s'}.`;if(a==='angle')return `Angle model showing ${state.angle.degrees} degrees.`;if(a==='column')return `Column ${state.column.mode==='add'?'addition':'subtraction'} showing ${state.column.top} and ${state.column.bottom}.`;if(a==='multiplication')return `Short multiplication showing ${state.multiplication.top} times ${state.multiplication.multiplier}.`;if(a==='partitionMultiplication')return `Partitioned multiplication showing ${state.partitionMultiplication.top} times ${state.partitionMultiplication.bottom}.`;if(a==='division')return `Bus-stop division showing ${state.division.dividend} divided by ${state.division.divisor}.`;return 'Editable mathematical model.'
+}
+function displayValuesFromInputs(){
+  const d=state.workflow.display;d.title=safePlainText($('#displayTitleInput')?.value||'').slice(0,100);d.question=safePlainText($('#displayQuestionInput')?.value||'').slice(0,1500);d.prompt=safePlainText($('#displayPromptInput')?.value||'').slice(0,180);d.vocabulary=safePlainText($('#displayVocabularyInput')?.value||'').slice(0,180);d.answer=safePlainText($('#displayAnswerInput')?.value||'').slice(0,220);d.orientation=$('#displayOrientation')?.value==='portrait'?'portrait':'landscape';saveWorkflowSoon();return d
+}
+function renderDisplayPreview(){
+  const d=displayValuesFromInputs(),page=$('#displayPreviewPage');if(!page)return;page.classList.toggle('portrait',d.orientation==='portrait');$('#displayPreviewKicker').textContent=d.title||'Mathematical thinking';$('#displayPreviewQuestion').textContent=d.question||'Your question will appear here.';$('#displayPreviewPrompt').textContent=d.prompt||'';$('#displayPreviewModelName').textContent=MODEL_META[state.active]?.[0]||'Choose a model';$('#displayPreviewSummary').textContent=modelTextSummary();$('#displayPreviewVocabulary').textContent=d.vocabulary?`Vocabulary · ${d.vocabulary}`:'';$$('[data-layout]',$('#displayLayouts')).forEach(button=>button.classList.toggle('active',button.dataset.layout===d.layout))
+}
+function openDisplayEditor(){
+  if(state.active==='home')return toast('Choose or build a model first');displayDialogReturn=document.activeElement;const d=state.workflow.display;if(!d.question)d.question=state.workflow.activeQuestion||'';if(!d.answer&&state.workflow.analysis?.answer)d.answer=state.workflow.analysis.answer;if(!d.title)d.title=state.workflow.title||'Mathematical thinking';
+  $('#displayTitleInput').value=d.title||'';$('#displayQuestionInput').value=d.question||'';$('#displayPromptInput').value=d.prompt||'';$('#displayVocabularyInput').value=d.vocabulary||'';$('#displayAnswerInput').value=d.answer||'';$('#displayOrientation').value=d.orientation||'landscape';$('#displayStatus').textContent='The preview describes the composition. The live model is used when you create or print it.';$('#displayStatus').classList.remove('error');renderDisplayPreview();const dialog=$('#displayDialog');if(typeof dialog.showModal==='function')dialog.showModal();else dialog.setAttribute('open','');setTimeout(()=>$('#displayQuestionInput').focus(),40)
+}
+function closeDisplayEditor(){displayValuesFromInputs();const dialog=$('#displayDialog');if(typeof dialog.close==='function'&&dialog.open)dialog.close();else dialog.removeAttribute('open');displayDialogReturn?.focus?.()}
+function renderDisplayComposition(){
+  const d=state.workflow.display;$('#displayKicker').textContent=d.title||'Mathematical thinking';$('#displayQuestionText').textContent=d.question||MODEL_META[state.active]?.[0]||'';$('#displayPromptText').textContent=d.prompt||'';$('#displayVocabularyText').textContent=d.vocabulary?`Vocabulary · ${d.vocabulary}`:'';const answer=$('#displayAnswerText');answer.textContent=d.answer?`Answer · ${d.answer}`:'';answer.classList.remove('revealed');$('#displayAnswerToggle').textContent='Reveal answer';document.body.dataset.displayLayout=d.layout||'question-model'
+}
+function launchClassroomDisplay(){
+  const d=displayValuesFromInputs();if(!d.question){$('#displayStatus').textContent='Add a question before creating the display.';$('#displayStatus').classList.add('error');return}$('#displayStatus').classList.remove('error');saveState();closeDisplayEditor();renderDisplayComposition();document.body.classList.add('displayComposition');displayPreviousValues=state.valuesVisible;if(d.layout==='hidden'){state.valuesVisible=false;saveState();renderAll()}startDisplay()
+}
+function toggleDisplayAnswer(){const answer=$('#displayAnswerText'),has=!!state.workflow.display.answer;if(!has)return toast('No answer has been prepared');const shown=answer.classList.toggle('revealed');$('#displayAnswerToggle').textContent=shown?'Hide answer':'Reveal answer'}
+function setPrintPage(orientation){let style=$('#build44PrintPage');if(!style){style=document.createElement('style');style.id='build44PrintPage';document.head.append(style)}style.textContent=`@media print{@page{size:A4 ${orientation==='landscape'?'landscape':'portrait'};margin:12mm}}`}
+function cleanupPrint(){document.body.classList.remove('printBuild44','printPupil','printTeacher','printQuestionSet');clearTimeout(printCleanupTimer)}
+function requestPrint(){clearTimeout(printCleanupTimer);printCleanupTimer=setTimeout(cleanupPrint,1800);window.print()}
+function printCurrentDisplay(kind='pupil'){
+  if(state.active==='home')return toast('Choose or build a model first');displayValuesFromInputs();renderDisplayComposition();setPrintPage(state.workflow.display.orientation);document.body.classList.remove('printTeacher','printPupil','printQuestionSet');document.body.classList.add('printBuild44',kind==='teacher'?'printTeacher':'printPupil');if(kind==='teacher')$('#displayAnswerText').classList.add('revealed');saveState();requestPrint()
+}
+function printQuestionSet(kind='pupil'){
+  persistQuestionDraft();const items=state.workflow.items.filter(item=>item.include!==false&&item.text).slice(0,WORKFLOW_MAX_QUESTIONS);if(!items.length)return setWorkflowStatus('There are no included questions to print.',true);const sheet=$('#printQuestionSheet');sheet.innerHTML=`<h1>${esc(state.workflow.title||'Mathematics questions')}</h1><p class="printSub">${esc(state.workflow.year||'')} ${state.workflow.year?'· ':''}${kind==='teacher'?'Teacher copy':'Pupil copy'}</p>${items.map((item,index)=>`<article class="printQuestionItem"><span class="printLevel">${esc(item.level||`Question ${index+1}`)}</span><h2>${esc(item.text)}</h2>${kind==='teacher'?`<div class="printAnswer">Answer · ${esc(item.answer||item.analysis?.answer||'Teacher to confirm')}</div>`:'<div class="workingLines"></div>'}</article>`).join('')}`;setPrintPage('portrait');document.body.classList.remove('printBuild44','printTeacher','printPupil');document.body.classList.add('printQuestionSet');requestPrint()
+}
 function renderAll(){
   $$('.modelBtn').forEach(b=>b.classList.toggle('active',b.dataset.model===state.active));
   const [title,hint]=MODEL_META[state.active]; $('#stageTitle').textContent=title;$('#stageHint').textContent=hint;
   $('#labelsQuick').textContent=state.labels?'Hide labels':'Show labels';
+  document.body.classList.toggle('valuesHidden',!state.valuesVisible);
   const stage=$('#stage');document.body.dataset.model=state.active;stage.dataset.model=state.active;stage.className='stage'+(state.background==='grid'?' gridBg':state.background==='dots'?' dotsBg':state.background==='lines'?' linesBg':'')+(state.active==='home'?' homeStage':'');
   renderStage();renderInspector();resizeInk();updateUndoRedo();
   const inkCanvas=$('#inkCanvas');if(inkCanvas){inkCanvas.classList.toggle('inking',!!state.ink);inkCanvas.classList.toggle('erasing',!!state.ink&&state.inkTool==='eraser')}
   $('#inkToggle')?.classList.toggle('active',!!state.ink&&state.inkTool==='pen');
   $('#eraseInk')?.classList.toggle('active',!!state.ink&&state.inkTool==='eraser');
   $('#fullBtn').disabled=state.active==='home';
+  $('#createDisplayBtn').disabled=state.active==='home';
+  const context=$('#questionContext'),contextText=$('#questionContextText'),source=state.workflow?.activeQuestion||'';if(context&&contextText){context.classList.toggle('visible',!!source);contextText.textContent=source}
+  const summary=modelTextSummary(),summaryEl=$('#modelA11ySummary');if(summaryEl)summaryEl.textContent=summary;stage.setAttribute('role','region');stage.setAttribute('aria-label',MODEL_META[state.active][0]);stage.setAttribute('aria-describedby','modelA11ySummary');
   updateConnectionControl();
   updateDisplayControls();
 }
@@ -4668,7 +5106,8 @@ function rangeInput(path,value,min,max,step=1){return `<input type="range" data-
 function checkbox(path,on){return `<label class="toggle"><input type="checkbox" data-path="${path}" ${on?'checked':''}><span></span></label>`}
 
 function renderHome(stage){
-  stage.innerHTML=`<div class="empty"><div class="emptyIntro"><div class="big">∴</div><h2>Choose a mathematical instrument.</h2><p>Build one clear example, then present it without distraction.</p></div><div class="quickGrid">
+  stage.innerHTML=`<div class="empty"><div class="emptyIntro"><div class="big">∴</div><h2>Begin with a question or a model.</h2><p>Move from wording to structure, then present one clear mathematical idea.</p></div><div class="quickGrid">
+  <button class="quickCard" id="homeQuestionStart"><div>?</div><strong>Start from a question</strong><span>Paste, analyse and choose a model</span></button>
   ${quick('placeValue','●','Place value','Counters, exchange and decimals')}
   ${quick('numberLine','↔','Number line','Whole numbers, decimals and negatives')}
   ${quick('bar','▭','Bar model','Parts, wholes and comparison')}
@@ -4679,6 +5118,7 @@ function renderHome(stage){
   ${quick('column','＋','Written methods','Reveal each calculation step')}
   </div></div>`;
   $$('.quickCard',stage).forEach(b=>b.onclick=()=>setModel(b.dataset.model));
+  $('#homeQuestionStart',stage).onclick=openQuestionDialog;
 }
 function quick(model,icon,title,desc){return `<button class="quickCard" data-model="${model}"><div>${icon}</div><strong>${title}</strong><span>${desc}</span></button>`}
 function controlsHome(c){c.innerHTML=panel('Three-step flow','<div class="help"><strong>1.</strong> Choose a model.<br><strong>2.</strong> Build directly on the canvas.<br><strong>3.</strong> Connect or Present when the idea is ready.</div>')}
@@ -5420,7 +5860,7 @@ function updateDisplayControls(){
 }
 let displayIdleTimer=null;function wakeDisplayControls(){if(!document.body.classList.contains('presentation'))return;document.body.classList.remove('displayIdle');clearTimeout(displayIdleTimer);displayIdleTimer=setTimeout(()=>document.body.classList.add('displayIdle'),2600)}
 function toggleTeach(force){const next=typeof force==='boolean'?force:!document.body.classList.contains('teachview');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('presentation')}document.body.classList.toggle('teachview',next);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage()},80)}
-function togglePresent(force){document.body.classList.remove('presentationToolsOpen');const more=document.getElementById('displayMore');if(more){more.setAttribute('aria-expanded','false');more.textContent='Tools'};const next=typeof force==='boolean'?force:!document.body.classList.contains('presentation');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('teachview');state.displayControlsVisible=true;state.displayLocked=false}else{state.displayControlsVisible=true;state.displayLocked=false;state.spotlightMode=false;state.pointerMode=false;clearSpotlight();$('#teacherPointer')?.classList.remove('visible','active')}document.body.classList.toggle('presentation',next);document.body.classList.toggle('methodActive',!!activeMethodKey());document.body.classList.remove('displayIdle');saveState();if(next)wakeDisplayControls();else clearTimeout(displayIdleTimer);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage()},120)}
+function togglePresent(force){document.body.classList.remove('presentationToolsOpen');const more=document.getElementById('displayMore');if(more){more.setAttribute('aria-expanded','false');more.textContent='Tools'};const next=typeof force==='boolean'?force:!document.body.classList.contains('presentation');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('teachview');state.displayControlsVisible=true;state.displayLocked=false}else{state.displayControlsVisible=true;state.displayLocked=false;state.spotlightMode=false;state.pointerMode=false;if(displayPreviousValues!==null){state.valuesVisible=displayPreviousValues;displayPreviousValues=null}document.body.classList.toggle('valuesHidden',!state.valuesVisible);document.body.classList.remove('displayComposition');document.body.removeAttribute('data-display-layout');$('#displayAnswerText')?.classList.remove('revealed');clearSpotlight();$('#teacherPointer')?.classList.remove('visible','active')}document.body.classList.toggle('presentation',next);document.body.classList.toggle('methodActive',!!activeMethodKey());document.body.classList.remove('displayIdle');saveState();if(next)wakeDisplayControls();else clearTimeout(displayIdleTimer);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage()},120)}
 function enterFocus(){state.showTeachingNotes=false;state.displayControlsVisible=true;togglePresent(true)}
 async function startDisplay(){state.showTeachingNotes=true;state.displayControlsVisible=true;togglePresent(true);try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen()}catch(e){toast('Display mode is ready. Browser full screen was unavailable.')}}
 async function toggleFullscreen(){if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}togglePresent(false)}else await startDisplay()}
@@ -5441,6 +5881,12 @@ function toggleEraser(){if(state.ink&&state.inkTool==='eraser'){state.ink=false}
 function clearInk(){const c=$('#inkCanvas');if(inkCtx)inkCtx.clearRect(0,0,c.width,c.height);delete inkLayers[inkKey()];toast('Ink cleared')}
 
 $$('.modelBtn').forEach(b=>b.onclick=()=>setModel(b.dataset.model));
+$('#questionBtn').onclick=openQuestionDialog;$('#questionContext').onclick=openQuestionDialog;$('#questionClose').onclick=closeQuestionDialog;$('#analyseQuestions').onclick=analyseDraft;$('#generateSequence').onclick=generateAlignedSequence;
+$('#questionDraft').addEventListener('input',persistQuestionDraft);$('#questionTitle').addEventListener('input',persistQuestionDraft);$('#questionYear').addEventListener('change',persistQuestionDraft);
+$('#questionFile').addEventListener('change',async event=>{const file=event.target.files?.[0];if(!file)return;event.target.value='';if(file.size>250000)return setWorkflowStatus('That text file is too large. Copy only the questions needed for this lesson.',true);try{const text=await file.text();$('#questionDraft').value=safePlainText(text);persistQuestionDraft();analyseDraft()}catch(error){setWorkflowStatus('This file did not provide readable text. Paste the question text into the box instead.',true)}});
+$('#questionDialog').addEventListener('click',event=>{if(event.target===$('#questionDialog'))closeQuestionDialog()});$('#questionDialog').addEventListener('cancel',event=>{event.preventDefault();closeQuestionDialog()});$('#printQuestionPupil').onclick=()=>printQuestionSet('pupil');$('#printQuestionTeacher').onclick=()=>printQuestionSet('teacher');
+$('#createDisplayBtn').onclick=openDisplayEditor;$('#displayClose').onclick=closeDisplayEditor;$('#displayDialog').addEventListener('click',event=>{if(event.target===$('#displayDialog'))closeDisplayEditor()});$('#displayDialog').addEventListener('cancel',event=>{event.preventDefault();closeDisplayEditor()});
+$$('#displayDialog input,#displayDialog textarea,#displayDialog select').forEach(input=>input.addEventListener(input.tagName==='SELECT'?'change':'input',renderDisplayPreview));$$('[data-layout]',$('#displayLayouts')).forEach(button=>button.onclick=()=>{state.workflow.display.layout=button.dataset.layout;saveState();renderDisplayPreview()});$('#launchDisplay').onclick=launchClassroomDisplay;$('#printDisplayPupil').onclick=()=>printCurrentDisplay('pupil');$('#printDisplayTeacher').onclick=()=>printCurrentDisplay('teacher');$('#displayAnswerToggle').onclick=toggleDisplayAnswer;window.addEventListener('afterprint',cleanupPrint);
 const modelSearch=$('#modelSearch');if(modelSearch){modelSearch.addEventListener('input',()=>{const q=modelSearch.value.trim().toLowerCase();$$('.modelBtn').forEach(b=>{b.hidden=!!q&&!b.textContent.toLowerCase().includes(q)});$$('.railLabel').forEach(label=>{const next=[];let el=label.nextElementSibling;while(el&&!el.classList.contains('railLabel')){if(el.classList.contains('modelBtn'))next.push(el);el=el.nextElementSibling}label.hidden=!!q&&next.length>0&&next.every(x=>x.hidden)});});modelSearch.addEventListener('keydown',e=>{if(e.key==='Escape'){modelSearch.value='';modelSearch.dispatchEvent(new Event('input'));modelSearch.blur()}if(e.key==='Enter'){const first=$$('.modelBtn').find(b=>!b.hidden);if(first)first.click()}})}
 $('#undoBtn').onclick=undo;$('#redoBtn').onclick=redo;$('#resetBtn').onclick=resetCurrent;$('#representBtn').onclick=openConnections;$('#placeModeBtn').onclick=togglePlaceLabelMode;$('#randomQuick').onclick=randomiseCurrent;$('#saveFavouriteQuick').onclick=saveFavourite;$('#loadFavouriteQuick').onclick=loadFavourite;$('#clearModelQuick').onclick=clearCurrent;
 $('#connectionClose').onclick=closeConnections;
@@ -5457,7 +5903,7 @@ $('#labelsQuick').onclick=()=>{state.labels=!state.labels;commit();renderAll()};
 $('#presentBtn').onclick=enterFocus;$('#teachBtn').onclick=()=>toggleTeach();$('#fullBtn').onclick=startDisplay;
 $$('.stagePopover button,.modePopover button').forEach(button=>button.addEventListener('click',closeActionMenus));
 document.addEventListener('pointerdown',event=>$$('#modeMenu[open],#stageMenu[open]').forEach(menu=>{if(!menu.contains(event.target))menu.removeAttribute('open')}),{passive:true});
-$('#modelsBtn').onclick=()=>toggleDrawer('#modelRail');$('#adjustBtn').onclick=()=>toggleDrawer('#inspector');$('#canvasScrim').onclick=closeDrawers;
+$('#modelsBtn').onclick=()=>toggleDrawer('#modelRail');$('#adjustBtn').onclick=()=>toggleDrawer('#inspector');$('#railClose').onclick=closeDrawers;$('#canvasScrim').onclick=closeDrawers;
 $('#gridToggle').onclick=()=>{state.background=state.background==='plain'?'grid':state.background==='grid'?'dots':state.background==='dots'?'lines':'plain';commit();renderAll()};
 $('#inkToggle').onclick=toggleInk;$('#eraseInk').onclick=toggleEraser;$('#clearInk').onclick=clearInk;
 const ink=$('#inkCanvas');ink.addEventListener('pointerdown',startDraw);ink.addEventListener('pointermove',moveDraw);ink.addEventListener('pointerup',endDraw);ink.addEventListener('pointercancel',endDraw);ink.addEventListener('pointerleave',endDraw);
