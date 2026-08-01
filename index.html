@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Maths Modelling Studio · Build 42</title>
+<title>Maths Modelling Studio · Build 43</title>
 <style>
 :root{
   --ink:#18384d;
@@ -4058,8 +4058,90 @@ body[data-model="home"] .floatTools{display:none!important}
 }
 </style>
 
+<style>
+/* ===== BUILD 43 · ONE CANVAS =====
+   The model library and adjustment sheet are now contextual layers. One
+   presentation action replaces the historical Focus / Teach / Display split.
+*/
+:root{
+  --toolbar-h:60px;
+  --b43-canvas:#eef1ef;
+  --b43-paper:#fffefb;
+  --b43-ink:#17323d;
+  --b43-accent:#2e6876;
+  --b43-line:rgba(23,50,61,.12);
+  --b43-ease:220ms cubic-bezier(.2,.75,.2,1);
+}
+html,body{background:var(--b43-canvas)!important}
+.topbar{
+  min-height:var(--toolbar-h)!important;padding:7px 10px!important;
+  background:rgba(250,251,248,.9)!important;border-bottom-color:var(--b43-line)!important
+}
+#modelsBtn{display:inline-flex!important}
+.brandMark{width:32px!important;height:32px!important;border-radius:9px!important;font-size:16px!important}
+.brand p{display:none!important}.brand h1{font-size:14px!important}
+.historyCluster{border:0!important;background:transparent!important;padding:0!important}
+.lessonBtn{width:42px!important;padding:0!important;font-size:0!important}
+.lessonBtn:before{content:"▤";font-size:17px}.lessonCount{position:absolute;right:-3px;top:-3px}
+.presentCluster>#fullBtn{min-width:92px!important;border-radius:11px!important;background:var(--b43-ink)!important}
+.modeMenu{display:none!important}
+.shell,.shell body[data-model="home"]{grid-template-columns:minmax(0,1fr)!important}
+.workspaceWrap{padding:7px!important}
+.workspace{border-radius:16px!important;border-color:rgba(23,50,61,.08)!important;box-shadow:0 12px 38px rgba(23,50,61,.075)!important}
+.stageHeader{min-height:50px!important;padding:6px 9px 6px 15px!important}
+.stageTitle{font-size:14px!important}.stageHint{font-size:8.5px!important}
+.stageActions>.btn{min-height:36px!important}.stageMenu>summary{width:36px!important;height:36px!important}
+
+/* The library is a single temporary choice, never permanent furniture. */
+.modelRail{
+  position:fixed!important;z-index:120!important;top:0!important;bottom:0!important;left:0!important;
+  width:min(332px,88vw)!important;padding:16px 12px 30px!important;
+  background:rgba(249,250,247,.985)!important;border-right:1px solid var(--b43-line)!important;
+  box-shadow:0 24px 80px rgba(18,43,52,.22)!important;
+  transform:translateX(-104%)!important;transition:transform var(--b43-ease)!important
+}
+.modelRail.open{transform:translateX(0)!important}
+.railSearchWrap{position:sticky;top:-16px;z-index:3;margin:-16px -12px 6px;padding:16px 12px 10px!important;background:rgba(249,250,247,.96);backdrop-filter:blur(14px)}
+.railSearch{min-height:44px!important;font-size:12px!important}
+.railLabel{padding-top:17px!important}
+.modelBtn{min-height:46px!important;font-size:11.5px!important}
+.modelIcon{width:30px!important;height:30px!important}
+
+/* Both contextual sheets share one dismissible scrim. */
+.canvasScrim{position:fixed;inset:0;z-index:110;border:0;padding:0;background:rgba(17,39,47,.28);opacity:0;pointer-events:none;transition:opacity var(--b43-ease);backdrop-filter:blur(2px)}
+body.drawerOpen .canvasScrim{opacity:1;pointer-events:auto}
+.inspector{position:fixed!important;z-index:120!important;top:0!important;right:0!important;bottom:0!important;width:min(350px,92vw)!important}
+.inspectorHead{padding-right:58px!important}
+.inspectorHead:after{content:"Esc";position:absolute;right:16px;top:19px;color:var(--b42-muted);font-size:8px;font-weight:800;letter-spacing:.08em}
+
+/* Tools exist only when wanted and read as one small material palette. */
+.floatTools{opacity:.48!important;transition:opacity var(--b43-ease),transform var(--b43-ease)!important}
+.floatTools:hover,.floatTools:focus-within{opacity:1!important}
+.directDock{box-shadow:none!important;background:rgba(255,254,251,.82)!important}
+.panelTitle{font-size:8px!important}.panel{padding-block:14px!important}
+.quickGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+.quickCard{min-height:116px!important}
+
+/* Presentation is one decisive state: model first, tools on demand. */
+.presentation .stage{background:var(--b43-paper)!important;padding-top:58px!important}
+.presentation .presentDock{border-color:var(--b43-line)!important;box-shadow:0 8px 28px rgba(23,50,61,.11)!important}
+.presentation .presentDock button{font-weight:700!important}
+.presentation .floatTools{display:none!important}
+
+@media(max-width:760px){
+  .brandMark{display:none!important}.brand h1{font-size:12px!important}
+  .topbar{gap:5px!important}.historyCluster{display:none!important}
+  .workspaceWrap{padding:3px!important}.workspace{border-radius:12px!important}
+  .lessonBtn{width:38px!important}.presentCluster>#fullBtn{min-width:80px!important}
+  .quickGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .stageHeader{min-height:47px!important}.stageTitle{font-size:13px!important}
+}
+@media(max-width:430px){.brand{display:flex!important}.brandText{display:none!important}.brandMark{display:grid!important}}
+</style>
+
 </head>
 <body>
+<button class="canvasScrim" id="canvasScrim" aria-label="Close open panel" tabindex="-1"></button>
 <div class="app">
   <header class="topbar">
     <button class="iconBtn mobileDrawerBtn" id="modelsBtn" title="Models" aria-label="Open model library">☰</button>
@@ -4070,7 +4152,7 @@ body[data-model="home"] .floatTools{display:none!important}
         <button class="iconBtn" id="undoBtn" title="Undo" aria-label="Undo">↶</button>
         <button class="iconBtn" id="redoBtn" title="Redo" aria-label="Redo">↷</button>
       </div>
-      <button class="btn lessonBtn" id="lessonBtn" title="Build a sequence of model scenes"><span class="lessonWord">Lesson</span><span class="lessonCount" id="lessonCount">0</span></button>
+      <button class="btn lessonBtn" id="lessonBtn" title="Open lesson sequence" aria-label="Open lesson sequence"><span class="lessonWord">Lesson</span><span class="lessonCount" id="lessonCount">0</span></button>
       <div class="presentCluster">
         <button class="btn primary" id="fullBtn" title="Open the model for classroom display">Present</button>
         <details class="modeMenu" id="modeMenu">
@@ -4267,7 +4349,11 @@ let inkCtx=null, drawing=false, lastPoint=null, selectedCounterPlace=null, curre
 const inkLayers={};
 
 function loadState(){
-  try{const saved=localStorage.getItem('maths-modelling-studio-v32')||localStorage.getItem('maths-modelling-studio-v31')||localStorage.getItem('maths-modelling-studio-v30')||localStorage.getItem('maths-modelling-studio-v29')||localStorage.getItem('maths-modelling-studio-v28')||localStorage.getItem('maths-modelling-studio-v27')||localStorage.getItem('maths-modelling-studio-v26')||localStorage.getItem('maths-modelling-studio-v25')||localStorage.getItem('maths-modelling-studio-v24')||localStorage.getItem('maths-modelling-studio-v23')||localStorage.getItem('maths-modelling-studio-v22')||localStorage.getItem('maths-modelling-studio-v21')||localStorage.getItem('maths-modelling-studio-v20')||localStorage.getItem('maths-modelling-studio-v19')||localStorage.getItem('maths-modelling-studio-v18')||localStorage.getItem('maths-modelling-studio-v17')||localStorage.getItem('maths-modelling-studio-v16')||localStorage.getItem('maths-modelling-studio-v15')||localStorage.getItem('maths-modelling-studio-v14')||localStorage.getItem('maths-modelling-studio-v13')||localStorage.getItem('maths-modelling-studio-v12')||localStorage.getItem('maths-modelling-studio-v11')||localStorage.getItem('maths-modelling-studio-v10')||localStorage.getItem('maths-modelling-studio-v9')||localStorage.getItem('maths-modelling-studio-v7')||localStorage.getItem('maths-modelling-studio-v5')||localStorage.getItem('maths-modelling-studio-v4')||localStorage.getItem('maths-modelling-studio-v2');return saved?Object.assign(deepCopy(defaults),JSON.parse(saved)):deepCopy(defaults)}catch(e){return deepCopy(defaults)}
+  try{
+    const versions=[34,33,32,31,30,29,28,27,26,25,24,23,22,21,20,19,18,17,16,15,14,13,12,11,10,9,7,5,4,2];
+    const saved=versions.map(v=>localStorage.getItem(`maths-modelling-studio-v${v}`)).find(Boolean);
+    return saved?Object.assign(deepCopy(defaults),JSON.parse(saved)):deepCopy(defaults)
+  }catch(e){return deepCopy(defaults)}
 }
 function ensureV4State(){
   if(state.anchorNumber===undefined)state.anchorNumber=2436;
@@ -4305,7 +4391,7 @@ function ensureV4State(){
     for(const [k,v] of Object.entries(defaults[key]))if(state[key][k]===undefined)state[key][k]=deepCopy(v);
   }
 }
-function saveState(){try{localStorage.setItem('maths-modelling-studio-v33',JSON.stringify(state));localStorage.setItem('maths-modelling-studio-v32',JSON.stringify(state))}catch(e){}}
+function saveState(){try{const snapshot=JSON.stringify(state);localStorage.setItem('maths-modelling-studio-v34',snapshot);localStorage.setItem('maths-modelling-studio-v33',snapshot)}catch(e){}}
 function commit(){
   if(isRestoring)return;
   history=history.slice(0,historyIndex+1);history.push(deepCopy(state));
@@ -4370,7 +4456,18 @@ function setModel(model){
   state.inkTool='pen';
   commit(); renderAll(); closeDrawers();
 }
-function closeDrawers(){ $('#modelRail').classList.remove('open');$('#inspector').classList.remove('open'); }
+function updateDrawerState(){
+  const open=$('#modelRail').classList.contains('open')||$('#inspector').classList.contains('open');
+  document.body.classList.toggle('drawerOpen',open);
+  $('#modelsBtn').setAttribute('aria-expanded',String($('#modelRail').classList.contains('open')));
+  $('#adjustBtn').setAttribute('aria-expanded',String($('#inspector').classList.contains('open')));
+}
+function toggleDrawer(which){
+  const target=$(which),other=which==='#modelRail'?$('#inspector'):$('#modelRail'),opening=!target.classList.contains('open');
+  other.classList.remove('open');target.classList.toggle('open',opening);updateDrawerState();
+  if(opening&&which==='#modelRail')setTimeout(()=>$('#modelSearch')?.focus(),230);
+}
+function closeDrawers(){ $('#modelRail').classList.remove('open');$('#inspector').classList.remove('open');updateDrawerState(); }
 function closeActionMenus(){ $('#modeMenu')?.removeAttribute('open');$('#stageMenu')?.removeAttribute('open'); }
 function renderAll(){
   $$('.modelBtn').forEach(b=>b.classList.toggle('active',b.dataset.model===state.active));
@@ -4381,6 +4478,7 @@ function renderAll(){
   const inkCanvas=$('#inkCanvas');if(inkCanvas){inkCanvas.classList.toggle('inking',!!state.ink);inkCanvas.classList.toggle('erasing',!!state.ink&&state.inkTool==='eraser')}
   $('#inkToggle')?.classList.toggle('active',!!state.ink&&state.inkTool==='pen');
   $('#eraseInk')?.classList.toggle('active',!!state.ink&&state.inkTool==='eraser');
+  $('#fullBtn').disabled=state.active==='home';
   updateDisplayControls();
 }
 
@@ -5173,12 +5271,12 @@ $('#labelsQuick').onclick=()=>{state.labels=!state.labels;commit();renderAll()};
 $('#presentBtn').onclick=enterFocus;$('#teachBtn').onclick=()=>toggleTeach();$('#fullBtn').onclick=startDisplay;
 $$('.stagePopover button,.modePopover button').forEach(button=>button.addEventListener('click',closeActionMenus));
 document.addEventListener('pointerdown',event=>$$('#modeMenu[open],#stageMenu[open]').forEach(menu=>{if(!menu.contains(event.target))menu.removeAttribute('open')}),{passive:true});
-$('#modelsBtn').onclick=()=>$('#modelRail').classList.toggle('open');$('#adjustBtn').onclick=()=>$('#inspector').classList.toggle('open');
+$('#modelsBtn').onclick=()=>toggleDrawer('#modelRail');$('#adjustBtn').onclick=()=>toggleDrawer('#inspector');$('#canvasScrim').onclick=closeDrawers;
 $('#gridToggle').onclick=()=>{state.background=state.background==='plain'?'grid':state.background==='grid'?'dots':state.background==='dots'?'lines':'plain';commit();renderAll()};
 $('#inkToggle').onclick=toggleInk;$('#eraseInk').onclick=toggleEraser;$('#clearInk').onclick=clearInk;
 const ink=$('#inkCanvas');ink.addEventListener('pointerdown',startDraw);ink.addEventListener('pointermove',moveDraw);ink.addEventListener('pointerup',endDraw);ink.addEventListener('pointercancel',endDraw);ink.addEventListener('pointerleave',endDraw);
 $('#displayExit').onclick=async()=>{if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}}togglePresent(false)};$('#displayPrevStep').onclick=()=>changeActiveMethodStep(-1);$('#displayNextStep').onclick=()=>changeActiveMethodStep(1);$('#displayTeaching').onclick=()=>{state.showTeachingNotes=!state.showTeachingNotes;saveState();updateDisplayControls()};$('#displayModelOnly').onclick=()=>{state.showTeachingNotes=false;state.displayControlsVisible=false;saveState();updateDisplayControls()};$('#displayMore').onclick=()=>{const open=!document.body.classList.contains('presentationToolsOpen');document.body.classList.toggle('presentationToolsOpen',open);$('#displayMore').setAttribute('aria-expanded',String(open));$('#displayMore').textContent=open?'Close tools':'Tools'};$('#displayDockToggle').onclick=()=>{state.displayControlsVisible=!state.displayControlsVisible;saveState();updateDisplayControls()};$('#displayLabels').onclick=()=>{state.labels=!state.labels;commit();renderAll();updateDisplayControls()};$('#displayValues').onclick=toggleValues;$('#displayPlaceMode').onclick=togglePlaceLabelMode;$('#displaySpotlight').onclick=toggleSpotlight;$('#displayPointer').onclick=togglePointer;$('#displayInk').onclick=()=>{toggleInk();updateDisplayControls()};$('#displayEraseInk').onclick=()=>{toggleEraser();updateDisplayControls()};$('#displayClearInk').onclick=clearInk;$('#displayLock').onclick=()=>{state.displayLocked=!state.displayLocked;saveState();updateDisplayControls();toast(state.displayLocked?'Model locked':'Model unlocked')};document.addEventListener('fullscreenchange',()=>{syncVisualViewport();if(!document.fullscreenElement&&document.body.classList.contains('presentation'))togglePresent(false)});document.addEventListener('pointermove',e=>{wakeDisplayControls();moveTeacherPointer(e)},{passive:true});document.addEventListener('pointerdown',e=>{wakeDisplayControls();spotlightAt(e.target)},{passive:true});window.addEventListener('resize',()=>setTimeout(resizeInk,60));
-document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}if(e.key==='Escape'&&document.body.classList.contains('presentation'))togglePresent(false);if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowRight'){e.preventDefault();changeActiveMethodStep(1)}if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowLeft'){e.preventDefault();changeActiveMethodStep(-1)}if(e.key.toLowerCase()==='p'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))togglePresent();if(e.key.toLowerCase()==='t'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))toggleTeach();if(e.key.toLowerCase()==='f'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName))toggleFullscreen();if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();$('#modelSearch')?.focus()}});
+document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}if(e.key==='Escape'){if(document.body.classList.contains('drawerOpen')){closeDrawers();return}if(document.body.classList.contains('presentation'))togglePresent(false)}if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowRight'){e.preventDefault();changeActiveMethodStep(1)}if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowLeft'){e.preventDefault();changeActiveMethodStep(-1)}if(e.key.toLowerCase()==='p'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&state.active!=='home')startDisplay();if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();toggleDrawer('#modelRail')}});
 renderAll();updateDisplayControls();$('#inkCanvas').classList.toggle('inking',state.ink);$('#inkCanvas').classList.toggle('erasing',state.ink&&state.inkTool==='eraser');$('#inkToggle').classList.toggle('active',state.ink&&state.inkTool==='pen');$('#eraseInk').classList.toggle('active',state.ink&&state.inkTool==='eraser');
 })();
 </script>
