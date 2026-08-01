@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Maths Modelling Studio · Build 41</title>
+<title>Maths Modelling Studio · Build 42</title>
 <style>
 :root{
   --ink:#18384d;
@@ -3670,24 +3670,419 @@ html,body,.app,.shell{background:#edf2f0!important}
 @media print{.lessonPlayer,.lessonDialog{display:none!important}}
 </style>
 
+<style>
+/* ===== BUILD 42 · VISUAL RENAISSANCE =====
+   One authoritative interface layer. The mathematical renderers remain intact;
+   chrome becomes quieter, contextual and touch-first.
+*/
+:root{
+  --toolbar-h:64px;
+  --rail-w:224px;
+  --inspector-w:304px;
+  --b42-canvas:#e9eeec;
+  --b42-paper:#fffef9;
+  --b42-surface:#f7f8f5;
+  --b42-ink:#18313c;
+  --b42-text:#405761;
+  --b42-muted:#7b898d;
+  --b42-line:rgba(30,55,64,.13);
+  --b42-line-strong:rgba(30,55,64,.22);
+  --b42-blue:#32677a;
+  --b42-blue-soft:#e4eff1;
+  --b42-sage:#dfece4;
+  --b42-warm:#f3ead2;
+  --b42-coral:#c65d4a;
+  --b42-shadow:0 18px 50px rgba(28,50,57,.09);
+  --b42-float:0 12px 32px rgba(28,50,57,.14);
+  --b42-radius:18px;
+  --b42-ease:180ms cubic-bezier(.2,.8,.2,1);
+}
+
+*{-webkit-tap-highlight-color:transparent}
+html,body{
+  background:var(--b42-canvas)!important;
+  color:var(--b42-ink)!important;
+  font-family:-apple-system,BlinkMacSystemFont,"SF Pro Text","Segoe UI",sans-serif!important;
+}
+button,input,select,summary{font:inherit}
+button,summary{touch-action:manipulation}
+button:focus-visible,input:focus-visible,select:focus-visible,summary:focus-visible{
+  outline:3px solid rgba(50,103,122,.28)!important;
+  outline-offset:2px!important;
+}
+button:disabled{cursor:default!important;opacity:.34!important}
+
+/* A single, slim application bar. */
+.topbar{
+  min-height:var(--toolbar-h)!important;
+  padding:8px 12px 8px 16px!important;
+  gap:10px!important;
+  background:rgba(250,250,247,.92)!important;
+  border-bottom:1px solid var(--b42-line)!important;
+  box-shadow:0 1px 0 rgba(255,255,255,.7)!important;
+  backdrop-filter:blur(18px) saturate(1.1);
+}
+.brand{min-width:0!important;display:flex;align-items:center;gap:10px}
+.brandMark{
+  width:34px;height:34px;display:grid;place-items:center;flex:0 0 auto;
+  border-radius:10px;background:var(--b42-ink);color:#fff;
+  font:700 18px/1 ui-rounded,"SF Pro Rounded",system-ui;
+}
+.brandText{min-width:0}
+.brand h1{margin:0!important;font-size:15px!important;font-weight:720!important;letter-spacing:-.025em!important;white-space:nowrap}
+.brand p{margin:2px 0 0!important;font-size:9px!important;font-weight:650!important;letter-spacing:.01em!important;color:var(--b42-muted)!important}
+.topActions{gap:7px!important}
+.historyCluster,.presentCluster{display:flex;align-items:center}
+.historyCluster{
+  padding:3px;border:1px solid var(--b42-line);border-radius:12px;background:rgba(255,255,255,.56)
+}
+.historyCluster .iconBtn{
+  width:36px!important;height:36px!important;min-height:36px!important;border:0!important;background:transparent!important;border-radius:9px!important
+}
+.historyCluster .iconBtn:hover{background:rgba(30,55,64,.07)!important}
+.btn,.iconBtn,.segBtn{
+  min-height:42px!important;
+  border:1px solid var(--b42-line)!important;
+  border-radius:12px!important;
+  background:rgba(255,255,255,.72)!important;
+  color:var(--b42-ink)!important;
+  font-size:11px!important;
+  font-weight:720!important;
+  box-shadow:none!important;
+  transition:background var(--b42-ease),border-color var(--b42-ease),transform var(--b42-ease),box-shadow var(--b42-ease)!important;
+}
+.btn:hover,.iconBtn:hover,.segBtn:hover{background:#fff!important;border-color:var(--b42-line-strong)!important}
+.btn:active,.iconBtn:active,.segBtn:active{transform:scale(.97)}
+.lessonBtn{padding-inline:13px!important;background:transparent!important}
+.lessonCount{background:var(--b42-coral)!important}
+.presentCluster{gap:0}
+.presentCluster>#fullBtn{
+  min-width:104px;border-radius:12px 0 0 12px!important;
+  background:var(--b42-ink)!important;color:#fff!important;border-color:var(--b42-ink)!important;
+  padding-inline:17px!important
+}
+.presentCluster>#fullBtn:hover{background:#244653!important}
+.modeMenu{position:relative}
+.modeMenu>summary{
+  list-style:none;width:38px;height:42px;display:grid;place-items:center;
+  border:1px solid var(--b42-ink);border-left-color:rgba(255,255,255,.24);
+  border-radius:0 12px 12px 0;background:var(--b42-ink);color:#fff;cursor:pointer;
+}
+.modeMenu>summary::-webkit-details-marker,.stageMenu>summary::-webkit-details-marker{display:none}
+.modeMenu[open]>summary{background:#244653}
+.modePopover,.stagePopover{
+  position:absolute;z-index:90;padding:7px;border:1px solid var(--b42-line);
+  border-radius:15px;background:rgba(255,254,249,.98);box-shadow:var(--b42-float);
+  backdrop-filter:blur(18px);
+}
+.modePopover{right:0;top:calc(100% + 9px);width:190px}
+.menuEyebrow{
+  padding:7px 9px 6px;color:var(--b42-muted);
+  font-size:9px;font-weight:800;text-transform:uppercase;letter-spacing:.11em
+}
+.modePopover button,.stagePopover button{
+  width:100%;min-height:42px;padding:9px 10px;border:0;border-radius:10px;
+  background:transparent;color:var(--b42-ink);text-align:left;font-size:11px;font-weight:720
+}
+.modePopover button:hover,.stagePopover button:hover{background:var(--b42-blue-soft)}
+
+/* Navigation reads like an instrument library, not a dashboard. */
+.shell{grid-template-columns:var(--rail-w) minmax(0,1fr)!important;background:var(--b42-canvas)!important}
+.modelRail{
+  padding:12px 10px 22px!important;
+  background:rgba(247,248,245,.88)!important;
+  border-right:1px solid var(--b42-line)!important;
+  scrollbar-width:thin;scrollbar-color:rgba(30,55,64,.18) transparent
+}
+.railSearchWrap{padding:1px 2px 10px!important}
+.railSearch{
+  min-height:38px!important;padding:8px 11px 8px 31px!important;
+  border:1px solid var(--b42-line)!important;border-radius:11px!important;
+  background:rgba(255,255,255,.68)!important;color:var(--b42-ink)!important;
+  font-size:11px!important;box-shadow:none!important
+}
+.railSearchWrap:before{left:13px!important;top:12px!important;color:var(--b42-muted)!important}
+.railLabel{
+  padding:15px 9px 5px!important;color:var(--b42-muted)!important;
+  font-size:8px!important;font-weight:800!important;letter-spacing:.13em!important
+}
+.railPrimary{display:none!important}
+.modelBtn{
+  min-height:42px!important;margin:1px 0!important;padding:7px 9px!important;gap:9px!important;
+  border:0!important;border-radius:11px!important;background:transparent!important;
+  color:var(--b42-text)!important;font-size:10.5px!important;font-weight:670!important;
+  transition:background var(--b42-ease),color var(--b42-ease),transform var(--b42-ease)!important
+}
+.modelBtn:hover{background:rgba(30,55,64,.055)!important;color:var(--b42-ink)!important}
+.modelBtn.active{background:var(--b42-blue-soft)!important;color:#214e5f!important;box-shadow:inset 3px 0 0 var(--b42-blue)!important}
+.modelIcon{
+  width:27px!important;height:27px!important;border:0!important;border-radius:8px!important;
+  background:rgba(255,255,255,.76)!important;color:var(--b42-blue)!important;
+  font-size:12px!important;box-shadow:inset 0 0 0 1px rgba(50,103,122,.10)!important
+}
+.modelBtn.active .modelIcon{background:#fff!important}
+
+/* Canvas first: one sheet, almost no frame. */
+.workspaceWrap{padding:10px!important;background:transparent!important}
+.workspace{
+  border:1px solid rgba(30,55,64,.09)!important;border-radius:20px!important;
+  background:var(--b42-paper)!important;box-shadow:var(--b42-shadow)!important
+}
+.stageHeader{
+  position:relative!important;z-index:25!important;overflow:visible!important;
+  min-height:56px!important;padding:8px 10px 8px 18px!important;gap:10px!important;
+  border-bottom:1px solid var(--b42-line)!important;background:rgba(255,254,249,.90)!important;
+  backdrop-filter:blur(14px)
+}
+.stageTitle{font-size:15px!important;font-weight:730!important;letter-spacing:-.025em!important}
+.stageHint{margin-top:2px!important;font-size:9px!important;font-weight:620!important;color:var(--b42-muted)!important;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:min(48vw,620px)}
+.stageActions{display:flex;align-items:center;gap:6px}
+.stageActions>.btn{
+  min-height:38px!important;padding:7px 10px!important;background:transparent!important;border-color:transparent!important
+}
+.stageActions>.btn:hover{background:var(--b42-blue-soft)!important}
+#representBtn,#placeModeBtn{display:none}
+body[data-model="placeValue"] #representBtn,
+body[data-model="baseTen"] #representBtn,
+body[data-model="numberLine"] #representBtn,
+body[data-model="bar"] #representBtn,
+body[data-model="grid"] #representBtn,
+body[data-model="column"] #representBtn{display:inline-flex}
+body[data-model="placeValue"] #placeModeBtn,
+body[data-model="baseTen"] #placeModeBtn{display:inline-flex}
+.stageMenu{position:relative}
+.stageMenu>summary{
+  list-style:none;width:38px;height:38px;display:grid;place-items:center;cursor:pointer;
+  border:1px solid transparent;border-radius:10px;color:var(--b42-text);font-weight:850;letter-spacing:.08em
+}
+.stageMenu>summary:hover,.stageMenu[open]>summary{background:var(--b42-blue-soft);color:var(--b42-ink)}
+.stagePopover{right:0;top:calc(100% + 7px);width:184px}
+.stagePopover .dangerAction{color:#a34b41}
+.stage{background-color:var(--b42-paper)!important;transition:background-color var(--b42-ease)!important}
+body[data-model="home"] .stageHeader{display:none!important}
+body[data-model="home"] .inspector{display:none!important}
+body[data-model="home"] .shell{grid-template-columns:var(--rail-w) minmax(0,1fr)!important}
+body[data-model="home"] #adjustBtn{display:none!important}
+body[data-model="home"] .floatTools{display:none!important}
+
+/* Inspector is a quiet continuous sheet; no nested card stack. */
+.inspector{
+  position:absolute!important;top:0!important;right:0!important;bottom:0!important;z-index:60!important;
+  width:var(--inspector-w)!important;padding:0 16px 24px!important;
+  background:rgba(247,248,245,.97)!important;border-left:1px solid var(--b42-line)!important;
+  box-shadow:0 22px 70px rgba(24,49,60,.20)!important;
+  transform:translateX(105%)!important;transition:transform var(--b42-ease)!important;
+  scrollbar-width:thin;scrollbar-color:rgba(30,55,64,.18) transparent
+}
+.inspector.open{transform:translateX(0)!important}
+#adjustBtn{display:inline-flex!important}
+.inspectorHead{
+  position:sticky;top:0;z-index:3;margin:0 -16px 5px;padding:17px 16px 13px;
+  background:rgba(247,248,245,.94);border-bottom:1px solid var(--b42-line);backdrop-filter:blur(14px)
+}
+.inspectorEyebrow{display:block;margin-bottom:4px;color:var(--b42-muted);font-size:8px;font-weight:820;text-transform:uppercase;letter-spacing:.14em}
+.inspector h2{margin:0!important;font-size:16px!important;font-weight:730!important;letter-spacing:-.025em!important}
+.inspector .sub{display:none!important}
+.panel{
+  margin:0!important;padding:16px 0!important;border:0!important;border-bottom:1px solid var(--b42-line)!important;
+  border-radius:0!important;background:transparent!important;box-shadow:none!important
+}
+.panel:last-child{border-bottom:0!important}
+.panelTitle{margin:0 0 11px!important;color:var(--b42-muted)!important;font-size:8px!important;font-weight:820!important;letter-spacing:.13em!important}
+.field{min-height:42px!important;margin:4px 0!important;gap:12px!important}
+.field label{color:var(--b42-text)!important;font-size:11px!important;font-weight:650!important}
+.field input[type="number"],.field input[type="text"],.field select{
+  min-height:38px!important;width:116px!important;padding:7px 9px!important;
+  border:1px solid var(--b42-line)!important;border-radius:10px!important;
+  background:rgba(255,255,255,.78)!important;color:var(--b42-ink)!important;
+  font-size:11px!important;font-weight:680!important;box-shadow:none!important
+}
+.field.wide input,.field.wide select{width:100%!important}
+.field input[type="range"]{accent-color:var(--b42-blue)}
+.toggle{width:42px!important;height:24px!important;border:0!important;background:#d8dfdd!important;padding:2px!important}
+.toggle span{width:20px!important;height:20px!important;box-shadow:0 1px 4px rgba(20,40,47,.17)!important}
+.toggle input:checked+span{transform:translateX(18px)!important;background:var(--b42-blue)!important}
+.buttonRow{gap:6px!important;margin-top:8px!important}
+.mini,.directBtn,.choiceTab,.shapeChoice{
+  min-height:38px!important;padding:8px 10px!important;border:1px solid var(--b42-line)!important;
+  border-radius:10px!important;background:rgba(255,255,255,.72)!important;color:var(--b42-text)!important;
+  font-size:10px!important;font-weight:700!important;box-shadow:none!important;
+  transition:background var(--b42-ease),border-color var(--b42-ease),transform var(--b42-ease)!important
+}
+.mini:hover,.directBtn:hover,.choiceTab:hover,.shapeChoice:hover{background:#fff!important;border-color:var(--b42-line-strong)!important}
+.mini.active,.directBtn.active,.directBtn.primary,.choiceTab.active,.shapeChoice.active{
+  background:var(--b42-blue)!important;color:#fff!important;border-color:var(--b42-blue)!important
+}
+.help{color:var(--b42-muted)!important;font-size:9.5px!important;font-weight:600!important;line-height:1.55!important}
+
+/* Contextual controls float like a compact tool palette. */
+.directDock{
+  min-height:44px!important;padding:5px 7px!important;gap:5px!important;
+  border:1px solid var(--b42-line)!important;border-radius:13px!important;
+  background:rgba(255,254,249,.92)!important;box-shadow:0 8px 22px rgba(28,50,57,.07)!important;
+  backdrop-filter:blur(12px)
+}
+.directLabel{font-size:8px!important;color:var(--b42-muted)!important}
+.floatTools{
+  right:15px!important;bottom:15px!important;gap:3px!important;padding:4px!important;
+  border:1px solid var(--b42-line)!important;border-radius:13px!important;
+  background:rgba(255,254,249,.91)!important;box-shadow:var(--b42-float)!important;
+  backdrop-filter:blur(14px)
+}
+.floatTools .iconBtn{width:36px!important;height:36px!important;min-height:36px!important;border:0!important;background:transparent!important;border-radius:9px!important}
+.floatTools .iconBtn:hover,.floatTools .iconBtn.active{background:var(--b42-blue-soft)!important;color:var(--b42-blue)!important}
+
+/* A concise, editorial start screen. */
+.stage.homeStage{padding:clamp(22px,4vw,54px)!important;place-items:center!important}
+.empty{max-width:920px!important;width:100%!important;padding:0!important;text-align:left!important;align-self:center!important}
+.emptyIntro{max-width:660px;margin:0 0 28px}
+.empty .big{
+  width:42px;height:42px;margin:0 0 17px!important;display:grid;place-items:center;
+  border-radius:12px;background:var(--b42-ink);color:#fff;font-size:22px!important
+}
+.empty h2{margin:0 0 8px!important;font-size:clamp(28px,4vw,44px)!important;font-weight:690!important;letter-spacing:-.045em!important}
+.empty p{max-width:520px!important;margin:0!important;text-align:left!important;color:var(--b42-muted)!important;font-size:12px!important;font-weight:620!important;line-height:1.55!important}
+.quickGrid{max-width:none!important;margin:0!important;grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:9px!important}
+.quickCard{
+  min-height:126px!important;padding:15px!important;border:1px solid var(--b42-line)!important;
+  border-radius:15px!important;background:rgba(255,255,255,.66)!important;color:var(--b42-ink)!important;
+  box-shadow:none!important;transition:transform var(--b42-ease),background var(--b42-ease),box-shadow var(--b42-ease)!important
+}
+.quickCard:hover{transform:translateY(-2px)!important;background:#fff!important;box-shadow:0 10px 25px rgba(28,50,57,.08)!important}
+.quickCard>div{
+  width:31px;height:31px;display:grid;place-items:center;border-radius:9px;
+  background:var(--b42-blue-soft);color:var(--b42-blue);font-size:14px
+}
+.quickCard strong{margin:13px 0 4px!important;font-size:12px!important;font-weight:730!important}
+.quickCard span{color:var(--b42-muted)!important;font-size:9.5px!important;font-weight:600!important;line-height:1.4!important}
+
+/* Preserve the vivid mathematical-role palette, with lighter surfaces. */
+.workspace,.stage,.presentation .stage,.presentation .workspace{background:var(--b42-paper)!important}
+.algorithmPaper,.divisionPaper{background:#fff!important;border:1px solid var(--b42-line)!important;box-shadow:0 12px 34px rgba(28,50,57,.06)!important}
+.methodExplanation,.measureCard,.propertyCard{border-color:var(--b42-line)!important;box-shadow:none!important}
+.wholeLocked{background:linear-gradient(145deg,#f5e6b8,#fff9e7)!important;border-color:#8e7136!important}
+.lockedPart:nth-child(4n+1),.barPartV4:nth-child(4n+1),.equalPart:nth-child(4n+1){background:#dcebf4!important}
+.lockedPart:nth-child(4n+2),.barPartV4:nth-child(4n+2),.equalPart:nth-child(4n+2){background:#dcecdf!important}
+.lockedPart:nth-child(4n+3),.barPartV4:nth-child(4n+3),.equalPart:nth-child(4n+3){background:#f3e5bd!important}
+.lockedPart:nth-child(4n),.barPartV4:nth-child(4n),.equalPart:nth-child(4n){background:#e7e1f1!important}
+
+/* Lesson deck follows the same visual system. */
+.lessonDialog{
+  border-radius:20px!important;background:var(--b42-paper)!important;color:var(--b42-ink)!important;
+  box-shadow:0 34px 100px rgba(24,49,60,.28)!important
+}
+.lessonDialogHead{padding:21px 22px 16px!important;background:var(--b42-surface)!important;border-color:var(--b42-line)!important}
+.lessonDialogTitle h2{font-size:22px!important;font-weight:730!important;letter-spacing:-.035em!important}
+.lessonDialogTitle p{color:var(--b42-muted)!important;font-size:11px!important;font-weight:600!important}
+.lessonBody{padding:16px 22px 22px!important}
+.lessonAction{border-color:var(--b42-line)!important;border-radius:11px!important;background:#fff!important;color:var(--b42-ink)!important}
+.lessonAction.primary{background:var(--b42-blue)!important;color:#fff!important}
+.lessonCard{border-color:var(--b42-line)!important;border-radius:13px!important;box-shadow:none!important}
+.lessonPlayer{border-color:var(--b42-line)!important;background:rgba(255,254,249,.94)!important;box-shadow:var(--b42-float)!important}
+
+/* Presentation becomes a clean mathematical room. */
+.presentation .topbar{display:none!important}
+.presentation .app{grid-template-rows:1fr!important}
+.presentation .workspaceWrap{padding:0!important}
+.presentation .workspace{border:0!important;border-radius:0!important;box-shadow:none!important}
+.presentation .stage{padding:64px 22px 22px!important}
+.presentDock{
+  top:10px!important;right:10px!important;left:auto!important;bottom:auto!important;
+  width:auto!important;max-width:calc(100vw - 20px)!important;padding:5px!important;gap:3px!important;
+  border:1px solid var(--b42-line)!important;border-radius:13px!important;
+  background:rgba(255,254,249,.92)!important;box-shadow:var(--b42-float)!important;backdrop-filter:blur(16px)
+}
+.presentDock>button,.presentMore>button{
+  min-height:38px!important;padding:7px 10px!important;border:0!important;border-radius:9px!important;
+  background:transparent!important;color:var(--b42-text)!important;font-size:10px!important;font-weight:720!important
+}
+.presentDock>button:hover,.presentMore>button:hover{background:var(--b42-blue-soft)!important}
+.presentDock .primaryStep{background:var(--b42-ink)!important;color:#fff!important}
+.presentMore{border-color:var(--b42-line)!important;background:var(--b42-paper)!important;box-shadow:var(--b42-float)!important}
+.displayIdle .presentDock{opacity:.12!important;transform:translateY(-4px)!important}
+.displayIdle .presentDock:hover{opacity:1!important;transform:none!important}
+
+/* iPad and compact displays: panels become drawers so the model keeps the room. */
+@media(max-width:1050px){
+  :root{--inspector-w:304px}
+  .brand p{display:none!important}
+  .shell{grid-template-columns:1fr!important}
+  .modelRail,.inspector{
+    position:absolute!important;top:0!important;bottom:0!important;z-index:60!important;
+    box-shadow:0 22px 70px rgba(24,49,60,.22)!important;
+    transition:transform var(--b42-ease)!important
+  }
+  .modelRail{left:0!important;width:250px!important;transform:translateX(-105%)!important}
+  .inspector{right:0!important;width:min(330px,88vw)!important;transform:translateX(105%)!important}
+  .modelRail.open,.inspector.open{transform:translateX(0)!important}
+  .mobileDrawerBtn{display:inline-flex!important}
+  .workspaceWrap{padding:8px!important}
+  body[data-model="home"] .shell{grid-template-columns:1fr!important}
+  .quickGrid{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .stageHint{max-width:42vw}
+}
+@media(max-width:760px){
+  :root{--toolbar-h:58px}
+  .topbar{padding:7px 8px!important;gap:6px!important}
+  .brandMark{display:none}
+  .brand h1{font-size:13px!important}
+  .historyCluster{display:none}
+  .lessonBtn{width:40px!important;padding:0!important}
+  .lessonWord{display:none!important}
+  .presentCluster>#fullBtn{min-width:86px;padding-inline:12px!important}
+  .workspaceWrap{padding:5px!important}
+  .workspace{border-radius:15px!important}
+  .stageHeader{padding-left:12px!important}
+  .stageHint{display:none!important}
+  .stageActions>.btn{font-size:0!important;width:38px!important;padding:0!important}
+  #representBtn:before{content:"⇄";font-size:16px}
+  #placeModeBtn{font-size:10px!important;width:auto!important;padding-inline:8px!important}
+  .stage.homeStage{padding:20px!important;overflow:auto!important}
+  .empty{align-self:start!important}
+  .emptyIntro{margin-bottom:20px}
+  .quickGrid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+  .quickCard{min-height:112px!important}
+  .floatTools{right:9px!important;bottom:9px!important}
+  .presentation .stage{padding:58px 10px 12px!important}
+  .presentDock{overflow-x:auto!important}
+}
+@media(max-width:430px){
+  .brand{display:none!important}
+  .topspacer{display:block!important}
+  .presentCluster>#fullBtn{min-width:78px}
+  .quickGrid{grid-template-columns:1fr 1fr!important}
+  .empty h2{font-size:28px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{scroll-behavior:auto!important;transition-duration:.01ms!important;animation-duration:.01ms!important;animation-iteration-count:1!important}
+}
+</style>
+
 </head>
 <body>
 <div class="app">
   <header class="topbar">
-    <button class="iconBtn mobileDrawerBtn" id="modelsBtn" title="Models">☰</button>
-    <div class="brand"><h1>Maths Modelling Studio</h1><p>Mathematical instruments for teaching</p></div>
+    <button class="iconBtn mobileDrawerBtn" id="modelsBtn" title="Models" aria-label="Open model library">☰</button>
+    <div class="brand"><span class="brandMark" aria-hidden="true">∴</span><div class="brandText"><h1>Maths Modelling Studio</h1><p>Mathematical instruments</p></div></div>
     <div class="topspacer"></div>
     <div class="topActions">
-      <button class="iconBtn" id="undoBtn" title="Undo">↶</button>
-      <button class="iconBtn" id="redoBtn" title="Redo">↷</button>
-      <button class="btn quietAction" id="resetBtn" title="Restore this model’s starting example">↺ <span>Reset</span></button>
-      <button class="btn" id="representBtn" title="Carry the same number into the next useful representation">⇄ <span>Represent</span></button>
-      <button class="btn" id="placeModeBtn" title="Switch place-value headings between words and HTO">HTO</button>
+      <div class="historyCluster" aria-label="History">
+        <button class="iconBtn" id="undoBtn" title="Undo" aria-label="Undo">↶</button>
+        <button class="iconBtn" id="redoBtn" title="Redo" aria-label="Redo">↷</button>
+      </div>
       <button class="btn lessonBtn" id="lessonBtn" title="Build a sequence of model scenes"><span class="lessonWord">Lesson</span><span class="lessonCount" id="lessonCount">0</span></button>
-      <button class="btn" id="presentBtn" title="Hide setup controls and focus on the model">◉ <span>Focus</span></button>
-      <button class="btn" id="teachBtn" title="Open a larger teaching view with the main controls still visible">◌ <span>Teach</span></button>
-      <button class="btn primary" id="fullBtn" title="Open the model for classroom display">⛶ <span>Display</span></button>
-      <button class="iconBtn mobileDrawerBtn" id="adjustBtn" title="Adjust">⚙</button>
+      <div class="presentCluster">
+        <button class="btn primary" id="fullBtn" title="Open the model for classroom display">Present</button>
+        <details class="modeMenu" id="modeMenu">
+          <summary title="More presentation modes" aria-label="More presentation modes">⌄</summary>
+          <div class="modePopover">
+            <div class="menuEyebrow">Presentation</div>
+            <button id="presentBtn" title="Hide setup controls and focus on the model">◉ <span>Focus</span></button>
+            <button id="teachBtn" title="Open a larger teaching view with the main controls still visible">◌ <span>Teach</span></button>
+          </div>
+        </details>
+      </div>
+      <button class="iconBtn mobileDrawerBtn" id="adjustBtn" title="Adjust" aria-label="Open model adjustments">⚙</button>
     </div>
   </header>
 
@@ -3725,11 +4120,22 @@ html,body,.app,.shell{background:#edf2f0!important}
         <div class="stageHeader">
           <div><div class="stageTitle" id="stageTitle">Start</div><div class="stageHint" id="stageHint">Choose a model, then adjust it from the right.</div></div>
           <div class="spacer"></div>
-          <button class="btn ghost" id="randomQuick" title="Build a sensible random example">Random</button>
-          <button class="btn ghost" id="saveFavouriteQuick" title="Save this model as your favourite">Save ★</button>
-          <button class="btn ghost" id="loadFavouriteQuick" title="Load your saved favourite">Load ★</button>
-          <button class="btn ghost" id="labelsQuick">Hide labels</button>
-          <button class="btn ghost" id="clearModelQuick">Clear model</button>
+          <div class="stageActions">
+            <button class="btn ghost" id="representBtn" title="Carry this number into the next useful representation">⇄ Represent</button>
+            <button class="btn ghost" id="placeModeBtn" title="Switch place-value headings between words and HTO">HTO</button>
+            <details class="stageMenu" id="stageMenu">
+              <summary title="Model actions" aria-label="More model actions">•••</summary>
+              <div class="stagePopover">
+                <div class="menuEyebrow">Model</div>
+                <button id="randomQuick" title="Build a sensible random example">New example</button>
+                <button id="resetBtn" title="Restore this model’s starting example">Reset model</button>
+                <button id="saveFavouriteQuick" title="Save this model as your favourite">Save favourite</button>
+                <button id="loadFavouriteQuick" title="Load your saved favourite">Load favourite</button>
+                <button id="labelsQuick">Hide labels</button>
+                <button class="dangerAction" id="clearModelQuick">Clear model</button>
+              </div>
+            </details>
+          </div>
         </div>
         <div class="stage" id="stage"></div>
         <canvas id="inkCanvas"></canvas>
@@ -3956,6 +4362,7 @@ function representNext(){
 
 function setModel(model){
   saveCurrentInkLayer();
+  closeActionMenus();
   clearSpotlight();
   state.spotlightMode=false;state.pointerMode=false;
   state.active=model;
@@ -3964,6 +4371,7 @@ function setModel(model){
   commit(); renderAll(); closeDrawers();
 }
 function closeDrawers(){ $('#modelRail').classList.remove('open');$('#inspector').classList.remove('open'); }
+function closeActionMenus(){ $('#modeMenu')?.removeAttribute('open');$('#stageMenu')?.removeAttribute('open'); }
 function renderAll(){
   $$('.modelBtn').forEach(b=>b.classList.toggle('active',b.dataset.model===state.active));
   const [title,hint]=MODEL_META[state.active]; $('#stageTitle').textContent=title;$('#stageHint').textContent=hint;
@@ -3983,15 +4391,12 @@ function renderStage(){
 }
 function renderInspector(){
   const box=$('#inspector'); const [title,hint]=MODEL_META[state.active];
-  box.innerHTML=`<h2>${esc(title)}</h2><p class="sub">${esc(hint)}</p><div id="controls"></div>${commonControls()}`;
+  if(state.active==='home'){box.innerHTML='';return}
+  box.innerHTML=`<div class="inspectorHead"><span class="inspectorEyebrow">Adjust</span><h2>${esc(title)}</h2></div><div id="controls"></div>`;
   const controls=$('#controls',box);
   const renderers={home:controlsHome,placeValue:controlsPlaceValue,numberLine:controlsNumberLine,baseTen:controlsBaseTen,bar:controlsBar,fractions:controlsFractions,array:controlsArray,grid:controlsGrid,areaPerimeter:controlsAreaPerimeter,shapes:controlsShapes,clock:controlsClock,coordinates:controlsCoordinates,angle:controlsAngle,column:controlsColumn,multiplication:controlsMultiplication,partitionMultiplication:controlsPartitionMultiplication,division:controlsDivision,board:controlsBoard};
   renderers[state.active](controls); bindControls(box);
 }
-function commonControls(){return `<div class="panel essentialPanel"><div class="panelTitle">Classroom display</div>
-  <div class="field"><label>Labels visible</label><label class="toggle"><input data-common="labels" type="checkbox" ${state.labels?'checked':''}><span></span></label></div>
-  <div class="field wide"><label>Canvas</label><select data-common="background"><option value="plain" ${state.background==='plain'?'selected':''}>Plain white</option><option value="grid" ${state.background==='grid'?'selected':''}>Squared grid</option><option value="dots" ${state.background==='dots'?'selected':''}>Dot grid</option><option value="lines" ${state.background==='lines'?'selected':''}>Writing lines</option></select></div>
-  <div class="displayChoice"><button class="mini" data-action="present">Focus on model</button><button class="mini strongMini" data-action="fullscreen">Open display</button></div></div>`}
 
 function panel(title,html){return `<div class="panel"><div class="panelTitle">${title}</div>${html}</div>`}
 function field(label,input){return `<div class="field"><label>${label}</label>${input}</div>`}
@@ -4000,7 +4405,7 @@ function rangeInput(path,value,min,max,step=1){return `<input type="range" data-
 function checkbox(path,on){return `<label class="toggle"><input type="checkbox" data-path="${path}" ${on?'checked':''}><span></span></label>`}
 
 function renderHome(stage){
-  stage.innerHTML=`<div class="empty"><div class="big">∴</div><h2>One clear model at a time.</h2><p>Choose a model, shape the example, hide what pupils need to think about, then press <strong>Present</strong>. Nothing is tied to a particular lesson.</p><div class="quickGrid">
+  stage.innerHTML=`<div class="empty"><div class="emptyIntro"><div class="big">∴</div><h2>Choose a mathematical instrument.</h2><p>Build one clear example, then present it without distraction.</p></div><div class="quickGrid">
   ${quick('placeValue','●','Place value','Counters, exchange and decimals')}
   ${quick('numberLine','↔','Number line','Whole numbers, decimals and negatives')}
   ${quick('bar','▭','Bar model','Parts, wholes and comparison')}
@@ -4008,10 +4413,7 @@ function renderHome(stage){
   ${quick('array','⠿','Arrays','Groups, factors and division')}
   ${quick('areaPerimeter','▧','Area & perimeter','Count squares and trace boundaries')}
   ${quick('shapes','◇','Shapes','Properties, symmetry and solids')}
-  ${quick('clock','◷','Clock','Time and intervals')}
-  ${quick('column','＋','Column methods','Addition and subtraction, step by step')}
-  ${quick('multiplication','×','Multiplication','Short multiplication with exchanges')}
-  ${quick('division','÷','Bus-stop division','Short division with remainders')}
+  ${quick('column','＋','Written methods','Reveal each calculation step')}
   </div></div>`;
   $$('.quickCard',stage).forEach(b=>b.onclick=()=>setModel(b.dataset.model));
 }
@@ -4582,7 +4984,6 @@ function bindControls(root){
       el.addEventListener('change',()=>{const path=el.dataset.path;setPath(state,path,read());if(path.startsWith('column.'))state.column.step=0;if(path.startsWith('multiplication.'))state.multiplication.step=0;if(path.startsWith('partitionMultiplication.'))state.partitionMultiplication.step=0;if(path.startsWith('division.'))state.division.step=0;normalise();commit();renderAll()});
     }
   });
-  $$('[data-common]',root).forEach(el=>el.onchange=()=>{state[el.dataset.common]=el.type==='checkbox'?el.checked:el.value;commit();renderAll()});
   $$('[data-action]',root).forEach(b=>b.onclick=()=>handleAction(b.dataset.action));
   $$('[data-exchange]',root).forEach(b=>b.onclick=()=>exchangePV(b.dataset.place,b.dataset.exchange));
   $$('[data-presetpv]',root).forEach(b=>b.onclick=()=>{setPVFromNumber(Number(b.dataset.presetpv));commit();renderAll()});
@@ -4770,6 +5171,8 @@ $('#lessonPrev').onclick=()=>stepLesson(-1);$('#lessonNext').onclick=()=>stepLes
 updateLessonCount();
 $('#labelsQuick').onclick=()=>{state.labels=!state.labels;commit();renderAll()};
 $('#presentBtn').onclick=enterFocus;$('#teachBtn').onclick=()=>toggleTeach();$('#fullBtn').onclick=startDisplay;
+$$('.stagePopover button,.modePopover button').forEach(button=>button.addEventListener('click',closeActionMenus));
+document.addEventListener('pointerdown',event=>$$('#modeMenu[open],#stageMenu[open]').forEach(menu=>{if(!menu.contains(event.target))menu.removeAttribute('open')}),{passive:true});
 $('#modelsBtn').onclick=()=>$('#modelRail').classList.toggle('open');$('#adjustBtn').onclick=()=>$('#inspector').classList.toggle('open');
 $('#gridToggle').onclick=()=>{state.background=state.background==='plain'?'grid':state.background==='grid'?'dots':state.background==='dots'?'lines':'plain';commit();renderAll()};
 $('#inkToggle').onclick=toggleInk;$('#eraseInk').onclick=toggleEraser;$('#clearInk').onclick=clearInk;
