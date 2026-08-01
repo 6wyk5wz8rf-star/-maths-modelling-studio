@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Maths Modelling Studio · Build 43</title>
+<title>Maths Modelling Studio · Build 44</title>
 <style>
 :root{
   --ink:#18384d;
@@ -4186,12 +4186,127 @@ body.modelLocked .barDivider{pointer-events:none;opacity:.35}
 @media(prefers-reduced-motion:reduce){.representationArrival,.connectionCard{animation:none!important;transition:none!important}}
 </style>
 
+<style>
+/* ===== BUILD 44 · CLASSROOM FIT =====
+   A layout-only release: the model engine is unchanged. The canvas always
+   owns the viewport; the model library is a legible, dismissible layer; and
+   presentation remains useful when browser fullscreen is unavailable.
+*/
+:root{
+  --preview-bottom-clearance:0px;
+  --app-usable-height:var(--app-visual-height,100dvh);
+  --library-width:clamp(340px,29vw,408px);
+}
+html,body{
+  width:100%!important;
+  height:var(--app-visual-height,100dvh)!important;
+  max-height:none!important;
+}
+.app{
+  width:100%!important;
+  height:var(--app-visual-height,100dvh)!important;
+  max-height:none!important;
+}
+.topbar{
+  height:var(--toolbar-h)!important;
+  min-height:var(--toolbar-h)!important;
+  padding-inline:max(10px,env(safe-area-inset-left)) max(10px,env(safe-area-inset-right))!important;
+}
+.shell,
+body[data-model="home"] .shell{
+  width:100%!important;
+  height:calc(var(--app-visual-height,100dvh) - var(--toolbar-h))!important;
+  max-height:none!important;
+  grid-template-columns:minmax(0,1fr)!important;
+}
+.workspaceWrap{
+  grid-column:1 / -1!important;
+  width:100%!important;
+  height:100%!important;
+}
+.workspace{width:100%!important;height:100%!important}
+.stageHint{font-size:10px!important;line-height:1.35!important}
+
+/* The library opens as a proper sheet instead of occupying a narrow grid cell. */
+.modelRail{
+  width:min(var(--library-width),100vw)!important;
+  padding:0 14px max(28px,env(safe-area-inset-bottom))!important;
+}
+body #modelRail.open,body #inspector.open{transform:translateX(0)!important}
+.railTop{
+  position:sticky;top:0;z-index:6;
+  margin:0 -14px 7px;padding:max(14px,env(safe-area-inset-top)) 14px 12px;
+  background:rgba(249,250,247,.975);border-bottom:1px solid var(--b43-line);
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)
+}
+.railHeading{display:flex;align-items:center;gap:12px;margin-bottom:11px}
+.railHeadingText{min-width:0;flex:1}
+.railHeading strong{display:block;color:var(--b43-ink);font-size:17px;font-weight:730;letter-spacing:-.025em}
+.railHeading span{display:block;margin-top:2px;color:#78878c;font-size:9.5px;font-weight:650}
+.railClose{
+  width:40px;height:40px;flex:0 0 auto;border:1px solid var(--b43-line);border-radius:12px;
+  background:#fff;color:var(--b43-ink);font-size:22px;line-height:1
+}
+.railClose:hover{background:var(--b42-blue-soft)}
+.railSearchWrap{
+  position:relative!important;top:auto!important;margin:0!important;padding:0!important;background:transparent!important;
+  backdrop-filter:none!important;-webkit-backdrop-filter:none!important
+}
+.railSearch{width:100%!important;min-height:46px!important;padding-inline:36px 13px!important;font-size:12px!important}
+.railSearchWrap:before{left:13px!important;top:13px!important}
+.railLabel{padding:18px 10px 6px!important}
+.modelBtn{
+  min-height:49px!important;padding:8px 10px!important;gap:11px!important;
+  font-size:12.25px!important;line-height:1.25!important
+}
+.modelBtn[hidden],.railLabel[hidden]{display:none!important}
+.modelIcon{width:31px!important;height:31px!important;flex:0 0 31px!important}
+.canvasScrim{background:rgba(18,38,45,.34)!important}
+
+/* Make the two primary classroom actions self-explanatory on larger screens. */
+@media(min-width:900px){
+  #modelsBtn,#adjustBtn{width:auto!important;padding-inline:12px!important;gap:7px!important;font-size:15px!important}
+  #modelsBtn:after{content:"Models";font-size:11px;font-weight:740}
+  #adjustBtn:after{content:"Adjust";font-size:11px;font-weight:740}
+  .brand{margin-left:2px}
+  .presentCluster>#fullBtn{min-width:108px!important}
+}
+
+/* Presentation is a true viewport layer even when Safari declines Fullscreen API. */
+.presentation .app{
+  position:fixed!important;inset:0!important;z-index:40!important;
+  width:100vw!important;height:var(--app-visual-height,100dvh)!important;max-height:none!important
+}
+.presentation .shell,
+.presentation .workspaceWrap,
+.presentation .workspace,
+.presentation .stage{
+  width:100%!important;height:100%!important;max-height:none!important
+}
+.presentation .stage{padding-bottom:max(18px,env(safe-area-inset-bottom))!important}
+.presentation .presentDock{max-width:calc(100vw - 20px)!important}
+.presentation .presentDock button{min-height:44px!important}
+
+@media(max-width:760px){
+  :root{--library-width:100vw}
+  .modelRail{border-right:0!important}
+  .stageHint{font-size:9px!important}
+}
+@media(max-height:720px){
+  .modelBtn{min-height:46px!important}
+  .railLabel{padding-top:14px!important}
+}
+@media(prefers-reduced-motion:reduce){
+  .modelRail,.inspector,.canvasScrim{transition:none!important}
+}
+</style>
+
 </head>
 <body>
 <button class="canvasScrim" id="canvasScrim" aria-label="Close open panel" tabindex="-1"></button>
 <div class="app">
   <header class="topbar">
-    <button class="iconBtn mobileDrawerBtn" id="modelsBtn" title="Models" aria-label="Open model library">☰</button>
+    <button class="iconBtn mobileDrawerBtn" id="modelsBtn" title="Models" aria-label="Open model library" aria-controls="modelRail" aria-expanded="false">☰</button>
     <div class="brand"><span class="brandMark" aria-hidden="true">∴</span><div class="brandText"><h1>Maths Modelling Studio</h1><p>Mathematical instruments</p></div></div>
     <div class="topspacer"></div>
     <div class="topActions">
@@ -4211,13 +4326,16 @@ body.modelLocked .barDivider{pointer-events:none;opacity:.35}
           </div>
         </details>
       </div>
-      <button class="iconBtn mobileDrawerBtn" id="adjustBtn" title="Adjust" aria-label="Open model adjustments">⚙</button>
+      <button class="iconBtn mobileDrawerBtn" id="adjustBtn" title="Adjust" aria-label="Open model adjustments" aria-controls="inspector" aria-expanded="false">⚙</button>
     </div>
   </header>
 
   <main class="shell">
     <nav class="modelRail" id="modelRail" aria-label="Choose a model">
-      <div class="railSearchWrap"><input id="modelSearch" class="railSearch" type="search" placeholder="Find a model…" aria-label="Find a model"></div>
+      <div class="railTop">
+        <div class="railHeading"><div class="railHeadingText"><strong>Models</strong><span>Choose a mathematical instrument</span></div><button class="railClose" id="railClose" type="button" aria-label="Close model library">×</button></div>
+        <div class="railSearchWrap"><input id="modelSearch" class="railSearch" type="search" placeholder="Find a model…" aria-label="Find a model"></div>
+      </div>
       <div class="railLabel railPrimary">Studio</div>
       <button class="modelBtn active" data-model="home"><span class="modelIcon">⌂</span>Start</button>
       <div class="railLabel railSection">Number & structure</div>
@@ -4347,8 +4465,7 @@ function syncVisualViewport(){
   const vv=window.visualViewport;
   const h=Math.max(320,Math.floor(vv?.height||window.innerHeight||document.documentElement.clientHeight));
   const w=Math.max(320,Math.floor(vv?.width||window.innerWidth||document.documentElement.clientWidth));
-  const coarse=window.matchMedia?.('(pointer:coarse)').matches;
-  const clearance=document.fullscreenElement?0:(coarse?72:54);
+  const clearance=0;
   const usable=Math.max(280,h-clearance);
   document.documentElement.style.setProperty('--app-visual-height',`${h}px`);
   document.documentElement.style.setProperty('--app-visual-width',`${w}px`);
@@ -5457,7 +5574,7 @@ $('#labelsQuick').onclick=()=>{state.labels=!state.labels;commit();renderAll()};
 $('#presentBtn').onclick=enterFocus;$('#teachBtn').onclick=()=>toggleTeach();$('#fullBtn').onclick=startDisplay;
 $$('.stagePopover button,.modePopover button').forEach(button=>button.addEventListener('click',closeActionMenus));
 document.addEventListener('pointerdown',event=>$$('#modeMenu[open],#stageMenu[open]').forEach(menu=>{if(!menu.contains(event.target))menu.removeAttribute('open')}),{passive:true});
-$('#modelsBtn').onclick=()=>toggleDrawer('#modelRail');$('#adjustBtn').onclick=()=>toggleDrawer('#inspector');$('#canvasScrim').onclick=closeDrawers;
+$('#modelsBtn').onclick=()=>toggleDrawer('#modelRail');$('#adjustBtn').onclick=()=>toggleDrawer('#inspector');$('#railClose').onclick=closeDrawers;$('#canvasScrim').onclick=closeDrawers;
 $('#gridToggle').onclick=()=>{state.background=state.background==='plain'?'grid':state.background==='grid'?'dots':state.background==='dots'?'lines':'plain';commit();renderAll()};
 $('#inkToggle').onclick=toggleInk;$('#eraseInk').onclick=toggleEraser;$('#clearInk').onclick=clearInk;
 const ink=$('#inkCanvas');ink.addEventListener('pointerdown',startDraw);ink.addEventListener('pointermove',moveDraw);ink.addEventListener('pointerup',endDraw);ink.addEventListener('pointercancel',endDraw);ink.addEventListener('pointerleave',endDraw);
