@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Maths Modelling Studio · Build 47</title>
+<title>Maths Modelling Studio · Build 48</title>
 <style>
 :root{
   --ink:#18384d;
@@ -4746,6 +4746,418 @@ body.presentation.displayComposition[data-model="partitionMultiplication"] .part
 }
 </style>
 
+<style id="build48-classroom-presentation">
+/* ===== BUILD 48 · ONE DEPENDABLE CLASSROOM BOARD =====
+   Present is a live teaching surface. It never inherits the printable-display
+   layout, never lets chrome compete with the mathematics, and never scales a
+   written method beyond the space its columns actually own. */
+body.presentation{
+  --present-edge:clamp(16px,2.3vw,34px);
+  --present-top:74px;
+  overflow:hidden!important;
+  background:#fffdfa!important;
+}
+body.presentation .app,
+body.presentation .shell,
+body.presentation .workspaceWrap,
+body.presentation .workspace{
+  position:fixed!important;
+  inset:0!important;
+  width:100vw!important;
+  height:var(--app-visual-height,100dvh)!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  overflow:hidden!important;
+  background:#fffdfa!important;
+  box-shadow:none!important;
+}
+body.presentation .stage{
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:none!important;
+  max-height:none!important;
+  display:grid!important;
+  place-items:center!important;
+  padding:var(--present-top) var(--present-edge) max(22px,env(safe-area-inset-bottom))!important;
+  overflow:hidden!important;
+  background:#fffdfa!important;
+  background-image:none!important;
+}
+body.presentation:not(.displayControlsHidden) .stage{
+  padding:var(--present-top) var(--present-edge) max(22px,env(safe-area-inset-bottom))!important;
+}
+body.presentation.displayControlsHidden .stage{
+  padding:16px var(--present-edge) max(16px,env(safe-area-inset-bottom))!important;
+}
+body.presentation.presentationToolsOpen .stage{--present-top:132px}
+body.presentation .stage>*{min-width:0!important;max-width:100%!important}
+body.presentation .directDock,
+body.presentation .stageTip,
+body.presentation .methodHint,
+body.presentation .nlNote,
+body.presentation .barDragHint,
+body.presentation .integrityNote{display:none!important}
+
+/* One quiet top control shelf. Tools open as a second row instead of making
+   the first row run across the board. */
+body.presentation .presentDock{
+  position:fixed!important;
+  top:max(10px,calc(env(safe-area-inset-top) + 8px))!important;
+  right:max(10px,calc(env(safe-area-inset-right) + 8px))!important;
+  bottom:auto!important;
+  left:auto!important;
+  z-index:500!important;
+  width:auto!important;
+  max-width:calc(100vw - 20px)!important;
+  min-height:50px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:3px!important;
+  padding:5px!important;
+  overflow:visible!important;
+  transform:none!important;
+  opacity:1!important;
+  border:1px solid rgba(39,70,80,.14)!important;
+  border-radius:15px!important;
+  background:rgba(255,254,249,.97)!important;
+  box-shadow:0 9px 28px rgba(26,52,61,.12)!important;
+  backdrop-filter:blur(16px)!important;
+  -webkit-backdrop-filter:blur(16px)!important;
+}
+body.presentation .presentDock>button,
+body.presentation .presentMore>button{
+  box-sizing:border-box!important;
+  flex:0 0 auto!important;
+  min-height:40px!important;
+  padding:0 12px!important;
+  border:0!important;
+  border-radius:10px!important;
+  background:transparent!important;
+  color:#294653!important;
+  font:760 11px/1 system-ui!important;
+  white-space:nowrap!important;
+}
+body.presentation .presentDock>button:disabled{opacity:.32!important}
+body.presentation .presentDock .exit{background:#294653!important;color:#fff!important}
+body.presentation .presentDock .primaryStep{background:#edf3ef!important;color:#294653!important}
+body.presentation .presentMore{
+  position:absolute!important;
+  top:calc(100% + 8px)!important;
+  right:0!important;
+  left:auto!important;
+  width:max-content!important;
+  max-width:calc(100vw - 20px)!important;
+  min-height:48px!important;
+  display:none!important;
+  align-items:center!important;
+  gap:3px!important;
+  margin:0!important;
+  padding:4px!important;
+  overflow-x:auto!important;
+  overflow-y:hidden!important;
+  border:1px solid rgba(39,70,80,.14)!important;
+  border-radius:14px!important;
+  background:rgba(255,254,249,.98)!important;
+  box-shadow:0 9px 28px rgba(26,52,61,.11)!important;
+}
+body.presentation.presentationToolsOpen .presentMore{display:flex!important}
+body.presentation .presentMore::-webkit-scrollbar{display:none}
+body.presentation.displayControlsHidden .presentDock{
+  top:max(10px,calc(env(safe-area-inset-top) + 8px))!important;
+  right:max(10px,calc(env(safe-area-inset-right) + 8px))!important;
+  left:auto!important;
+  width:auto!important;
+  min-height:48px!important;
+  padding:4px!important;
+  transform:none!important;
+  overflow:visible!important;
+  border:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+}
+body.presentation.displayControlsHidden #displayDockToggle{
+  min-width:86px!important;
+  min-height:42px!important;
+  display:block!important;
+  background:#294653!important;
+  color:#fff!important;
+  box-shadow:0 8px 24px rgba(26,52,61,.14)!important;
+}
+
+/* A lesson uses the same top shelf, never a second footer over the model. */
+body.presentation .lessonPlayer.active{
+  position:fixed!important;
+  top:max(10px,calc(env(safe-area-inset-top) + 8px))!important;
+  left:max(10px,calc(env(safe-area-inset-left) + 8px))!important;
+  right:auto!important;
+  bottom:auto!important;
+  z-index:490!important;
+  width:auto!important;
+  max-width:44vw!important;
+  min-height:50px!important;
+  display:flex!important;
+  align-items:center!important;
+  gap:3px!important;
+  padding:5px!important;
+  transform:none!important;
+  border:1px solid rgba(39,70,80,.14)!important;
+  border-radius:15px!important;
+  background:rgba(255,254,249,.97)!important;
+  box-shadow:0 9px 28px rgba(26,52,61,.12)!important;
+}
+body.presentation .lessonPlayer button{
+  flex:0 0 auto!important;
+  min-height:40px!important;
+  padding:0 11px!important;
+  border-radius:10px!important;
+  font-size:10.5px!important;
+}
+body.presentation .lessonPlayerStatus{min-width:112px!important;max-width:170px!important}
+body.presentation .lessonPlayerStatus strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+body.presentation .lessonPlayerStatus span{font-size:9.5px!important}
+body.presentation .lessonPlayerNext{background:#294653!important;color:#fff!important}
+body.presentation .lessonPlayer button:disabled{opacity:.32!important}
+
+/* Written methods: true landscape composition, stable at every reveal. */
+body.presentation .methodsStudio{
+  box-sizing:border-box!important;
+  width:100%!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:1320px!important;
+  max-height:none!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:minmax(0,1fr)!important;
+  place-items:center!important;
+  padding:0!important;
+  margin:0 auto!important;
+  overflow:hidden!important;
+}
+body.presentation .workedExample,
+body.presentation[data-model="column"] .workedExample,
+body.presentation[data-model="multiplication"] .workedExample,
+body.presentation[data-model="division"] .workedExample{
+  box-sizing:border-box!important;
+  width:min(1280px,100%)!important;
+  height:min(700px,100%)!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:1280px!important;
+  max-height:100%!important;
+  display:grid!important;
+  grid-template-columns:minmax(0,1fr) minmax(300px,360px)!important;
+  align-items:center!important;
+  justify-items:stretch!important;
+  gap:clamp(24px,2.7vw,42px)!important;
+  padding:0!important;
+  margin:auto!important;
+  overflow:hidden!important;
+}
+body.presentation .algorithmPaper,
+body.presentation .divisionPaper,
+body.presentation[data-model="column"] .algorithmPaper,
+body.presentation[data-model="multiplication"] .algorithmPaper,
+body.presentation[data-model="division"] .algorithmPaper{
+  box-sizing:border-box!important;
+  justify-self:stretch!important;
+  align-self:center!important;
+  width:100%!important;
+  height:min(650px,100%)!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:none!important;
+  max-height:650px!important;
+  display:grid!important;
+  align-content:center!important;
+  padding:clamp(24px,3vh,38px) clamp(34px,3.4vw,52px)!important;
+  overflow:hidden!important;
+  border:1.5px solid #dce6e2!important;
+  border-radius:24px!important;
+  background:#fff!important;
+  box-shadow:none!important;
+}
+body.presentation .columnGrid,
+body.presentation[data-model="column"] .columnGrid,
+body.presentation[data-model="multiplication"] .columnGrid{
+  box-sizing:border-box!important;
+  width:min(720px,100%)!important;
+  max-width:100%!important;
+  min-width:0!important;
+  margin:auto!important;
+  overflow:visible!important;
+  transform:none!important;
+}
+body.presentation .methodRow{grid-template-columns:repeat(var(--method-cols),minmax(0,1fr))!important}
+body.presentation .methodCell{
+  box-sizing:border-box!important;
+  width:100%!important;
+  min-width:0!important;
+  height:clamp(60px,8.2vh,84px)!important;
+  padding:0 3px!important;
+  overflow:visible!important;
+  font-size:clamp(46px,5.7vw,78px)!important;
+  line-height:1!important;
+}
+body.presentation .placeNameRow .methodCell{
+  height:42px!important;
+  padding:0 5px!important;
+  overflow-wrap:anywhere!important;
+  word-break:normal!important;
+  white-space:normal!important;
+  text-align:center!important;
+  font-size:clamp(12px,1.25vw,17px)!important;
+  line-height:1.06!important;
+  letter-spacing:.025em!important;
+}
+body.presentation .methodCell.carry,
+body.presentation .methodCell.exchange{
+  height:clamp(28px,3.6vh,38px)!important;
+  font-size:clamp(18px,2.25vw,30px)!important;
+}
+body.presentation .methodRule{height:5px!important;margin-block:2px 5px!important}
+body.presentation .methodRule .methodSign{left:-34px!important;bottom:9px!important;font-size:clamp(42px,4.8vw,66px)!important}
+body.presentation .methodExplanation,
+body.presentation[data-model="column"] .methodExplanation,
+body.presentation[data-model="multiplication"] .methodExplanation,
+body.presentation[data-model="division"] .methodExplanation{
+  box-sizing:border-box!important;
+  display:flex!important;
+  justify-self:stretch!important;
+  align-self:center!important;
+  width:100%!important;
+  min-width:0!important;
+  max-width:none!important;
+  max-height:620px!important;
+  padding:clamp(21px,2.3vw,30px)!important;
+  overflow:auto!important;
+  border:1.5px solid #dce6e2!important;
+  border-radius:21px!important;
+  background:#f4f7f5!important;
+  box-shadow:none!important;
+}
+body.presentation .methodExplanation h3{font-size:clamp(28px,3vw,42px)!important;line-height:1.12!important}
+body.presentation .methodExplanation .mathSentence{font-size:clamp(20px,2vw,29px)!important;line-height:1.3!important}
+body.presentation .methodExplanation p{font-size:clamp(15px,1.45vw,20px)!important;line-height:1.5!important}
+body.presentation .methodQuestion,
+body.presentation .divisionQuestion{display:none!important}
+
+/* Bus-stop rows shrink as a unit rather than losing the final digit. */
+body.presentation .busStopLayout{box-sizing:border-box!important;width:min(780px,100%)!important;max-width:100%!important}
+body.presentation .busQuotientRow,
+body.presentation .busDividendRow{grid-template-columns:repeat(var(--division-cols),minmax(54px,1fr))!important;width:100%!important}
+body.presentation .busQuotientDigit{height:clamp(48px,6.5vh,66px)!important;font-size:clamp(42px,5.2vw,68px)!important}
+body.presentation .busDividendDigit{height:clamp(70px,9vh,92px)!important;font-size:clamp(54px,6.5vw,84px)!important}
+body.presentation .busDivisor{font-size:clamp(52px,6vw,78px)!important}
+
+/* Model-only is intentionally expansive, but it uses the same column logic. */
+body.presentation.teachingHidden .workedExample,
+body.presentation.displayModelOnly .workedExample{
+  width:min(1040px,100%)!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  place-items:center!important;
+  gap:0!important;
+}
+body.presentation.teachingHidden .algorithmPaper,
+body.presentation.displayModelOnly .algorithmPaper,
+body.presentation.teachingHidden .divisionPaper,
+body.presentation.displayModelOnly .divisionPaper{
+  justify-self:center!important;
+  width:min(980px,100%)!important;
+  max-width:980px!important;
+  height:min(700px,100%)!important;
+  max-height:700px!important;
+}
+body.presentation.teachingHidden .columnGrid,
+body.presentation.displayModelOnly .columnGrid{width:min(780px,100%)!important;transform:none!important}
+body.presentation.teachingHidden .methodExplanation,
+body.presentation.displayModelOnly .methodExplanation{display:none!important}
+
+/* Other instruments share one measured board frame. */
+body.presentation .pvWrap,
+body.presentation .btWrap,
+body.presentation .nlWrap,
+body.presentation .barStudio,
+body.presentation .fracWrap,
+body.presentation .arrayWrap,
+body.presentation .gridWrap,
+body.presentation .clockStage,
+body.presentation .coordStageWrap,
+body.presentation .angleWrap,
+body.presentation .partitionStudio,
+body.presentation .areaStudio,
+body.presentation .shapeStudio{
+  box-sizing:border-box!important;
+  width:min(1280px,100%)!important;
+  height:100%!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:1280px!important;
+  max-height:100%!important;
+  margin:auto!important;
+  overflow:hidden!important;
+}
+body.presentation .pvHead,
+body.presentation .btHead{
+  min-width:0!important;
+  padding:8px 5px!important;
+  overflow-wrap:anywhere!important;
+  white-space:normal!important;
+  text-align:center!important;
+  font-size:clamp(18px,2vw,30px)!important;
+  line-height:1.06!important;
+}
+body.presentation .numberLineSvg{height:min(650px,72vh)!important}
+body.presentation .coordWrap,
+body.presentation .angleSvg{max-height:100%!important}
+body.presentation .partitionWorkspace{
+  width:100%!important;
+  height:min(680px,100%)!important;
+  min-height:0!important;
+  max-height:100%!important;
+  grid-template-columns:minmax(0,1fr) minmax(300px,360px)!important;
+  gap:clamp(22px,2.5vw,38px)!important;
+  overflow:hidden!important;
+}
+body.presentation .partitionCard{min-width:0!important;max-height:100%!important;overflow:auto!important}
+body.presentation.teachingHidden .partitionWorkspace{grid-template-columns:minmax(0,1fr)!important;place-items:center!important}
+body.presentation.teachingHidden .partitionExplanation{display:none!important}
+
+@media(max-width:980px){
+  body.presentation{--present-edge:14px}
+  body.presentation .workedExample,
+  body.presentation[data-model="column"] .workedExample,
+  body.presentation[data-model="multiplication"] .workedExample,
+  body.presentation[data-model="division"] .workedExample,
+  body.presentation .partitionWorkspace{
+    grid-template-columns:minmax(0,1fr)!important;
+    align-content:start!important;
+    overflow:auto!important;
+  }
+  body.presentation .algorithmPaper,body.presentation .divisionPaper{width:min(820px,100%)!important;min-height:520px!important}
+  body.presentation .methodExplanation{width:min(820px,100%)!important;max-height:none!important}
+  body.presentation .lessonPlayer.active{top:70px!important;left:50%!important;max-width:calc(100vw - 20px)!important;transform:translateX(-50%)!important}
+  body.presentation.lessonPlaying{--present-top:130px}
+}
+@media(max-width:700px){
+  body.presentation{--present-top:64px}
+  body.presentation .presentDock{right:6px!important;max-width:calc(100vw - 12px)!important;overflow-x:auto!important;overflow-y:visible!important}
+  body.presentation .presentDock>button,body.presentation .presentMore>button{min-height:38px!important;padding-inline:9px!important;font-size:9.5px!important}
+  body.presentation .placeNameRow .methodCell{font-size:11px!important}
+}
+@media(prefers-reduced-motion:reduce){body.presentation .stage>*{animation:none!important;transition:none!important}}
+</style>
+
 </head>
 <body>
 <button class="canvasScrim" id="canvasScrim" aria-label="Close open panel" tabindex="-1"></button>
@@ -4847,7 +5259,7 @@ body.presentation.displayComposition[data-model="partitionMultiplication"] .part
 </div>
 <div class="presentDock" id="presentDock" aria-label="Display controls">
   <button class="exit" id="displayExit" title="Exit display">Exit</button>
-  <button class="methodDisplayStep" id="displayPrevStep" title="Previous teaching step">← Prev</button>
+  <button class="methodDisplayStep" id="displayPrevStep" title="Previous teaching step">← Previous step</button>
   <button class="methodDisplayStep primaryStep" id="displayNextStep" title="Reveal the next teaching step">Next →</button>
   <button class="methodDisplayStep" id="displayTeaching" title="Show or hide supporting details">Details</button>
   <button class="methodDisplayStep" id="displayModelOnly" title="Hide notes and controls">Model only</button>
@@ -6312,7 +6724,7 @@ function loadLessonScene(index,presenting=true){
   if(presenting){document.body.classList.add('lessonPlaying');$('#lessonPlayer').classList.add('active');updateLessonPlayer()}
   else{document.body.classList.remove('lessonPlaying');$('#lessonPlayer').classList.remove('active');lessonIndex=-1}
 }
-function updateLessonPlayer(){const scene=lessonDeck[lessonIndex];if(!scene)return;$('#lessonPlayerName').textContent=scene.name;$('#lessonPlayerPosition').textContent=`${lessonIndex+1} of ${lessonDeck.length}`;$('#lessonPrev').disabled=lessonIndex<=0;$('#lessonNext').textContent=lessonIndex>=lessonDeck.length-1?'Finish':'Next →'}
+function updateLessonPlayer(){const scene=lessonDeck[lessonIndex];if(!scene)return;const atEnd=lessonIndex>=lessonDeck.length-1;$('#lessonPlayerName').textContent=scene.name;$('#lessonPlayerPosition').textContent=`Scene ${lessonIndex+1} of ${lessonDeck.length}`;$('#lessonPrev').disabled=lessonIndex<=0;$('#lessonPrev').textContent='← Previous scene';$('#lessonNext').disabled=atEnd;$('#lessonNext').textContent='Next scene →';$('#lessonStop').textContent='End lesson'}
 function startLesson(){if(!lessonDeck.length)return;closeLessonDialog();loadLessonScene(0,true);state.showTeachingNotes=false;state.displayControlsVisible=true;togglePresent(true);updateLessonPlayer()}
 function stopLesson(){document.body.classList.remove('lessonPlaying');$('#lessonPlayer').classList.remove('active');lessonIndex=-1;if(document.body.classList.contains('presentation'))togglePresent(false)}
 function stepLesson(delta){if(lessonIndex<0)return;if(delta>0&&lessonIndex>=lessonDeck.length-1)return stopLesson();loadLessonScene(clamp(lessonIndex+delta,0,lessonDeck.length-1),true)}
@@ -6359,11 +6771,11 @@ function updateDisplayControls(){
   const lock=$('#displayLock');if(lock){lock.textContent=state.displayLocked?'Unlock model':'Lock model';lock.classList.toggle('active',!!state.displayLocked)};
   const di=$('#displayInk');if(di){di.textContent=state.ink&&state.inkTool==='pen'?'Stop writing':'Write';di.classList.toggle('active',state.ink&&state.inkTool==='pen')}
   const de=$('#displayEraseInk');if(de){de.textContent=state.ink&&state.inkTool==='eraser'?'Stop erasing':'Eraser';de.classList.toggle('active',state.ink&&state.inkTool==='eraser')}
-  const prev=$('#displayPrevStep'),next=$('#displayNextStep');if(prev)prev.disabled=!key||step<=0;if(next){next.disabled=!key||step>=max;next.textContent=step>=max?'Complete':'Next step →'}
+  const prev=$('#displayPrevStep'),next=$('#displayNextStep');if(prev){prev.disabled=!key||step<=0;prev.textContent='← Previous step'}if(next){next.disabled=!key||step>=max;next.textContent=step>=max?'Method complete':'Next step →'}
 }
 let displayIdleTimer=null;function wakeDisplayControls(){if(!document.body.classList.contains('presentation'))return;document.body.classList.remove('displayIdle');clearTimeout(displayIdleTimer);displayIdleTimer=setTimeout(()=>document.body.classList.add('displayIdle'),2600)}
 function toggleTeach(force){const next=typeof force==='boolean'?force:!document.body.classList.contains('teachview');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('presentation')}document.body.classList.toggle('teachview',next);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage()},80)}
-function togglePresent(force){document.body.classList.remove('presentationToolsOpen');const more=document.getElementById('displayMore');if(more){more.setAttribute('aria-expanded','false');more.textContent='Tools'};const next=typeof force==='boolean'?force:!document.body.classList.contains('presentation');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('teachview');state.displayControlsVisible=true;state.displayLocked=false}else{state.displayControlsVisible=true;state.displayLocked=false;state.spotlightMode=false;state.pointerMode=false;if(displayPreviousValues!==null){state.valuesVisible=displayPreviousValues;displayPreviousValues=null}document.body.classList.toggle('valuesHidden',!state.valuesVisible);document.body.classList.remove('displayComposition');document.body.removeAttribute('data-display-layout');document.body.removeAttribute('data-display-source');document.body.style.removeProperty('--display-live-head');document.body.style.removeProperty('--board-head');$('#displayAnswerText')?.classList.remove('revealed');clearSpotlight();$('#teacherPointer')?.classList.remove('visible','active')}document.body.classList.toggle('presentation',next);document.body.classList.toggle('methodActive',!!activeMethodKey());document.body.classList.remove('displayIdle');saveState();if(next)wakeDisplayControls();else clearTimeout(displayIdleTimer);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage();if(document.body.classList.contains('displayComposition'))queueDisplayGeometry()},120)}
+function togglePresent(force){document.body.classList.remove('presentationToolsOpen');const more=document.getElementById('displayMore');if(more){more.setAttribute('aria-expanded','false');more.textContent='Tools'};const next=typeof force==='boolean'?force:!document.body.classList.contains('presentation');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('teachview');state.displayControlsVisible=true;state.displayLocked=false}else{state.displayControlsVisible=true;state.displayLocked=false;state.spotlightMode=false;state.pointerMode=false;if(document.body.classList.contains('lessonPlaying')){document.body.classList.remove('lessonPlaying');$('#lessonPlayer')?.classList.remove('active');lessonIndex=-1}if(displayPreviousValues!==null){state.valuesVisible=displayPreviousValues;displayPreviousValues=null}document.body.classList.toggle('valuesHidden',!state.valuesVisible);document.body.classList.remove('displayComposition');document.body.removeAttribute('data-display-layout');document.body.removeAttribute('data-display-source');document.body.style.removeProperty('--display-live-head');document.body.style.removeProperty('--board-head');$('#displayAnswerText')?.classList.remove('revealed');clearSpotlight();$('#teacherPointer')?.classList.remove('visible','active')}document.body.classList.toggle('presentation',next);document.body.classList.toggle('methodActive',!!activeMethodKey());document.body.classList.remove('displayIdle');saveState();if(next)wakeDisplayControls();else clearTimeout(displayIdleTimer);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage();if(document.body.classList.contains('displayComposition'))queueDisplayGeometry()},120)}
 function prepareClassroomBoard(){document.body.classList.remove('displayComposition');document.body.removeAttribute('data-display-layout');document.body.removeAttribute('data-display-source');document.body.style.removeProperty('--display-live-head');document.body.style.removeProperty('--board-head')}
 function enterFocus(){prepareClassroomBoard();state.showTeachingNotes=false;state.displayControlsVisible=true;togglePresent(true)}
 async function startDisplay(){prepareClassroomBoard();state.showTeachingNotes=true;state.displayControlsVisible=true;togglePresent(true);try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen()}catch(e){toast('Classroom board is ready. Browser full screen was unavailable.')}}
