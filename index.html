@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Maths Modelling Studio · Build 46</title>
+<title>Maths Modelling Studio · Build 47</title>
 <style>
 :root{
   --ink:#18384d;
@@ -4657,6 +4657,95 @@ body.presentation.displayComposition[data-model="partitionMultiplication"] .part
 @media print{body.printBuild44[data-display-source="model"] .displayCompositionHeader{display:none!important}body.printBuild44[data-display-source="model"] .stage{height:180mm!important;max-height:180mm!important}}
 </style>
 
+<style id="build47-wall-display">
+/* ===== BUILD 47 · PRESENT IS THE BOARD · MAKE DISPLAY IS PRINT ===== */
+.wallPrintPack{display:none}
+.wallDisplayEditor{grid-template-columns:minmax(360px,430px) minmax(0,1fr)!important}
+.wallDisplayControls{padding:18px 20px!important;background:#fbfcfa}
+.wallDisplayControls .displaySection{padding:0 0 15px;margin:0 0 15px;border-bottom:1px solid #dfe8e4}
+.wallDisplayControls .displaySection:last-of-type{margin-bottom:0;border-bottom:0}
+.wallDisplayControls .displayOptions{grid-template-columns:1fr!important;gap:0}
+.wallDisplayControls .workflowField{margin-bottom:9px}
+.wallDisplayControls #displayQuestionInput{min-height:92px;max-height:150px}
+.wallDisplayControls #displayVocabularyInput,.wallDisplayControls #displayAnswerInput{width:100%}
+.wallPiecesHelp{margin:0 0 9px;color:#71827d;font:560 9.5px/1.45 system-ui}
+.wallPieceList{display:grid;gap:6px}
+.wallPieceRow{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:7px;min-height:50px;padding:7px 8px;border:1px solid #dce5e1;border-radius:12px;background:#fff;transition:border-color .15s,background .15s}
+.wallPieceRow.enabled{border-color:#9ab7ae;background:#f6faf8}.wallPieceRow.unavailable{opacity:.58}
+.wallPieceCheck{min-width:0;display:grid;grid-template-columns:22px 25px minmax(0,1fr);align-items:center;gap:8px;color:#294c56;cursor:pointer}
+.wallPieceCheck input{width:18px;height:18px;margin:0;accent-color:#315e60}.wallPieceCheck input:disabled{cursor:not-allowed}
+.wallPieceNumber{width:25px;height:25px;display:grid;place-items:center;border-radius:8px;background:#e9f1ed;color:#416259;font:850 9px/1 system-ui}
+.wallPieceCopy{min-width:0}.wallPieceCopy strong,.wallPieceCopy small{display:block}.wallPieceCopy strong{font:760 10.5px/1.2 system-ui}.wallPieceCopy small{margin-top:3px;color:#71827d;font:560 8.5px/1.3 system-ui;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wallPieceMove{display:flex;gap:3px}.wallPieceMove button{width:29px;height:29px;padding:0;border:1px solid #dce5e1;border-radius:8px;background:#fff;color:#49645c;font:850 12px/1 system-ui}.wallPieceMove button:hover{background:#edf4f1}.wallPieceMove button:disabled{opacity:.28;cursor:not-allowed}
+.wallPrintFields{display:grid;grid-template-columns:1fr 1fr;gap:9px}.wallPrintFields .workflowField{margin:0}.wallPrintFields select{width:100%!important}
+
+.wallPackPreview{min-height:0!important;display:grid!important;grid-template-rows:auto minmax(0,1fr)!important;place-items:stretch!important;padding:0!important;background:#193039!important;overflow:hidden!important}
+.wallPackPreview::before{display:none!important;content:none!important}
+.wallPreviewHead{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:15px 18px;border-bottom:1px solid rgba(255,255,255,.12);background:#213b44;color:#fff}
+.wallPreviewHead div span,.wallPreviewHead div strong{display:block}.wallPreviewHead div span{color:#aac0ba;font:800 8px/1 system-ui;letter-spacing:.13em;text-transform:uppercase}.wallPreviewHead div strong{margin-top:5px;font:710 11px/1.25 system-ui}.wallPreviewPresentNote{max-width:235px;color:#c3d1cd;font:620 9px/1.4 system-ui;text-align:right}
+.wallPreviewBoard{min-height:0;overflow:auto;padding:clamp(18px,2.4vw,30px);display:flex;flex-direction:column;align-items:center;gap:clamp(16px,2vw,24px);background:radial-gradient(circle at 50% 12%,#35535a 0,#152a33 72%)}
+.wallPreviewEmpty{width:100%;min-height:300px;display:grid;place-items:center;text-align:center;color:#d5dfdc}.wallPreviewEmpty strong{display:block;font:730 15px/1.2 system-ui}.wallPreviewEmpty span{display:block;margin-top:7px;color:#a9bbb6;font:560 10px/1.5 system-ui}
+.wallPreviewCard{position:relative;flex:0 0 auto;width:min(100%,760px);min-width:0;aspect-ratio:1.414/1;overflow:hidden;border-radius:8px;background:#fffef9;color:#193b47;box-shadow:0 12px 34px rgba(0,12,18,.28),0 0 0 1px rgba(255,255,255,.12);display:grid;align-content:center;padding:clamp(16px,2vw,26px)}
+.wallPreviewBoard[data-orientation="portrait"] .wallPreviewCard{aspect-ratio:1/1.414}
+.wallPreviewCard::before{content:attr(data-page);position:absolute;top:8px;right:9px;color:#80908b;font:800 7px/1 system-ui;letter-spacing:.08em;text-transform:uppercase}
+.wallPreviewCard.wallPreviewModel{grid-column:auto!important;min-height:270px;grid-template-rows:auto minmax(0,1fr);align-content:stretch;padding:0}
+.wallPreviewModelHeader{display:flex;align-items:flex-end;justify-content:space-between;gap:12px;padding:14px 18px 11px;border-bottom:1px solid #dfe7e3}.wallPreviewModelHeader span{color:#6b8079;font:800 7px/1 system-ui;text-transform:uppercase;letter-spacing:.11em}.wallPreviewModelHeader strong{color:#284b56;font:760 12px/1.2 system-ui}
+.wallPreviewModelHost{position:relative;min-height:0;display:grid;place-items:center;overflow:hidden;background:#fff}
+.wallPreviewModelStage{width:160%;height:160%;display:grid;place-items:center;padding:2.5%;transform:scale(.625);transform-origin:center;background:#fff;overflow:hidden;pointer-events:none}
+.wallPreviewModelStage .directDock,.wallPreviewModelStage .stageTip,.wallPreviewModelStage .barDragHint,.wallPreviewModelStage .integrityNote,.wallPreviewModelStage .methodHint,.wallPreviewModelStage .nlNote,.wallPreviewModelStage button,.wallPreviewModelStage input,.wallPreviewModelStage select,.wallPreviewModelStage textarea{display:none!important}
+.wallPreviewModelFallback{display:grid;place-items:center;height:100%;text-align:center;color:#6b8079;font:680 11px/1.4 system-ui}
+.wallPreviewLabel{display:inline-flex;align-items:center;justify-self:start;margin-bottom:12px;padding:5px 7px;border-radius:5px;background:#e7efeb;color:#48665d;font:820 7px/1 system-ui;text-transform:uppercase;letter-spacing:.1em}
+.wallPreviewTitle small{display:block;color:#6e827b;font:760 8px/1.2 system-ui;text-transform:uppercase;letter-spacing:.1em}.wallPreviewTitle h3{margin:8px 0 0;color:#173b48;font:790 clamp(20px,2.5vw,34px)/1.08 system-ui;letter-spacing:-.04em}.wallPreviewTitle p{margin:9px 0 0;color:#45635d;font:650 clamp(10px,1.2vw,14px)/1.4 system-ui}
+.wallPreviewPrompt{border-left:7px solid #de765d}.wallPreviewPrompt blockquote{margin:0;color:#1d454e;font:760 clamp(18px,2.2vw,31px)/1.22 system-ui;letter-spacing:-.025em}
+.wallPreviewVocabulary{align-content:start}.wallVocabularyTokens{display:flex;flex-wrap:wrap;gap:7px}.wallVocabularyToken{padding:7px 9px;border-radius:999px;background:#edf4f1;color:#31574f;font:760 clamp(10px,1.15vw,14px)/1 system-ui}
+.wallPreviewAnswer{background:#edf5f0}.wallPreviewAnswer strong{color:#174e40;font:790 clamp(21px,2.6vw,36px)/1.14 system-ui;letter-spacing:-.03em}
+
+/* Build 45 hid model-route fields because it treated this pane as a board launcher. Build 47 restores the print controls. */
+.displayDialog[data-flow-step="editor"][data-display-source="model"] #displayEditorStep>.wallDisplayControls{display:block!important;align-content:initial!important}
+.displayDialog[data-flow-step="editor"][data-display-source="model"] #displayEditorStep>.wallDisplayControls>.displaySection{display:block!important}
+.displayDialog[data-flow-step="editor"][data-display-source="model"] #displayQuestionField{display:none!important}
+
+.wallPrintPage{display:none}
+@media(max-width:840px){.wallDisplayEditor{grid-template-columns:1fr!important}.wallPackPreview{min-height:620px!important}.wallPreviewBoard{grid-template-columns:minmax(0,1fr)}}
+@media(max-width:560px){.wallPrintFields{grid-template-columns:1fr}.wallPreviewHead{align-items:flex-start}.wallPreviewPresentNote{display:none}.wallPreviewBoard{grid-template-columns:1fr}.wallPreviewCard,.wallPreviewBoard[data-orientation="portrait"] .wallPreviewCard{aspect-ratio:1.25/1}.wallPreviewCard.wallPreviewModel{grid-column:1;min-height:250px}}
+
+@media print{
+  body.printWallPack{height:auto!important;min-height:0!important;overflow:visible!important;background:#fff!important}
+  body.printWallPack>*:not(#wallPrintPack){display:none!important}
+  body.printWallPack #wallPrintPack{position:static!important;display:block!important;width:auto!important;height:auto!important;margin:0!important;padding:0!important;background:#fff!important}
+  body.printWallPack .wallPrintPage{position:relative;display:grid!important;width:100vw!important;height:100vh!important;min-height:0!important;margin:0!important;padding:15mm!important;overflow:hidden!important;break-after:page;page-break-after:always;background:#fff!important;color:#173b48!important;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+  body.printWallPack .wallPrintPage:last-child{break-after:auto;page-break-after:auto}
+  body.printWallPack .wallPrintBrand{display:flex;align-items:center;gap:4mm;color:#587269;font:800 9pt/1 system-ui;text-transform:uppercase;letter-spacing:.12em}
+  body.printWallPack .wallPrintMark{width:11mm;height:11mm;display:grid;place-items:center;border-radius:3mm;background:#173b48;color:#fff;font:850 17pt/1 system-ui}
+  body.printWallPack .wallPrintTitlePage{align-content:center;border-left:12mm solid #de765d!important;padding-left:22mm!important}
+  body.printWallPack .wallPrintTitlePage h1{max-width:92%;margin:12mm 0 0;color:#173b48;font:790 46pt/1.03 system-ui;letter-spacing:-.045em}
+  body.printWallPack .wallPrintTitlePage h2{max-width:90%;margin:8mm 0 0;color:#315a61;font:690 25pt/1.2 system-ui;letter-spacing:-.025em}
+  body.printWallPack .wallPrintModelPage{grid-template-rows:auto minmax(0,1fr) auto;gap:5mm;padding:10mm 12mm!important}
+  body.printWallPack .wallPrintModelHead{display:flex;align-items:end;justify-content:space-between;gap:10mm;padding-bottom:4mm;border-bottom:1pt solid #bdcbc6}
+  body.printWallPack .wallPrintModelHead span{color:#60776f;font:800 8pt/1 system-ui;text-transform:uppercase;letter-spacing:.12em}.wallPrintModelHead strong{color:#173b48;font:770 18pt/1.15 system-ui}
+  body.printWallPack .wallPrintModelHost{min-height:0;display:grid;place-items:center;overflow:hidden}
+  body.printWallPack .wallPrintModelStage{width:142%;height:142%;display:grid;place-items:center;padding:2%;transform:scale(.704);transform-origin:center;background:#fff;overflow:hidden}
+  body.printWallPack .wallPrintModelStage>.wallClonedModel{width:100%!important;height:100%!important;max-width:none!important;max-height:100%!important}
+  body.printWallPack .wallPrintModelStage .pvWrap,body.printWallPack .wallPrintModelStage .btWrap,body.printWallPack .wallPrintModelStage .barStudio,body.printWallPack .wallPrintModelStage .fracWrap,body.printWallPack .wallPrintModelStage .arrayWrap,body.printWallPack .wallPrintModelStage .gridWrap,body.printWallPack .wallPrintModelStage .clockWrap,body.printWallPack .wallPrintModelStage .coordStageWrap,body.printWallPack .wallPrintModelStage .angleWrap,body.printWallPack .wallPrintModelStage .areaStudio,body.printWallPack .wallPrintModelStage .shapeStudio,body.printWallPack .wallPrintModelStage .partitionStudio{width:100%!important;height:100%!important;max-width:none!important;max-height:100%!important}
+  body.printWallPack .wallPrintModelStage .methodsStudio{width:100%!important;height:100%!important;max-width:none!important;display:grid!important;place-items:center!important;padding:0!important}
+  body.printWallPack .wallPrintModelStage .workedExample{width:100%!important;max-width:none!important;grid-template-columns:minmax(0,1.45fr) minmax(230px,.55fr)!important;gap:18px!important;align-items:center!important;padding:0!important}
+  body.printWallPack .wallPrintModelStage .algorithmPaper,body.printWallPack .wallPrintModelStage .divisionPaper{width:100%!important;max-width:none!important;padding:18px 26px!important}
+  body.printWallPack .wallPrintModelStage .methodExplanation{width:100%!important;max-width:none!important;max-height:none!important}
+  body.printWallPack .wallPrintModelStage .partitionWorkspace{width:100%!important;height:100%!important;max-height:100%!important}
+  body.printWallPack .wallPrintModelStage .directDock,body.printWallPack .wallPrintModelStage .stageTip,body.printWallPack .wallPrintModelStage .barDragHint,body.printWallPack .wallPrintModelStage .integrityNote,body.printWallPack .wallPrintModelStage .methodHint,body.printWallPack .wallPrintModelStage .nlNote,body.printWallPack .wallPrintModelStage button,body.printWallPack .wallPrintModelStage input,body.printWallPack .wallPrintModelStage select,body.printWallPack .wallPrintModelStage textarea{display:none!important}
+  body.printWallPack .wallPrintModelFoot{display:flex;justify-content:space-between;gap:8mm;color:#60766f;font:700 8pt/1.3 system-ui}
+  body.printWallPack .wallPrintPromptPage{align-content:center;border-left:12mm solid #527a70!important;padding-left:22mm!important}
+  body.printWallPack .wallPrintPieceLabel{display:inline-flex;justify-self:start;padding:3mm 4mm;border-radius:2mm;background:#e8f0ec;color:#45665d;font:820 9pt/1 system-ui;text-transform:uppercase;letter-spacing:.12em}
+  body.printWallPack .wallPrintPromptPage blockquote{max-width:92%;margin:12mm 0 0;color:#173b48;font:760 38pt/1.16 system-ui;letter-spacing:-.035em}
+  body.printWallPack .wallPrintVocabularyPage{align-content:center}
+  body.printWallPack .wallPrintVocabularyPage h1,body.printWallPack .wallPrintAnswerPage h1{margin:9mm 0 12mm;color:#173b48;font:790 34pt/1.05 system-ui;letter-spacing:-.04em}
+  body.printWallPack .wallPrintVocabularyTokens{display:flex;flex-wrap:wrap;align-content:center;gap:7mm}
+  body.printWallPack .wallPrintVocabularyToken{padding:5mm 7mm;border:1.5pt solid #8faaa1;border-radius:999px;background:#edf4f1;color:#244f48;font:760 23pt/1 system-ui}
+  body.printWallPack .wallPrintAnswerPage{align-content:center;background:#edf5f0!important}
+  body.printWallPack .wallPrintAnswer{max-width:92%;padding:12mm;border-left:5mm solid #4f806f;background:#fff;color:#174e40;font:790 36pt/1.16 system-ui;letter-spacing:-.03em}
+}
+</style>
+
 </head>
 <body>
 <button class="canvasScrim" id="canvasScrim" aria-label="Close open panel" tabindex="-1"></button>
@@ -4671,7 +4760,7 @@ body.presentation.displayComposition[data-model="partitionMultiplication"] .part
         <button class="iconBtn" id="redoBtn" title="Redo" aria-label="Redo">↷</button>
       </div>
       <button class="btn lessonBtn" id="lessonBtn" title="Open lesson sequence" aria-label="Open lesson sequence"><span class="lessonWord">Lesson</span><span class="lessonCount" id="lessonCount">0</span></button>
-      <button class="workflowBtn" id="createDisplayBtn" title="Create a display from this model or from a question"><span class="workflowIcon" aria-hidden="true">▣</span><span class="workflowWord">Create display</span></button>
+      <button class="workflowBtn" id="createDisplayBtn" title="Make printable pieces for a classroom display wall"><span class="workflowIcon" aria-hidden="true">▣</span><span class="workflowWord">Make display</span></button>
       <div class="presentCluster">
         <button class="btn primary" id="fullBtn" title="Open the model for classroom display">Present</button>
         <details class="modeMenu" id="modeMenu">
@@ -4825,26 +4914,27 @@ body.presentation.displayComposition[data-model="partitionMultiplication"] .part
 </section>
 <aside class="displayThinkingPanel" id="displayThinkingPanel" aria-label="Pupil thinking space"><strong>Show your thinking</strong><span id="displayThinkingPrompt">Represent it. Explain it. Convince us.</span></aside>
 <section class="printQuestionSheet" id="printQuestionSheet" aria-label="Printable question set"></section>
+<section class="wallPrintPack" id="wallPrintPack" aria-label="Printable classroom display wall pack"></section>
 
 <dialog class="workflowDialog displayDialog" id="displayDialog" aria-labelledby="displayDialogTitle">
   <div class="workflowShell">
-    <header class="workflowHead"><div class="workflowHeadText"><span class="workflowEyebrow" id="displayDialogEyebrow">Classroom display</span><h2 id="displayDialogTitle">Create display</h2><p id="displayDialogDescription">Choose what this display begins with. Nothing on the canvas changes until you decide.</p></div><button class="workflowClose" id="displayClose" type="button" aria-label="Close display editor">×</button></header>
+    <header class="workflowHead"><div class="workflowHeadText"><span class="workflowEyebrow" id="displayDialogEyebrow">Display wall print studio</span><h2 id="displayDialogTitle">Make display</h2><p id="displayDialogDescription">Choose a starting point, then organise the separate pieces you want to print for the classroom wall.</p></div><button class="workflowClose" id="displayClose" type="button" aria-label="Close display wall studio">×</button></header>
 
     <section class="displaySourceStep" id="displaySourceStep" aria-labelledby="displaySourceTitle">
-      <div class="displaySourceIntro"><span>Two clear routes</span><h3 id="displaySourceTitle">What should the display begin with?</h3><p>The model and question workflows meet here. Choose one route for this display.</p></div>
+      <div class="displaySourceIntro"><span>Printable display wall</span><h3 id="displaySourceTitle">What should the wall display begin with?</h3><p>Use the model already on the canvas, or start from a question and build its model first.</p></div>
       <div class="displaySourceChoices">
         <button class="displaySourceChoice model" id="displayUseModel" type="button">
           <span class="displaySourceIcon" aria-hidden="true">▣</span>
-          <span class="displaySourceCopy"><small>Use what is already built</small><strong>Display the current model</strong><span id="displayCurrentModelSummary">Choose a model on the canvas first.</span></span>
+          <span class="displaySourceCopy"><small>Use what is already built</small><strong>Print the current model</strong><span id="displayCurrentModelSummary">Choose a model on the canvas first.</span></span>
           <span class="displaySourceArrow" aria-hidden="true">→</span>
         </button>
         <button class="displaySourceChoice question" id="displayUseQuestion" type="button">
           <span class="displaySourceIcon" aria-hidden="true">?</span>
-          <span class="displaySourceCopy"><small>Begin with the mathematics</small><strong>Enter a question</strong><span>Analyse its structure, choose a model, then compose the display.</span></span>
+          <span class="displaySourceCopy"><small>Begin with the mathematics</small><strong>Enter a question</strong><span>Analyse its structure, choose a model, then organise the printable pieces.</span></span>
           <span class="displaySourceArrow" aria-hidden="true">→</span>
         </button>
       </div>
-      <p class="displaySourceNote">Each display keeps its own starting point. The canvas remains a clean, independent modelling space.</p>
+      <p class="displaySourceNote"><strong>Make display is for printing.</strong> Use <strong>Present</strong> when you want the live model on the classroom board.</p>
     </section>
 
     <div class="workflowBody displayQuestionStep" id="displayQuestionStep" hidden>
@@ -4859,35 +4949,40 @@ body.presentation.displayComposition[data-model="partitionMultiplication"] .part
       <section class="workflowPane" aria-labelledby="analysisTitle"><h3 id="analysisTitle">Choose the model</h3><p class="workflowHelp">The proposal explains what each representation would emphasise. Check it, correct it, then continue to the display.</p><div id="analysisPanel"></div></section>
     </div>
 
-    <div class="workflowBody displayEditor" id="displayEditorStep" hidden>
-      <section class="workflowPane">
+    <div class="workflowBody displayEditor wallDisplayEditor" id="displayEditorStep" hidden>
+      <section class="workflowPane wallDisplayControls">
         <div class="displaySection">
-          <div class="displaySectionHead"><strong>Teaching focus</strong><span>What pupils see first</span></div>
+          <div class="displaySectionHead"><strong>Wall display content</strong><span>Edit the printable wording</span></div>
           <div class="displayOptions">
-            <div class="workflowField wide"><label for="displayTitleInput">Short title</label><input id="displayTitleInput" type="text" maxlength="100" placeholder="Mathematical thinking"></div>
+            <div class="workflowField wide"><label for="displayTitleInput">Display title</label><input id="displayTitleInput" type="text" maxlength="100" placeholder="Mathematical thinking"></div>
             <div class="workflowField wide" id="displayQuestionField"><label for="displayQuestionInput">Question</label><textarea id="displayQuestionInput" maxlength="1500" placeholder="The selected question appears here"></textarea></div>
+            <div class="workflowField wide"><label for="displayPromptInput">Discussion prompt</label><input id="displayPromptInput" type="text" maxlength="180" placeholder="What do you notice? What do you wonder?"></div>
+            <div class="workflowField wide"><label for="displayVocabularyInput">Key vocabulary</label><input id="displayVocabularyInput" type="text" maxlength="240" placeholder="difference · whole · part"></div>
+            <div class="workflowField wide"><label for="displayAnswerInput">Solution or answer <span aria-hidden="true">·</span> optional</label><input id="displayAnswerInput" type="text" maxlength="300" placeholder="Add only if you want a solution card"></div>
           </div>
         </div>
-        <div class="displaySection">
-          <div class="displaySectionHead"><strong>Discussion support</strong><span>Optional</span></div>
-          <div class="displayOptions">
-            <div class="workflowField wide"><label for="displayPromptInput">Prompt</label><input id="displayPromptInput" type="text" maxlength="180" placeholder="What do you notice? What do you wonder?"></div>
-            <div class="workflowField"><label for="displayVocabularyInput">Vocabulary</label><input id="displayVocabularyInput" type="text" maxlength="180" placeholder="difference · whole · part"></div>
-            <div class="workflowField"><label for="displayAnswerInput">Revealable answer</label><input id="displayAnswerInput" type="text" maxlength="220" placeholder="Optional"></div>
-          </div>
+        <div class="displaySection wallPiecesSection">
+          <div class="displaySectionHead"><strong>Printable pieces</strong><span id="displayPackCount">0 pages selected</span></div>
+          <p class="wallPiecesHelp">Choose the pieces you need and use the arrows to set their print order. The model poster is always included.</p>
+          <div class="wallPieceList" id="wallPieceList" aria-label="Printable display pieces"></div>
         </div>
-        <div class="displaySection displayBoardRule">
-          <div class="displaySectionHead"><strong>Classroom board</strong><span>One dependable composition</span></div>
-          <div class="displayBoardSummary" id="displayLayouts"><span class="displayBoardIcon" aria-hidden="true">▣</span><div><strong id="displayPrimaryLayoutTitle">Board-first display</strong><span id="displayPrimaryLayoutDescription">The model fills every available pixel. A question, when used, sits clearly above it.</span></div></div>
-          <div class="displayPrintRow"><label for="displayOrientation">Printed copy</label><select id="displayOrientation"><option value="landscape">A4 landscape</option><option value="portrait">A4 portrait</option></select></div>
+        <div class="displaySection wallPrintSetup">
+          <div class="displaySectionHead"><strong>Print setup</strong><span>One page per piece</span></div>
+          <div class="wallPrintFields">
+            <div class="workflowField"><label for="displayPaperSize">Paper size</label><select id="displayPaperSize"><option value="A4">A4</option><option value="A3">A3</option></select></div>
+            <div class="workflowField"><label for="displayOrientation">Page orientation</label><select id="displayOrientation"><option value="landscape">Landscape</option><option value="portrait">Portrait</option></select></div>
+          </div>
         </div>
         <div class="workflowStatus" id="displayStatus" role="status"></div>
       </section>
-      <section class="displayPreview" aria-label="Classroom display preview"><div class="displayPreviewPage" id="displayPreviewPage" data-layout="question-model"><div class="displayPreviewHead"><div class="displayPreviewIdentity"><span class="displayPreviewMark" aria-hidden="true">∴</span><small id="displayPreviewKicker">Mathematical thinking</small></div><h3 id="displayPreviewQuestion">Your question will appear here.</h3><div class="displayPreviewPromptWrap"><span class="displayPreviewPromptLabel">Discuss</span><p id="displayPreviewPrompt"></p></div></div><div class="displayPreviewModel"><div class="displayPreviewLive" id="displayPreviewLive"></div><div class="displayPreviewFallback" id="displayPreviewFallback"><div><span aria-hidden="true">∴</span><strong id="displayPreviewModelName">Choose a model</strong><small id="displayPreviewSummary">The live mathematical model will fill this space.</small></div></div></div><div class="displayPreviewFoot"><span id="displayPreviewVocabulary"></span><span id="displayPreviewModelChip">Live editable model</span></div></div></section>
+      <section class="displayPreview wallPackPreview" aria-label="Printable display wall preview">
+        <div class="wallPreviewHead"><div><span>Wall preview</span><strong>Each card becomes a separate printed page</strong></div><span class="wallPreviewPresentNote">For the live board, close this and tap Present.</span></div>
+        <div class="wallPreviewBoard" id="wallPreviewBoard" data-orientation="landscape"></div>
+      </section>
     </div>
     <footer class="workflowFoot displayFlowFoot" id="displaySourceFoot"><span class="workflowFootNote">Choose a route above. You can return here without losing the model.</span></footer>
-    <footer class="workflowFoot displayFlowFoot" id="displayQuestionFoot" hidden><button class="workflowAction" id="displayQuestionBack" type="button">← Choose another route</button><div class="workflowActions"><button class="workflowAction" id="printQuestionPupil" type="button">Print pupil set</button><button class="workflowAction" id="printQuestionTeacher" type="button">Print teacher set</button></div></footer>
-    <footer class="workflowFoot displayFlowFoot" id="displayEditorFoot" hidden><button class="workflowAction" id="displayEditorBack" type="button">← Start again</button><div class="workflowActions"><button class="workflowAction" id="printDisplayPupil" type="button">Print pupil copy</button><button class="workflowAction" id="printDisplayTeacher" type="button">Print teacher copy</button><button class="workflowAction primary" id="launchDisplay" type="button">Create display</button></div></footer>
+    <footer class="workflowFoot displayFlowFoot" id="displayQuestionFoot" hidden><button class="workflowAction" id="displayQuestionBack" type="button">← Choose another route</button><span class="workflowFootNote">Choose a model in the analysis panel to continue to the wall pack.</span></footer>
+    <footer class="workflowFoot displayFlowFoot" id="displayEditorFoot" hidden><button class="workflowAction" id="displayEditorBack" type="button">← Start again</button><div class="workflowActions"><button class="workflowAction" id="closeDisplayDone" type="button">Done</button><button class="workflowAction primary" id="launchDisplay" type="button">Print wall pack</button></div></footer>
   </div>
 </dialog>
 <script>
@@ -4937,7 +5032,7 @@ const MODEL_META = {
 
 const defaults = {
   active:'home', anchorNumber:2436, labels:true, valuesVisible:true, spotlightMode:false, pointerMode:false, placeLabelMode:'words', background:'plain', ink:false, inkTool:'pen', displayLocked:false, showTeachingNotes:true, displayControlsVisible:true,
-  workflow:{draft:'',title:'',year:'',items:[],selected:0,selectedModel:'',activeQuestion:'',analysis:null,display:{source:'model',layout:'question-model',title:'Mathematical thinking',question:'',prompt:'What do you notice?',vocabulary:'',answer:'',orientation:'landscape'}},
+  workflow:{draft:'',title:'',year:'',items:[],selected:0,selectedModel:'',activeQuestion:'',analysis:null,display:{source:'model',layout:'wall-pack',title:'Mathematical thinking',question:'',prompt:'What do you notice?',vocabulary:'',answer:'',paperSize:'A4',orientation:'landscape',pieceOrder:['title','model','prompt','vocabulary','answer'],pieceEnabled:{title:true,model:true,prompt:true,vocabulary:true,answer:false}}},
   placeValue:{preset:'whole4', counts:{Th:2,H:4,T:3,O:6,t:0,h:0}, showExpanded:true, showNumber:true},
   numberLine:{min:0,max:20,step:1,labelMode:'all', points:[5,12], jumps:[{a:5,b:12,label:'+7'}], prompt:'What do you notice?', snap:true,tool:'point',jumpStart:null},
   baseTen:{number:2436, counts:{Th:2,H:4,T:3,O:6}, showNumber:true},
@@ -5310,7 +5405,7 @@ function renderQuestionList(){
 function renderAnalysisPanel(){
   const panel=$('#analysisPanel'),item=currentQuestionItem();if(!panel)return;if(!item){panel.innerHTML='<div class="analysisEmpty"><div><span aria-hidden="true">⌁</span><strong>No proposal yet</strong><p>Write or paste a question, then choose Analyse questions. Nothing on the current canvas will change.</p></div></div>';return}
   const analysis=item.analysis&&Array.isArray(item.analysis.recommendations)&&Array.isArray(item.analysis.values)?item.analysis:analyseQuestion(item.text);item.analysis=analysis;const selected=state.workflow.selectedModel||analysis.recommendations[0]?.model||'bar',values=analysis.values;
-  panel.innerHTML=`<div class="analysisCard"><div class="analysisSummary"><div class="analysisBand"><span class="matchLabel">${esc(analysis.match)}</span><span class="structureLabel">${esc(STRUCTURE_LABELS[analysis.structure]||analysis.structure)}</span></div><p class="analysisQuestion">${esc(item.text)}</p></div><div class="analysisFacts"><div class="analysisFact"><span>Values found</span><strong>${values.length?values.map(v=>esc(v.raw+(v.unit?' '+v.unit:''))).join(' · '):'None yet'}</strong></div><div class="analysisFact"><span>Likely unknown</span><strong>${esc(analysis.unknown)}</strong></div><div class="analysisFact"><span>Expected answer</span><strong>${esc(analysis.answer||'Teacher to confirm')}</strong></div></div><div class="workflowField"><label for="analysisStructure">Correct the detected structure</label><select id="analysisStructure">${Object.entries(STRUCTURE_LABELS).map(([key,label])=>`<option value="${key}" ${analysis.structure===key?'selected':''}>${esc(label)}</option>`).join('')}</select></div><div class="recommendations">${analysis.recommendations.map(({model,tag,info})=>`<button class="recommendation ${selected===model?'selected':''}" data-recommend-model="${model}"><span class="recommendationIcon" aria-hidden="true">${info[0]}</span><span><strong>${info[1]}</strong><small>${info[2]}</small></span><span class="recommendationTag">${tag}</span></button>`).join('')}</div><div class="proposalBox"><h4>Build proposal · teacher check</h4>${values.length?`<div class="proposalValueGrid">${values.slice(0,6).map((value,index)=>`<div class="proposalValue"><label>Value ${index+1}</label><input type="number" step="any" data-analysis-value="${index}" value="${esc(value.value)}" aria-label="Detected value ${index+1}"></div>`).join('')}</div>`:'<div class="proposalRow"><span>Known values</span><strong>Enter values after choosing the model</strong></div>'}<label class="workflowLabel" for="analysisUnknown">What should be hidden or found?</label><input class="proposalUnknown" id="analysisUnknown" type="text" maxlength="180" value="${esc(analysis.unknown)}"></div><div class="buildRow"><span class="buildNote">The model stays editable. Next, compose the display.</span><button class="workflowAction primary" id="buildQuestionModel" type="button">Use this model →</button></div></div>`;
+  panel.innerHTML=`<div class="analysisCard"><div class="analysisSummary"><div class="analysisBand"><span class="matchLabel">${esc(analysis.match)}</span><span class="structureLabel">${esc(STRUCTURE_LABELS[analysis.structure]||analysis.structure)}</span></div><p class="analysisQuestion">${esc(item.text)}</p></div><div class="analysisFacts"><div class="analysisFact"><span>Values found</span><strong>${values.length?values.map(v=>esc(v.raw+(v.unit?' '+v.unit:''))).join(' · '):'None yet'}</strong></div><div class="analysisFact"><span>Likely unknown</span><strong>${esc(analysis.unknown)}</strong></div><div class="analysisFact"><span>Expected answer</span><strong>${esc(analysis.answer||'Teacher to confirm')}</strong></div></div><div class="workflowField"><label for="analysisStructure">Correct the detected structure</label><select id="analysisStructure">${Object.entries(STRUCTURE_LABELS).map(([key,label])=>`<option value="${key}" ${analysis.structure===key?'selected':''}>${esc(label)}</option>`).join('')}</select></div><div class="recommendations">${analysis.recommendations.map(({model,tag,info})=>`<button class="recommendation ${selected===model?'selected':''}" data-recommend-model="${model}"><span class="recommendationIcon" aria-hidden="true">${info[0]}</span><span><strong>${info[1]}</strong><small>${info[2]}</small></span><span class="recommendationTag">${tag}</span></button>`).join('')}</div><div class="proposalBox"><h4>Build proposal · teacher check</h4>${values.length?`<div class="proposalValueGrid">${values.slice(0,6).map((value,index)=>`<div class="proposalValue"><label>Value ${index+1}</label><input type="number" step="any" data-analysis-value="${index}" value="${esc(value.value)}" aria-label="Detected value ${index+1}"></div>`).join('')}</div>`:'<div class="proposalRow"><span>Known values</span><strong>Enter values after choosing the model</strong></div>'}<label class="workflowLabel" for="analysisUnknown">What should be hidden or found?</label><input class="proposalUnknown" id="analysisUnknown" type="text" maxlength="180" value="${esc(analysis.unknown)}"></div><div class="buildRow"><span class="buildNote">The model stays editable. Next, organise the printable wall pieces.</span><button class="workflowAction primary" id="buildQuestionModel" type="button">Use this model →</button></div></div>`;
   $('#analysisStructure').onchange=()=>{item.analysis=analyseQuestion(item.text,$('#analysisStructure').value);state.workflow.selectedModel=item.analysis.recommendations[0]?.model||'bar';saveState();renderAnalysisPanel()};
   $$('[data-recommend-model]',panel).forEach(button=>button.onclick=()=>{state.workflow.selectedModel=button.dataset.recommendModel;saveState();renderAnalysisPanel()});$('#buildQuestionModel').onclick=buildQuestionModel;
   $$('[data-analysis-value]',panel).forEach(input=>input.onchange=()=>{const value=Number(input.value);if(!Number.isFinite(value))return;analysis.values[Number(input.dataset.analysisValue)].value=value;analysis.answer=inferAnswer(analysis.structure,analysis.values,analysis.question.toLowerCase());item.analysis=analysis;saveState();renderAnalysisPanel()});$('#analysisUnknown').onchange=()=>{analysis.unknown=safePlainText($('#analysisUnknown').value).slice(0,180)||'Teacher to identify';item.analysis=analysis;saveState();renderAnalysisPanel()};
@@ -5352,71 +5447,127 @@ function seedQuestionModel(model,analysis){
 }
 function buildQuestionModel(){
   const item=currentQuestionItem();if(!item)return;const analysis=item.analysis||analyseQuestion(item.text),model=state.workflow.selectedModel||analysis.recommendations[0]?.model||'bar';if(!QUESTION_MODEL_INFO[model])return setWorkflowStatus('Choose a supported model before building.',true);
-  saveCurrentInkLayer();seedQuestionModel(model,analysis);state.active=model;state.workflow.activeQuestion=item.text;state.workflow.analysis=deepCopy(analysis);state.workflow.display.source='question';state.workflow.display.question=item.text;state.workflow.display.title=state.workflow.title||'Mathematical thinking';if(analysis.answer)state.workflow.display.answer=analysis.answer;state.ink=false;state.inkTool='pen';commit();renderAll();showDisplayFlowStep('editor');toast(`${QUESTION_MODEL_INFO[model][1]} built · now compose the display`)
+  saveCurrentInkLayer();seedQuestionModel(model,analysis);state.active=model;state.workflow.activeQuestion=item.text;state.workflow.analysis=deepCopy(analysis);const display=normaliseWallDisplay();display.source='question';display.question=item.text;display.title=state.workflow.title||'Mathematical thinking';display.pieceEnabled.title=true;display.pieceEnabled.model=true;if(analysis.answer)display.answer=analysis.answer;state.ink=false;state.inkTool='pen';commit();renderAll();showDisplayFlowStep('editor');toast(`${QUESTION_MODEL_INFO[model][1]} built · now organise the wall pack`)
 }
 function openQuestionDialog(){openDisplayEditor('question')}
 function modelTextSummary(){
   const a=state.active;if(a==='home')return 'Start screen with choices for mathematical models.';if(a==='placeValue')return `Place-value counters representing ${fmt(pvValue())}.`;if(a==='baseTen')return `Base-ten blocks representing ${fmt(btValue())}.`;if(a==='numberLine')return `Number line from ${fmt(state.numberLine.min)} to ${fmt(state.numberLine.max)} with ${state.numberLine.points.length} marked point${state.numberLine.points.length===1?'':'s'} and ${state.numberLine.jumps.length} jump${state.numberLine.jumps.length===1?'':'s'}.`;if(a==='bar'){const s=state.bar;if(s.mode==='equal')return `Equal-parts bar showing ${s.equal.groups} groups of ${s.equal.value}.`;if(s.mode==='comparison')return `Comparison bar showing ${s.comparison.topValue} and ${s.comparison.bottomValue}.`;return `Part-whole bar showing a whole of ${s.whole} and ${s.segments.length} parts.`}if(a==='fractions')return `Fraction strips showing ${state.fractions.aN}/${state.fractions.aD}${state.fractions.compare?` and ${state.fractions.bN}/${state.fractions.bD}`:''}.`;if(a==='array')return `Array showing ${state.array.rows} rows and ${state.array.cols} columns, ${state.array.rows*state.array.cols} in total.`;if(a==='grid')return `${state.grid.mode} grid with ${state.grid.count} cells shaded.`;if(a==='areaPerimeter'){const m=areaCells(state.areaPerimeter);return `${state.areaPerimeter.shape} with area ${m.area} square units and perimeter ${m.perimeter} units.`}if(a==='shapes')return `Shape model showing ${state.shapes.dimension==='2d'?SHAPE_2D[state.shapes.shape2d]?.name:SHAPE_3D[state.shapes.shape3d]?.name}.`;if(a==='clock')return `Clock showing ${fmt(state.clock.hour)}:${String(state.clock.minute).padStart(2,'0')}.`;if(a==='coordinates')return `Coordinate grid with ${state.coordinates.points.length} plotted point${state.coordinates.points.length===1?'':'s'}.`;if(a==='angle')return `Angle model showing ${state.angle.degrees} degrees.`;if(a==='column')return `Column ${state.column.mode==='add'?'addition':'subtraction'} showing ${state.column.top} and ${state.column.bottom}.`;if(a==='multiplication')return `Short multiplication showing ${state.multiplication.top} times ${state.multiplication.multiplier}.`;if(a==='partitionMultiplication')return `Partitioned multiplication showing ${state.partitionMultiplication.top} times ${state.partitionMultiplication.bottom}.`;if(a==='division')return `Bus-stop division showing ${state.division.dividend} divided by ${state.division.divisor}.`;return 'Editable mathematical model.'
 }
-function displayValuesFromInputs(){
-  const d=state.workflow.display;d.title=safePlainText($('#displayTitleInput')?.value||'').slice(0,100);d.question=safePlainText($('#displayQuestionInput')?.value||'').slice(0,1500);d.prompt=safePlainText($('#displayPromptInput')?.value||'').slice(0,180);d.vocabulary=safePlainText($('#displayVocabularyInput')?.value||'').slice(0,180);d.answer=safePlainText($('#displayAnswerInput')?.value||'').slice(0,220);d.orientation=$('#displayOrientation')?.value==='portrait'?'portrait':'landscape';d.layout='board';saveWorkflowSoon();return d
+const WALL_PIECES=['title','model','prompt','vocabulary','answer'];
+const WALL_PIECE_META={
+  title:{label:'Title or question poster',description:'The display focus pupils read first'},
+  model:{label:'Model poster',description:'A large print of the model on the canvas'},
+  prompt:{label:'Discussion prompt',description:'A separate card for mathematical talk'},
+  vocabulary:{label:'Key vocabulary',description:'Terms printed as large word cards'},
+  answer:{label:'Solution or answer',description:'An optional reveal card for later'}
+};
+function normaliseWallDisplay(d=state.workflow.display){
+  const defaultsOn={title:true,model:true,prompt:true,vocabulary:true,answer:false};
+  if(!Array.isArray(d.pieceOrder))d.pieceOrder=[...WALL_PIECES];
+  d.pieceOrder=[...new Set(d.pieceOrder.filter(piece=>WALL_PIECES.includes(piece)))];
+  WALL_PIECES.forEach(piece=>{if(!d.pieceOrder.includes(piece))d.pieceOrder.push(piece)});
+  if(!d.pieceEnabled||typeof d.pieceEnabled!=='object')d.pieceEnabled={...defaultsOn};
+  WALL_PIECES.forEach(piece=>{if(typeof d.pieceEnabled[piece]!=='boolean')d.pieceEnabled[piece]=defaultsOn[piece]});
+  d.pieceEnabled.model=true;d.paperSize=d.paperSize==='A3'?'A3':'A4';d.orientation=d.orientation==='portrait'?'portrait':'landscape';d.layout='wall-pack';return d
 }
-function cloneModelIntoDisplayPreview(){
-  const source=$('#stage'),host=$('#displayPreviewLive'),fallback=$('#displayPreviewFallback');if(!source||!host)return;
-  const sourceModel=source.firstElementChild;if(!sourceModel){host.replaceChildren();if(fallback)fallback.hidden=false;return}
-  const clone=sourceModel.cloneNode(true),idMap=new Map(),stamp=`displayPreview${Date.now().toString(36)}`;
-  clone.classList.add('displayPreviewLiveStageModel');clone.setAttribute('aria-hidden','true');
+function vocabularyTokens(value){return [...new Set(String(value||'').split(/[·,;|\n]+/).map(token=>token.trim()).filter(Boolean))].slice(0,18)}
+function wallPieceAvailable(piece,d=state.workflow.display){
+  if(piece==='model')return state.active!=='home';
+  if(piece==='title')return !!(d.title||d.question||MODEL_META[state.active]?.[0]);
+  if(piece==='prompt')return !!d.prompt;
+  if(piece==='vocabulary')return vocabularyTokens(d.vocabulary).length>0;
+  if(piece==='answer')return !!d.answer;
+  return false
+}
+function activeWallPieces(d=state.workflow.display){normaliseWallDisplay(d);return d.pieceOrder.filter(piece=>d.pieceEnabled[piece]&&wallPieceAvailable(piece,d))}
+function displayValuesFromInputs(){
+  const d=normaliseWallDisplay();
+  if($('#displayTitleInput'))d.title=safePlainText($('#displayTitleInput').value||'').slice(0,100);
+  if($('#displayQuestionInput'))d.question=safePlainText($('#displayQuestionInput').value||'').slice(0,1500);
+  if($('#displayPromptInput'))d.prompt=safePlainText($('#displayPromptInput').value||'').slice(0,180);
+  if($('#displayVocabularyInput'))d.vocabulary=safePlainText($('#displayVocabularyInput').value||'').slice(0,240);
+  if($('#displayAnswerInput'))d.answer=safePlainText($('#displayAnswerInput').value||'').slice(0,300);
+  if($('#displayPaperSize'))d.paperSize=$('#displayPaperSize').value==='A3'?'A3':'A4';
+  if($('#displayOrientation'))d.orientation=$('#displayOrientation').value==='portrait'?'portrait':'landscape';
+  d.layout='wall-pack';saveWorkflowSoon();return d
+}
+let wallCloneSerial=0;
+function cloneCurrentModelInto(host,shellClass){
+  const sourceModel=$('#stage')?.firstElementChild;if(!host||!sourceModel){host?.replaceChildren();return false}
+  const clone=sourceModel.cloneNode(true),idMap=new Map(),stamp=`wallModel${++wallCloneSerial}`;
+  clone.classList.add('wallClonedModel');clone.style.removeProperty('--board-fit-scale');clone.setAttribute('aria-hidden','true');
   [clone,...clone.querySelectorAll('[id]')].filter(element=>element.id).forEach((element,index)=>{const oldId=element.id,newId=`${stamp}-${index}-${oldId}`;idMap.set(oldId,newId);element.id=newId});
   const referenceAttributes=['fill','stroke','filter','clip-path','mask','marker-start','marker-mid','marker-end','href','xlink:href'];
   clone.querySelectorAll('*').forEach(element=>{
     referenceAttributes.forEach(name=>{const value=element.getAttribute(name);if(!value)return;let next=value;idMap.forEach((replacement,original)=>{next=next.replaceAll(`url(#${original})`,`url(#${replacement})`).replaceAll(`#${original}`,`#${replacement}`)});if(next!==value)element.setAttribute(name,next)});
-    element.removeAttribute('tabindex');element.removeAttribute('contenteditable');element.setAttribute('aria-hidden','true');
+    element.removeAttribute('tabindex');element.removeAttribute('contenteditable');element.setAttribute('aria-hidden','true')
   });
-  clone.querySelectorAll('.directDock,.stageTip,.barDragHint,.integrityNote,.methodHint,.nlNote').forEach(element=>element.remove());
-  const shell=document.createElement('div');shell.className='displayPreviewLiveStage';shell.append(clone);host.replaceChildren(shell);if(fallback)fallback.hidden=true
+  clone.querySelectorAll('.directDock,.stageTip,.barDragHint,.integrityNote,.methodHint,.nlNote,.lockedPartEdit,.wholeLockedEdit,.barDivider,.hideTeachingButton').forEach(element=>element.remove());
+  const shell=document.createElement('div');shell.className=shellClass;shell.append(clone);host.replaceChildren(shell);return true
+}
+function wallPreviewMarkup(piece,d,index){
+  const page=`Page ${index+1}`,modelName=MODEL_META[state.active]?.[0]||'Mathematical model',title=d.title||modelName,question=d.source==='question'?d.question:'';
+  if(piece==='title')return `<article class="wallPreviewCard wallPreviewTitle" data-page="${page}"><small>${esc(d.source==='question'?'Question poster':'Display heading')}</small><h3>${esc(question||title)}</h3>${question&&title&&title!==question?`<p>${esc(title)}</p>`:''}</article>`;
+  if(piece==='model')return `<article class="wallPreviewCard wallPreviewModel" data-page="${page}"><header class="wallPreviewModelHeader"><span>Model poster</span><strong>${esc(modelName)}</strong></header><div class="wallPreviewModelHost" id="wallPreviewModelHost"><div class="wallPreviewModelFallback">The current model will fill this printed page.</div></div></article>`;
+  if(piece==='prompt')return `<article class="wallPreviewCard wallPreviewPrompt" data-page="${page}"><span class="wallPreviewLabel">Discuss</span><blockquote>${esc(d.prompt)}</blockquote></article>`;
+  if(piece==='vocabulary')return `<article class="wallPreviewCard wallPreviewVocabulary" data-page="${page}"><span class="wallPreviewLabel">Key vocabulary</span><div class="wallVocabularyTokens">${vocabularyTokens(d.vocabulary).map(token=>`<span class="wallVocabularyToken">${esc(token)}</span>`).join('')}</div></article>`;
+  return `<article class="wallPreviewCard wallPreviewAnswer" data-page="${page}"><span class="wallPreviewLabel">Solution</span><strong>${esc(d.answer)}</strong></article>`
+}
+function renderWallPieceControls(){
+  const d=normaliseWallDisplay(),host=$('#wallPieceList');if(!host)return;
+  host.innerHTML=d.pieceOrder.map((piece,index)=>{const meta=WALL_PIECE_META[piece],enabled=d.pieceEnabled[piece],available=wallPieceAvailable(piece,d),locked=piece==='model';return `<div class="wallPieceRow ${enabled?'enabled':''} ${available?'':'unavailable'}" data-wall-row="${piece}"><label class="wallPieceCheck"><input type="checkbox" data-wall-piece="${piece}" ${enabled?'checked':''} ${locked?'disabled':''}><span class="wallPieceNumber">${index+1}</span><span class="wallPieceCopy"><strong>${esc(meta.label)}</strong><small>${esc(available?meta.description:piece==='answer'?'Add a solution to make this page available':piece==='vocabulary'?'Add vocabulary to make this page available':piece==='prompt'?'Add a discussion prompt to make this page available':meta.description)}</small></span></label><span class="wallPieceMove"><button type="button" data-wall-move="up" data-wall-target="${piece}" ${index===0?'disabled':''} aria-label="Move ${esc(meta.label)} earlier">↑</button><button type="button" data-wall-move="down" data-wall-target="${piece}" ${index===d.pieceOrder.length-1?'disabled':''} aria-label="Move ${esc(meta.label)} later">↓</button></span></div>`}).join('');
+  $$('[data-wall-piece]',host).forEach(input=>input.onchange=()=>{const piece=input.dataset.wallPiece;d.pieceEnabled[piece]=piece==='model'?true:input.checked;saveState();renderWallPieceControls();renderDisplayPreview()});
+  $$('[data-wall-move]',host).forEach(button=>button.onclick=()=>{const index=d.pieceOrder.indexOf(button.dataset.wallTarget),next=index+(button.dataset.wallMove==='up'?-1:1);if(index<0||next<0||next>=d.pieceOrder.length)return;[d.pieceOrder[index],d.pieceOrder[next]]=[d.pieceOrder[next],d.pieceOrder[index]];saveState();renderWallPieceControls();renderDisplayPreview()})
+}
+function updateWallPieceRows(d){
+  $$('[data-wall-row]',$('#wallPieceList')).forEach(row=>{const piece=row.dataset.wallRow;row.classList.toggle('unavailable',!wallPieceAvailable(piece,d));row.classList.toggle('enabled',!!d.pieceEnabled[piece])})
 }
 function renderDisplayPreview(){
-  const d=displayValuesFromInputs(),page=$('#displayPreviewPage');if(!page)return;const fromQuestion=d.source==='question',question=fromQuestion?(d.question||'Your question will appear here.'):(MODEL_META[state.active]?.[0]||'Current model');page.classList.remove('portrait');page.dataset.layout='board';page.dataset.source=fromQuestion?'question':'model';$('#displayPreviewKicker').textContent=d.title||'Mathematical thinking';const previewQuestion=$('#displayPreviewQuestion');previewQuestion.textContent=question;previewQuestion.classList.toggle('questionLong',question.length>115);$('#displayPreviewPrompt').textContent=d.prompt||'';$('#displayPreviewModelName').textContent=MODEL_META[state.active]?.[0]||'Choose a model';$('#displayPreviewSummary').textContent=modelTextSummary();$('#displayPreviewVocabulary').textContent=d.vocabulary?`Vocabulary · ${d.vocabulary}`:'';$('#displayPreviewModelChip').textContent=MODEL_META[state.active]?.[0]||'Live editable model';cloneModelIntoDisplayPreview()
+  const d=displayValuesFromInputs(),board=$('#wallPreviewBoard');if(!board)return;const pieces=activeWallPieces(d);board.dataset.orientation=d.orientation;
+  board.innerHTML=pieces.length?pieces.map((piece,index)=>wallPreviewMarkup(piece,d,index)).join(''):'<div class="wallPreviewEmpty"><div><strong>No printable pieces selected</strong><span>Select at least one piece for the wall pack.</span></div></div>';
+  if(pieces.includes('model'))cloneCurrentModelInto($('#wallPreviewModelHost'),'wallPreviewModelStage');
+  const count=$('#displayPackCount');if(count)count.textContent=`${pieces.length} ${pieces.length===1?'page':'pages'} selected`;
+  updateWallPieceRows(d);const launch=$('#launchDisplay');if(launch)launch.disabled=!pieces.length||state.active==='home'
 }
 function hydrateDisplayInputs(){
-  const d=state.workflow.display;if(!d.title)d.title=state.workflow.title||'Mathematical thinking';$('#displayTitleInput').value=d.title||'';$('#displayQuestionInput').value=d.question||'';$('#displayPromptInput').value=d.prompt||'';$('#displayVocabularyInput').value=d.vocabulary||'';$('#displayAnswerInput').value=d.answer||'';$('#displayOrientation').value=d.orientation||'landscape'
+  const d=normaliseWallDisplay();if(!d.title)d.title=state.workflow.title||MODEL_META[state.active]?.[0]||'Mathematical thinking';
+  $('#displayTitleInput').value=d.title||'';$('#displayQuestionInput').value=d.question||'';$('#displayPromptInput').value=d.prompt||'';$('#displayVocabularyInput').value=d.vocabulary||'';$('#displayAnswerInput').value=d.answer||'';$('#displayPaperSize').value=d.paperSize;$('#displayOrientation').value=d.orientation
 }
 function showDisplayFlowStep(step){
-  const dialog=$('#displayDialog'),valid=['source','question','editor'].includes(step)?step:'source',d=state.workflow.display;dialog.dataset.flowStep=valid;dialog.dataset.displaySource=d.source==='question'?'question':'model';$('#displaySourceStep').hidden=valid!=='source';$('#displayQuestionStep').hidden=valid!=='question';$('#displayEditorStep').hidden=valid!=='editor';$('#displaySourceFoot').hidden=valid!=='source';$('#displayQuestionFoot').hidden=valid!=='question';$('#displayEditorFoot').hidden=valid!=='editor';
-  const copy={source:['Classroom display','Create display','Choose what this display begins with. Nothing on the canvas changes until you decide.'],question:['Question → structure → model','Build a display from a question','Enter the wording, check the mathematical structure and choose the representation before composing the display.'],editor:[d.source==='question'?'Question + model':'Current model','Compose the display',d.source==='question'?'The chosen question and model now belong to this display only.':'Prepare a clean classroom view of the model already built on the canvas.']}[valid];$('#displayDialogEyebrow').textContent=copy[0];$('#displayDialogTitle').textContent=copy[1];$('#displayDialogDescription').textContent=copy[2];
+  const dialog=$('#displayDialog'),valid=['source','question','editor'].includes(step)?step:'source',d=normaliseWallDisplay();dialog.dataset.flowStep=valid;dialog.dataset.displaySource=d.source==='question'?'question':'model';$('#displaySourceStep').hidden=valid!=='source';$('#displayQuestionStep').hidden=valid!=='question';$('#displayEditorStep').hidden=valid!=='editor';$('#displaySourceFoot').hidden=valid!=='source';$('#displayQuestionFoot').hidden=valid!=='question';$('#displayEditorFoot').hidden=valid!=='editor';
+  const copy={source:['Display wall print studio','Make display','Choose a model or a question, then organise the separate pieces to print for your classroom wall.'],question:['Question → structure → model','Build the wall display from a question','Enter the wording, check its mathematical structure and choose the model before organising the print pack.'],editor:[d.source==='question'?'Question + model · print pack':'Current model · print pack','Organise the wall display',d.source==='question'?'Choose, order and print the question, model and supporting cards.':'Turn the model on the canvas into a coordinated set of printable wall pieces.']}[valid];$('#displayDialogEyebrow').textContent=copy[0];$('#displayDialogTitle').textContent=copy[1];$('#displayDialogDescription').textContent=copy[2];
   if(valid==='source'){const useModel=$('#displayUseModel'),summary=$('#displayCurrentModelSummary'),hasModel=state.active!=='home';useModel.disabled=!hasModel;useModel.setAttribute('aria-disabled',String(!hasModel));summary.textContent=hasModel?`${MODEL_META[state.active][0]} · ${modelTextSummary()}`:'Choose and build a model on the canvas first.';setTimeout(()=>$(hasModel?'#displayUseModel':'#displayUseQuestion')?.focus(),40)}
-  if(valid==='question'){d.source='question';dialog.dataset.displaySource='question';$('#questionDraft').value=state.workflow.draft||'';$('#questionTitle').value=state.workflow.title||'';$('#questionYear').value=state.workflow.year||'';renderQuestionWorkspace();setWorkflowStatus(state.workflow.items.length?'Review the detected structure, choose a model, then continue to the display.':'Enter a question. The current canvas will remain untouched until you choose Build model.');saveState();setTimeout(()=>$('#questionDraft')?.focus(),40)}
-  if(valid==='editor'){if(state.active==='home'){showDisplayFlowStep('question');return}hydrateDisplayInputs();const fromQuestion=d.source==='question';$('#displayQuestionField').hidden=!fromQuestion;$('#displayPrimaryLayoutTitle').textContent=fromQuestion?'Question above one clear model':'Model fills the board';$('#displayPrimaryLayoutDescription').textContent=fromQuestion?'The full question stays readable while the representation uses every remaining pixel.':'No heading, question panel or teaching notes will compete with the model.';$('#launchDisplay').textContent=fromQuestion?'Open question display':'Display current model';$('#displayStatus').textContent=fromQuestion?'The question and model are ready. Check the wording, then open the classroom display.':'The current model is ready to fill the classroom board.';$('#displayStatus').classList.remove('error');renderDisplayPreview();saveState();setTimeout(()=>$(fromQuestion?'#displayQuestionInput':'#launchDisplay')?.focus(),40)}
+  if(valid==='question'){d.source='question';dialog.dataset.displaySource='question';$('#questionDraft').value=state.workflow.draft||'';$('#questionTitle').value=state.workflow.title||'';$('#questionYear').value=state.workflow.year||'';renderQuestionWorkspace();setWorkflowStatus(state.workflow.items.length?'Review the detected structure and choose a model to continue to the wall pack.':'Enter a question. The canvas will change only after you choose its model.');saveState();setTimeout(()=>$('#questionDraft')?.focus(),40)}
+  if(valid==='editor'){if(state.active==='home'){showDisplayFlowStep('question');return}hydrateDisplayInputs();const fromQuestion=d.source==='question';$('#displayQuestionField').hidden=!fromQuestion;$('#launchDisplay').textContent='Print wall pack';$('#displayStatus').textContent='This makes printable wall pieces. Present remains the separate live classroom-board view.';$('#displayStatus').classList.remove('error');renderWallPieceControls();renderDisplayPreview();$('.wallDisplayControls').scrollTop=0;$('#wallPreviewBoard').scrollTop=0;saveState();setTimeout(()=>$(fromQuestion?'#displayQuestionInput':'#displayTitleInput')?.focus({preventScroll:true}),40)}
 }
 function chooseDisplaySource(source){
-  const d=state.workflow.display;if(source==='model'){if(state.active==='home')return toast('Choose and build a model first');d.source='model';d.question='';d.answer='';state.workflow.activeQuestion='';state.workflow.analysis=null;showDisplayFlowStep('editor')}else showDisplayFlowStep('question')
+  const d=normaliseWallDisplay();if(source==='model'){if(state.active==='home')return toast('Choose and build a model first');d.source='model';d.question='';d.answer='';d.pieceEnabled.answer=false;if(!d.title||d.title==='Mathematical thinking')d.title=MODEL_META[state.active]?.[0]||'Mathematical model';state.workflow.activeQuestion='';state.workflow.analysis=null;showDisplayFlowStep('editor')}else showDisplayFlowStep('question')
 }
 function openDisplayEditor(initialStep='source'){
   displayDialogReturn=document.activeElement;const dialog=$('#displayDialog');if(typeof dialog.showModal==='function'&&!dialog.open)dialog.showModal();else if(!dialog.open)dialog.setAttribute('open','');showDisplayFlowStep(initialStep)
 }
 function closeDisplayEditor(){persistQuestionDraft();displayValuesFromInputs();const dialog=$('#displayDialog');if(typeof dialog.close==='function'&&dialog.open)dialog.close();else dialog.removeAttribute('open');displayDialogReturn?.focus?.()}
-function syncDisplayCompositionGeometry(){
-  if(!document.body.classList.contains('displayComposition'))return;const header=$('#displayCompositionHeader');if(!header)return;
-  const fromQuestion=document.body.dataset.displaySource==='question',height=fromQuestion?Math.ceil(header.getBoundingClientRect().height):0;document.body.style.setProperty('--board-head',`${Math.max(0,height)}px`)
-}
-function fitClassroomModel(){
-  if(!document.body.classList.contains('presentation')||!document.body.classList.contains('displayComposition'))return;const stage=$('#stage'),model=stage?.firstElementChild;if(!stage||!model)return;model.style.setProperty('--board-fit-scale','1');
-  requestAnimationFrame(()=>{const style=getComputedStyle(stage),availableWidth=Math.max(1,stage.clientWidth-parseFloat(style.paddingLeft)-parseFloat(style.paddingRight)),availableHeight=Math.max(1,stage.clientHeight-parseFloat(style.paddingTop)-parseFloat(style.paddingBottom)),contentWidth=Math.max(model.scrollWidth,model.offsetWidth),contentHeight=Math.max(model.scrollHeight,model.offsetHeight),scale=Math.min(1,availableWidth/Math.max(1,contentWidth),availableHeight/Math.max(1,contentHeight));model.style.setProperty('--board-fit-scale',String(Math.max(.38,Math.floor(scale*1000)/1000)));stage.dataset.boardFit=scale<.995?'scaled':'natural'})
-}
-function queueDisplayGeometry(){requestAnimationFrame(()=>{syncDisplayCompositionGeometry();requestAnimationFrame(fitClassroomModel);setTimeout(()=>{syncDisplayCompositionGeometry();fitClassroomModel()},110)})}
-function renderDisplayComposition(){
-  const d=state.workflow.display,question=d.source==='question'?(d.question||''):'',header=$('#displayCompositionHeader');$('#displayKicker').textContent=d.title||'Mathematical thinking';$('#displayQuestionText').textContent=question;$('#displayPromptText').textContent=d.prompt||'';$('#displayModelText').textContent=MODEL_META[state.active]?.[0]?`Model · ${MODEL_META[state.active][0]}`:'';$('#displayVocabularyText').textContent=d.vocabulary?`Vocabulary · ${d.vocabulary}`:'';$('#displayThinkingPrompt').textContent=d.prompt||'Represent it. Explain it. Convince us.';header.classList.toggle('questionLong',question.length>70);header.classList.toggle('questionVeryLong',question.length>150);header.classList.toggle('questionExtreme',question.length>320);const answer=$('#displayAnswerText');answer.textContent=d.answer?`Answer · ${d.answer}`:'';answer.classList.remove('revealed');$('#displayAnswerToggle').textContent='Reveal answer';document.body.dataset.displayLayout='board';document.body.dataset.displaySource=d.source==='question'?'question':'model';document.body.style.removeProperty('--display-live-head');document.body.style.removeProperty('--board-head');queueDisplayGeometry()
-}
-function launchClassroomDisplay(){
-  const d=displayValuesFromInputs();if(state.active==='home'){$('#displayStatus').textContent='Choose a model or build one from a question first.';$('#displayStatus').classList.add('error');return}if(d.source==='question'&&!d.question){$('#displayStatus').textContent='Add a question before creating this display.';$('#displayStatus').classList.add('error');return}$('#displayStatus').classList.remove('error');saveState();closeDisplayEditor();renderDisplayComposition();document.body.classList.add('displayComposition');displayPreviousValues=state.valuesVisible;state.showTeachingNotes=false;startDisplay();queueDisplayGeometry()
-}
-function toggleDisplayAnswer(){const answer=$('#displayAnswerText'),has=!!state.workflow.display.answer;if(!has)return toast('No answer has been prepared');const shown=answer.classList.toggle('revealed');$('#displayAnswerToggle').textContent=shown?'Hide answer':'Reveal answer';queueDisplayGeometry()}
-function setPrintPage(orientation){let style=$('#build44PrintPage');if(!style){style=document.createElement('style');style.id='build44PrintPage';document.head.append(style)}style.textContent=`@media print{@page{size:A4 ${orientation==='landscape'?'landscape':'portrait'};margin:12mm}}`}
-function cleanupPrint(){document.body.classList.remove('printBuild44','printPupil','printTeacher','printQuestionSet');document.body.removeAttribute('data-print-orientation');clearTimeout(printCleanupTimer)}
+function queueDisplayGeometry(){}
+function renderDisplayComposition(){}
+function toggleDisplayAnswer(){}
+function setPrintPage(orientation,paperSize='A4',margin='12mm'){let style=$('#build44PrintPage');if(!style){style=document.createElement('style');style.id='build44PrintPage';document.head.append(style)}const size=paperSize==='A3'?'A3':'A4',direction=orientation==='landscape'?'landscape':'portrait';style.textContent=`@media print{@page{size:${size} ${direction};margin:${margin}}}`}
+function cleanupPrint(){document.body.classList.remove('printBuild44','printPupil','printTeacher','printQuestionSet','printWallPack');document.body.removeAttribute('data-print-orientation');$('#wallPrintPack')?.replaceChildren();clearTimeout(printCleanupTimer)}
 function requestPrint(){clearTimeout(printCleanupTimer);printCleanupTimer=setTimeout(cleanupPrint,1800);window.print()}
-function printCurrentDisplay(kind='pupil'){
-  if(state.active==='home')return toast('Choose or build a model first');displayValuesFromInputs();renderDisplayComposition();setPrintPage(state.workflow.display.orientation);document.body.dataset.printOrientation=state.workflow.display.orientation==='portrait'?'portrait':'landscape';document.body.classList.remove('printTeacher','printPupil','printQuestionSet');document.body.classList.add('printBuild44',kind==='teacher'?'printTeacher':'printPupil');if(kind==='teacher')$('#displayAnswerText').classList.add('revealed');saveState();requestPrint()
+function wallPrintMarkup(piece,d,index,total){
+  const modelName=MODEL_META[state.active]?.[0]||'Mathematical model',title=d.title||modelName,question=d.source==='question'?d.question:'',page=`${index+1} of ${total}`;
+  if(piece==='title')return `<article class="wallPrintPage wallPrintTitlePage"><div class="wallPrintBrand"><span class="wallPrintMark">∴</span><span>${esc(d.source==='question'?'Mathematical question':'Mathematical model')}</span></div><h1>${esc(question||title)}</h1>${question&&title&&title!==question?`<h2>${esc(title)}</h2>`:''}</article>`;
+  if(piece==='model')return `<article class="wallPrintPage wallPrintModelPage"><header class="wallPrintModelHead"><span>Model poster</span><strong>${esc(modelName)}</strong></header><div class="wallPrintModelHost" id="wallPrintModelHost"></div><footer class="wallPrintModelFoot"><span>${esc(title)}</span><span>${esc(page)}</span></footer></article>`;
+  if(piece==='prompt')return `<article class="wallPrintPage wallPrintPromptPage"><span class="wallPrintPieceLabel">Discuss</span><blockquote>${esc(d.prompt)}</blockquote></article>`;
+  if(piece==='vocabulary')return `<article class="wallPrintPage wallPrintVocabularyPage"><span class="wallPrintPieceLabel">Language of the mathematics</span><h1>Key vocabulary</h1><div class="wallPrintVocabularyTokens">${vocabularyTokens(d.vocabulary).map(token=>`<span class="wallPrintVocabularyToken">${esc(token)}</span>`).join('')}</div></article>`;
+  return `<article class="wallPrintPage wallPrintAnswerPage"><span class="wallPrintPieceLabel">Solution</span><h1>Answer or worked conclusion</h1><div class="wallPrintAnswer">${esc(d.answer)}</div></article>`
 }
+function buildWallPrintPack(d,pieces){
+  const pack=$('#wallPrintPack');pack.innerHTML=pieces.map((piece,index)=>wallPrintMarkup(piece,d,index,pieces.length)).join('');if(pieces.includes('model'))cloneCurrentModelInto($('#wallPrintModelHost'),'wallPrintModelStage');return pack
+}
+function printWallDisplayPack(){
+  const d=displayValuesFromInputs();if(state.active==='home'){$('#displayStatus').textContent='Choose a model or build one from a question first.';$('#displayStatus').classList.add('error');return}if(d.source==='question'&&!d.question){$('#displayStatus').textContent='Add the question before printing the wall pack.';$('#displayStatus').classList.add('error');return}const pieces=activeWallPieces(d);if(!pieces.length){$('#displayStatus').textContent='Select at least one printable piece.';$('#displayStatus').classList.add('error');return}$('#displayStatus').textContent=`Preparing ${pieces.length} printable ${pieces.length===1?'page':'pages'}…`;$('#displayStatus').classList.remove('error');buildWallPrintPack(d,pieces);setPrintPage(d.orientation,d.paperSize,'0');document.body.classList.remove('printBuild44','printPupil','printTeacher','printQuestionSet');document.body.classList.add('printWallPack');saveState();requestPrint()
+}
+function printCurrentDisplay(){printWallDisplayPack()}
 function printQuestionSet(kind='pupil'){
   persistQuestionDraft();const items=state.workflow.items.filter(item=>item.include!==false&&item.text).slice(0,WORKFLOW_MAX_QUESTIONS);if(!items.length)return setWorkflowStatus('There are no included questions to print.',true);const sheet=$('#printQuestionSheet');sheet.innerHTML=`<h1>${esc(state.workflow.title||'Mathematics questions')}</h1><p class="printSub">${esc(state.workflow.year||'')} ${state.workflow.year?'· ':''}${kind==='teacher'?'Teacher copy':'Pupil copy'}</p>${items.map((item,index)=>`<article class="printQuestionItem"><span class="printLevel">${esc(item.level||`Question ${index+1}`)}</span><h2>${esc(item.text)}</h2>${kind==='teacher'?`<div class="printAnswer">Answer · ${esc(item.answer||item.analysis?.answer||'Teacher to confirm')}</div>`:'<div class="workingLines"></div>'}</article>`).join('')}`;setPrintPage('portrait');document.body.classList.remove('printBuild44','printTeacher','printPupil');document.body.classList.add('printQuestionSet');requestPrint()
 }
@@ -5458,8 +5609,8 @@ function rangeInput(path,value,min,max,step=1){return `<input type="range" data-
 function checkbox(path,on){return `<label class="toggle"><input type="checkbox" data-path="${path}" ${on?'checked':''}><span></span></label>`}
 
 function renderHome(stage){
-  stage.innerHTML=`<div class="empty"><div class="emptyIntro"><div class="big">∴</div><h2>Begin with a mathematical model.</h2><p>Choose an instrument and build directly. When you create a display, you can use that model or begin from a question.</p></div><div class="quickGrid">
-  <button class="quickCard" id="homeDisplayStart"><div>▣</div><strong>Create a display</strong><span>Use a model or enter a question</span></button>
+  stage.innerHTML=`<div class="empty"><div class="emptyIntro"><div class="big">∴</div><h2>Begin with a mathematical model.</h2><p>Choose an instrument and build directly. Make Display creates printable wall pieces; Present opens the live classroom board.</p></div><div class="quickGrid">
+  <button class="quickCard" id="homeDisplayStart"><div>▣</div><strong>Make a display</strong><span>Organise printable wall pieces</span></button>
   ${quick('placeValue','●','Place value','Counters, exchange and decimals')}
   ${quick('numberLine','↔','Number line','Whole numbers, decimals and negatives')}
   ${quick('bar','▭','Bar model','Parts, wholes and comparison')}
@@ -6213,8 +6364,9 @@ function updateDisplayControls(){
 let displayIdleTimer=null;function wakeDisplayControls(){if(!document.body.classList.contains('presentation'))return;document.body.classList.remove('displayIdle');clearTimeout(displayIdleTimer);displayIdleTimer=setTimeout(()=>document.body.classList.add('displayIdle'),2600)}
 function toggleTeach(force){const next=typeof force==='boolean'?force:!document.body.classList.contains('teachview');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('presentation')}document.body.classList.toggle('teachview',next);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage()},80)}
 function togglePresent(force){document.body.classList.remove('presentationToolsOpen');const more=document.getElementById('displayMore');if(more){more.setAttribute('aria-expanded','false');more.textContent='Tools'};const next=typeof force==='boolean'?force:!document.body.classList.contains('presentation');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('teachview');state.displayControlsVisible=true;state.displayLocked=false}else{state.displayControlsVisible=true;state.displayLocked=false;state.spotlightMode=false;state.pointerMode=false;if(displayPreviousValues!==null){state.valuesVisible=displayPreviousValues;displayPreviousValues=null}document.body.classList.toggle('valuesHidden',!state.valuesVisible);document.body.classList.remove('displayComposition');document.body.removeAttribute('data-display-layout');document.body.removeAttribute('data-display-source');document.body.style.removeProperty('--display-live-head');document.body.style.removeProperty('--board-head');$('#displayAnswerText')?.classList.remove('revealed');clearSpotlight();$('#teacherPointer')?.classList.remove('visible','active')}document.body.classList.toggle('presentation',next);document.body.classList.toggle('methodActive',!!activeMethodKey());document.body.classList.remove('displayIdle');saveState();if(next)wakeDisplayControls();else clearTimeout(displayIdleTimer);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage();if(document.body.classList.contains('displayComposition'))queueDisplayGeometry()},120)}
-function enterFocus(){state.showTeachingNotes=false;state.displayControlsVisible=true;togglePresent(true)}
-async function startDisplay(){state.showTeachingNotes=true;state.displayControlsVisible=true;togglePresent(true);try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen()}catch(e){toast('Display mode is ready. Browser full screen was unavailable.')}}
+function prepareClassroomBoard(){document.body.classList.remove('displayComposition');document.body.removeAttribute('data-display-layout');document.body.removeAttribute('data-display-source');document.body.style.removeProperty('--display-live-head');document.body.style.removeProperty('--board-head')}
+function enterFocus(){prepareClassroomBoard();state.showTeachingNotes=false;state.displayControlsVisible=true;togglePresent(true)}
+async function startDisplay(){prepareClassroomBoard();state.showTeachingNotes=true;state.displayControlsVisible=true;togglePresent(true);try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen()}catch(e){toast('Classroom board is ready. Browser full screen was unavailable.')}}
 async function toggleFullscreen(){if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}togglePresent(false)}else await startDisplay()}
 
 
@@ -6236,10 +6388,9 @@ $$('.modelBtn').forEach(b=>b.onclick=()=>setModel(b.dataset.model));
 $('#analyseQuestions').onclick=analyseDraft;$('#generateSequence').onclick=generateAlignedSequence;
 $('#questionDraft').addEventListener('input',persistQuestionDraft);$('#questionTitle').addEventListener('input',persistQuestionDraft);$('#questionYear').addEventListener('change',persistQuestionDraft);
 $('#questionFile').addEventListener('change',async event=>{const file=event.target.files?.[0];if(!file)return;event.target.value='';if(file.size>250000)return setWorkflowStatus('That text file is too large. Copy only the questions needed for this lesson.',true);try{const text=await file.text();$('#questionDraft').value=safePlainText(text);persistQuestionDraft();analyseDraft()}catch(error){setWorkflowStatus('This file did not provide readable text. Paste the question text into the box instead.',true)}});
-$('#printQuestionPupil').onclick=()=>printQuestionSet('pupil');$('#printQuestionTeacher').onclick=()=>printQuestionSet('teacher');
 $('#createDisplayBtn').onclick=()=>openDisplayEditor('source');$('#displayClose').onclick=closeDisplayEditor;$('#displayDialog').addEventListener('click',event=>{if(event.target===$('#displayDialog'))closeDisplayEditor()});$('#displayDialog').addEventListener('cancel',event=>{event.preventDefault();closeDisplayEditor()});
 $('#displayUseModel').onclick=()=>chooseDisplaySource('model');$('#displayUseQuestion').onclick=()=>chooseDisplaySource('question');$('#displayQuestionBack').onclick=()=>{persistQuestionDraft();showDisplayFlowStep('source')};$('#displayEditorBack').onclick=()=>showDisplayFlowStep('source');
-$$('#displayDialog input,#displayDialog textarea,#displayDialog select').forEach(input=>input.addEventListener(input.tagName==='SELECT'?'change':'input',renderDisplayPreview));$$('[data-layout]',$('#displayLayouts')).forEach(button=>button.onclick=()=>{state.workflow.display.layout=button.dataset.layout;saveState();renderDisplayPreview()});$('#launchDisplay').onclick=launchClassroomDisplay;$('#printDisplayPupil').onclick=()=>printCurrentDisplay('pupil');$('#printDisplayTeacher').onclick=()=>printCurrentDisplay('teacher');$('#displayAnswerToggle').onclick=toggleDisplayAnswer;window.addEventListener('afterprint',cleanupPrint);
+$$('#displayEditorStep input,#displayEditorStep textarea,#displayEditorStep select').forEach(input=>input.addEventListener(input.tagName==='SELECT'?'change':'input',renderDisplayPreview));$('#launchDisplay').onclick=printWallDisplayPack;$('#closeDisplayDone').onclick=closeDisplayEditor;$('#displayAnswerToggle').onclick=toggleDisplayAnswer;window.addEventListener('afterprint',cleanupPrint);
 const modelSearch=$('#modelSearch');if(modelSearch){modelSearch.addEventListener('input',()=>{const q=modelSearch.value.trim().toLowerCase();$$('.modelBtn').forEach(b=>{b.hidden=!!q&&!b.textContent.toLowerCase().includes(q)});$$('.railLabel').forEach(label=>{const next=[];let el=label.nextElementSibling;while(el&&!el.classList.contains('railLabel')){if(el.classList.contains('modelBtn'))next.push(el);el=el.nextElementSibling}label.hidden=!!q&&next.length>0&&next.every(x=>x.hidden)});});modelSearch.addEventListener('keydown',e=>{if(e.key==='Escape'){modelSearch.value='';modelSearch.dispatchEvent(new Event('input'));modelSearch.blur()}if(e.key==='Enter'){const first=$$('.modelBtn').find(b=>!b.hidden);if(first)first.click()}})}
 $('#undoBtn').onclick=undo;$('#redoBtn').onclick=redo;$('#resetBtn').onclick=resetCurrent;$('#representBtn').onclick=openConnections;$('#placeModeBtn').onclick=togglePlaceLabelMode;$('#randomQuick').onclick=randomiseCurrent;$('#saveFavouriteQuick').onclick=saveFavourite;$('#loadFavouriteQuick').onclick=loadFavourite;$('#clearModelQuick').onclick=clearCurrent;
 $('#connectionClose').onclick=closeConnections;
