@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-<title>Maths Modelling Studio · Build 49</title>
+<title>Maths Modelling Studio · Build 50</title>
 <style>
 :root{
   --ink:#18384d;
@@ -5242,6 +5242,240 @@ body.presentation .presentMore>button{min-height:38px!important;padding-inline:1
 @media print{.floatTools{display:none!important}}
 </style>
 
+<style id="build50-clarity-repair">
+/* ===== BUILD 50 · CLASSROOM CLARITY REPAIR =====
+   Mathematical content is never allowed to disappear behind a saved view
+   preference. The live board uses one clean white field, bounded written
+   methods and complete manipulatives at every supported iPad size. */
+:root{
+  --v37-paper:#ffffff;
+  --v37-paper-soft:#f7fafb;
+  --v37-canvas:#eef4f6;
+  --v37-graphite:#173947;
+  --v37-graphite-soft:#48636e;
+  --v37-slate:#647b85;
+  --v37-line:#cbd9de;
+  --v37-line-strong:#91a8b1;
+  --instrument-paper:#ffffff;
+  --instrument-canvas:#eef4f6;
+  --cream:#ffffff;
+}
+html,body{background:#eef4f6!important;color:#173947!important}
+.topbar,.stageHeader{background:rgba(255,255,255,.98)!important;border-color:#d4e0e4!important}
+.topbar #modelsBtn,
+.topbar #adjustBtn{
+  min-width:44px!important;
+  min-height:44px!important;
+  height:44px!important;
+}
+.workspaceWrap{background:#eef4f6!important}
+.workspace{background:#fff!important;border-color:#d4e0e4!important;box-shadow:0 8px 24px rgba(35,69,82,.055)!important}
+.stage{background-color:#fff!important;color:#173947!important}
+body:not([data-model="board"]) .stage{background-image:none!important}
+body:not(.presentation):not([data-model="home"]) #adjustBtn{display:inline-flex!important}
+body:not(.presentation):not([data-model="home"]) .inspector{
+  display:block!important;
+  background:#fff!important;
+  border-color:#cbd9de!important;
+}
+.canvasScrim{background:rgba(17,39,47,.16)!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.inspectorHead{background:rgba(255,255,255,.97)!important;border-color:#d4e0e4!important}
+.inspectorHead:after{content:none!important}
+.inspectorClose{
+  position:absolute;right:10px;top:8px;width:44px;height:44px;min-height:44px;
+  display:grid;place-items:center;border:0;border-radius:10px;
+  background:transparent;color:#48636e;font:700 24px/1 system-ui;cursor:pointer;
+}
+.inspectorClose:hover{background:#eef4f6;color:#173947}
+.inspector .field input[type="number"],
+.inspector .field input[type="text"],
+.inspector .field select,
+.inspector .mini,
+.inspector .buttonRow>button{min-height:44px!important}
+.directDock{background:rgba(255,255,255,.98)!important;border-color:#cbd9de!important}
+.btn,.iconBtn,.directBtn,.choiceTab,.stepper,.workflowBtn{border-color:#c8d7dc!important}
+.stageTitle,.methodExplanation h3,.methodCell,.arrayEquation{color:#173947!important}
+.stageTip,.methodHint,.methodExplanation p{color:#526d78!important}
+
+/* Equal groups: the nested dot grid owns the whole card width. The inherited
+   parent columns previously squeezed it into one third and clipped two dots. */
+.autoFitGroups .arrayGroup{
+  grid-template-columns:minmax(0,1fr)!important;
+  grid-template-rows:auto minmax(0,1fr)!important;
+  border:2px solid #a9bcc3!important;
+}
+.autoFitGroups .groupNumber,
+.autoFitGroups .groupDots{grid-column:1 / -1!important;width:100%!important;min-width:0!important}
+.autoFitGroups .groupDots{justify-content:center!important;align-content:center!important}
+.autoFitGroups .arrayDot{border-color:#3f7695!important}
+.arrayWrap.groupsMode{
+  grid-template-rows:auto auto auto auto!important;
+  align-content:center!important;
+}
+.arrayWrap.groupsMode .arrayVisualFrame{height:clamp(240px,35vh,360px)!important}
+
+/* Written methods: no historical enlargement may push the first or last
+   place-value column outside its paper. The operator lives in a real gutter. */
+body.presentation[data-model="column"] .columnGrid,
+body.presentation.teachingHidden[data-model="column"] .columnGrid,
+body.presentation.displayModelOnly[data-model="column"] .columnGrid,
+body.presentation[data-model="multiplication"] .columnGrid,
+body.presentation.teachingHidden[data-model="multiplication"] .columnGrid,
+body.presentation.displayModelOnly[data-model="multiplication"] .columnGrid{
+  box-sizing:border-box!important;
+  width:min(780px,100%)!important;
+  max-width:100%!important;
+  padding-left:clamp(46px,4.2vw,64px)!important;
+  padding-right:clamp(14px,1.6vw,24px)!important;
+  overflow:hidden!important;
+  transform:none!important;
+  transform-origin:center!important;
+}
+body:not(.presentation) .columnGrid{
+  box-sizing:border-box!important;
+  width:min(680px,100%)!important;
+  max-width:100%!important;
+  padding-left:clamp(38px,3.4vw,52px)!important;
+  padding-right:12px!important;
+  overflow:hidden!important;
+  transform:none!important;
+}
+.columnGrid .methodRow{width:100%!important;min-width:0!important;grid-template-columns:repeat(var(--method-cols),minmax(0,1fr))!important}
+.columnGrid .methodRule{width:100%!important;min-width:0!important}
+.columnGrid .methodRule .methodSign{left:clamp(-44px,-3.2vw,-30px)!important}
+.placeNameRow .methodCell{
+  min-width:0!important;
+  padding-inline:3px!important;
+  overflow:hidden!important;
+  overflow-wrap:normal!important;
+  word-break:normal!important;
+  white-space:normal!important;
+  text-align:center!important;
+  line-height:1.05!important;
+}
+
+/* One authoritative live board. It is bright, centred and uses the available
+   classroom canvas instead of presenting a small card in a large blank field. */
+body.presentation,
+body.presentation .app,
+body.presentation .shell,
+body.presentation .workspaceWrap,
+body.presentation .workspace,
+body.presentation .stage{background:#fff!important;background-image:none!important}
+body.presentation{--present-edge:clamp(14px,2vw,28px);--present-top:72px}
+body.presentation .stage{padding:var(--present-top) var(--present-edge) max(16px,env(safe-area-inset-bottom))!important}
+body.presentation .methodsStudio{width:100%!important;max-width:1360px!important;height:100%!important;place-items:center!important}
+body.presentation .workedExample,
+body.presentation[data-model="column"] .workedExample,
+body.presentation[data-model="multiplication"] .workedExample,
+body.presentation[data-model="division"] .workedExample{
+  width:min(1320px,100%)!important;
+  height:min(760px,100%)!important;
+  max-width:1320px!important;
+  max-height:100%!important;
+  grid-template-columns:minmax(0,1fr) minmax(290px,350px)!important;
+  gap:clamp(22px,2.5vw,38px)!important;
+  align-items:center!important;
+  overflow:hidden!important;
+}
+body.presentation .algorithmPaper,
+body.presentation .divisionPaper,
+body.presentation[data-model="column"] .algorithmPaper,
+body.presentation[data-model="multiplication"] .algorithmPaper,
+body.presentation[data-model="division"] .algorithmPaper{
+  width:100%!important;
+  height:min(700px,100%)!important;
+  max-width:none!important;
+  max-height:700px!important;
+  padding:clamp(22px,2.8vh,36px) clamp(24px,2.8vw,44px)!important;
+  overflow:hidden!important;
+  border:2px solid #c6d5da!important;
+  border-radius:22px!important;
+  background:#fff!important;
+}
+body.presentation .methodCell{
+  min-width:0!important;
+  height:clamp(58px,8vh,82px)!important;
+  padding-inline:2px!important;
+  overflow:hidden!important;
+  font-size:clamp(43px,5.25vw,76px)!important;
+}
+body.presentation .placeNameRow .methodCell{
+  height:clamp(34px,4.2vh,42px)!important;
+  color:#536d77!important;
+  font-size:clamp(11px,1.12vw,16px)!important;
+  font-weight:800!important;
+  letter-spacing:.02em!important;
+}
+body.presentation .methodCell.carry,
+body.presentation .methodCell.exchange{height:clamp(28px,3.5vh,36px)!important;color:#6d5090!important;font-size:clamp(20px,2.2vw,30px)!important;font-weight:800!important}
+body.presentation .methodExplanation,
+body.presentation[data-model="column"] .methodExplanation,
+body.presentation[data-model="multiplication"] .methodExplanation,
+body.presentation[data-model="division"] .methodExplanation{
+  display:flex!important;
+  max-height:650px!important;
+  overflow:auto!important;
+  border:2px solid #cbd9de!important;
+  background:#f6fafb!important;
+  color:#173947!important;
+}
+.presentation .hideTeachingButton{display:none!important}
+body.presentation.teachingHidden .workedExample,
+body.presentation.displayModelOnly .workedExample{
+  width:min(1120px,100%)!important;
+  grid-template-columns:minmax(0,1fr)!important;
+  place-items:center!important;
+  gap:0!important;
+}
+body.presentation.teachingHidden .algorithmPaper,
+body.presentation.displayModelOnly .algorithmPaper,
+body.presentation.teachingHidden .divisionPaper,
+body.presentation.displayModelOnly .divisionPaper{
+  justify-self:center!important;
+  width:min(1040px,100%)!important;
+  max-width:1040px!important;
+}
+body.presentation.teachingHidden .methodExplanation,
+body.presentation.displayModelOnly .methodExplanation{display:none!important}
+
+body.presentation .presentDock{
+  min-height:54px!important;
+  padding:5px!important;
+  overflow:visible!important;
+  border:1px solid #b9cbd2!important;
+  background:rgba(255,255,255,.985)!important;
+  box-shadow:0 8px 22px rgba(27,58,70,.1)!important;
+}
+body.presentation .presentDock>button,
+body.presentation .presentMore>button{min-height:44px!important;padding-inline:11px!important;color:#1d4352!important}
+body.presentation .presentDock .methodDisplayStep[hidden]{display:none!important}
+body.presentation .presentDock .exit{background:#1d4352!important;color:#fff!important}
+body.presentation .presentDock .primaryStep{background:#eaf3f2!important;color:#173947!important}
+body.presentation #displayMore{background:transparent!important;color:#1d4352!important}
+body.presentation.presentationToolsOpen #displayMore{background:#eaf3f2!important;color:#173947!important}
+body.presentation .presentMore{border-color:#b9cbd2!important;background:rgba(255,255,255,.99)!important}
+
+@media(max-width:1050px){
+  body.presentation .workedExample,
+  body.presentation[data-model="column"] .workedExample,
+  body.presentation[data-model="multiplication"] .workedExample,
+  body.presentation[data-model="division"] .workedExample{
+    grid-template-columns:minmax(0,1fr)!important;
+    grid-template-rows:max-content max-content!important;
+    align-content:start!important;
+    overflow:auto!important;
+  }
+  body.presentation .algorithmPaper,body.presentation .divisionPaper{width:min(820px,100%)!important;min-height:500px!important}
+  body.presentation .methodExplanation{width:min(820px,100%)!important;max-height:none!important}
+}
+@media(max-width:720px){
+  body.presentation{--present-top:66px;--present-edge:8px}
+  body.presentation .presentDock{right:6px!important;max-width:calc(100vw - 12px)!important;overflow-x:auto!important;overflow-y:visible!important}
+  body.presentation .presentDock>button,body.presentation .presentMore>button{min-height:44px!important;padding-inline:9px!important;font-size:10px!important}
+}
+</style>
+
 </head>
 <body>
 <button class="canvasScrim" id="canvasScrim" aria-label="Close open panel" tabindex="-1"></button>
@@ -5260,6 +5494,7 @@ body.presentation .presentMore>button{min-height:38px!important;padding-inline:1
       <div class="presentCluster">
         <button class="btn primary" id="fullBtn" title="Open the model for classroom display">Present</button>
       </div>
+      <button class="iconBtn mobileDrawerBtn" id="adjustBtn" title="Adjust" aria-label="Open model adjustments" aria-controls="inspector" aria-expanded="false">⚙</button>
     </div>
   </header>
 
@@ -5325,13 +5560,14 @@ body.presentation .presentMore>button{min-height:38px!important;padding-inline:1
       </div>
     </section>
 
+    <aside class="inspector" id="inspector" aria-label="Model adjustments"></aside>
   </main>
 </div>
 <div class="presentDock" id="presentDock" aria-label="Display controls">
   <button class="exit" id="displayExit" title="Exit display">Exit</button>
   <button class="methodDisplayStep" id="displayPrevStep" title="Previous teaching step">← Previous step</button>
   <button class="methodDisplayStep primaryStep" id="displayNextStep" title="Reveal the next teaching step">Next →</button>
-  <button class="methodDisplayStep" id="displayTeaching" title="Show or hide supporting details">Details</button>
+  <button class="methodDisplayStep" id="displayTeaching" title="Show or hide teaching notes">Hide notes</button>
   <button id="displayMore" title="Show presentation tools" aria-expanded="false">Tools</button>
   <div class="presentMore" id="presentMore" aria-label="Presentation tools">
     <button id="displayLabels" title="Show or hide labels">Labels</button>
@@ -5342,7 +5578,7 @@ body.presentation .presentMore>button{min-height:38px!important;padding-inline:1
     <button id="displayEraseInk" title="Erase writing">Erase</button>
     <button id="displayClearInk" title="Clear writing from this model">Clear</button>
   </div>
-  <button id="displayDockToggle" title="Collapse display controls" aria-label="Collapse display controls">Hide</button>
+  <button id="displayDockToggle" title="Hide classroom controls" aria-label="Hide classroom controls">Hide controls</button>
 </div>
 <div class="teacherPointer" id="teacherPointer" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -5477,7 +5713,7 @@ const MODEL_META = {
 };
 
 const defaults = {
-  active:'home', anchorNumber:2436, labels:true, valuesVisible:true, spotlightMode:false, pointerMode:false, placeLabelMode:'words', background:'plain', ink:false, inkTool:'pen', displayLocked:false, showTeachingNotes:true, displayControlsVisible:true,
+  active:'home', anchorNumber:2436, labels:true, valuesVisible:true, spotlightMode:false, pointerMode:false, placeLabelMode:'words', background:'plain', ink:false, inkTool:'pen', displayLocked:false, showTeachingNotes:true, displayControlsVisible:true, clarityMigrationVersion:0,
   workflow:{draft:'',title:'',year:'',items:[],selected:0,selectedModel:'',activeQuestion:'',analysis:null,display:{source:'model',layout:'wall-pack',title:'Mathematical thinking',question:'',prompt:'What do you notice?',vocabulary:'',answer:'',paperSize:'A4',orientation:'landscape',pieceOrder:['title','model','prompt','vocabulary','answer'],pieceEnabled:{title:true,model:true,prompt:true,vocabulary:true,answer:false}}},
   placeValue:{preset:'whole4', counts:{Th:2,H:4,T:3,O:6,t:0,h:0}, showExpanded:true, showNumber:true},
   numberLine:{min:0,max:20,step:1,labelMode:'all', points:[5,12], jumps:[{a:5,b:12,label:'+7'}], prompt:'What do you notice?', snap:true,tool:'point',jumpStart:null},
@@ -5499,6 +5735,7 @@ const defaults = {
 };
 let state = loadState();
 ensureV4State();
+migrateBuild50ClarityState();
 let history=[deepCopy(state)], historyIndex=0, isRestoring=false;
 let inkCtx=null, drawing=false, lastPoint=null, selectedCounterPlace=null, currentStroke=null;
 const inkLayers={};
@@ -5551,6 +5788,35 @@ function ensureV4State(){
     for(const [k,v] of Object.entries(defaults[key]))if(state[key][k]===undefined)state[key][k]=deepCopy(v);
   }
 }
+function normaliseSafeView(target=state){
+  let changed=false;
+  const set=(object,key,value)=>{if(object&&object[key]!==value){object[key]=value;changed=true}};
+  set(target,'valuesVisible',true);
+  set(target,'labels',true);
+  set(target,'showTeachingNotes',true);
+  set(target,'displayControlsVisible',true);
+  set(target,'displayLocked',false);
+  set(target,'spotlightMode',false);
+  set(target,'pointerMode',false);
+  return changed;
+}
+function migrateBuild50ClarityState(){
+  /* Build 49 removed the setup controls for these persistent view states.
+     Old hidden values, labels or backgrounds must not strand a model in an
+     apparently broken state after reload. */
+  const repaired=normaliseSafeView(state);
+  if((Number(state.clarityMigrationVersion)||0)>=50){if(repaired)saveState();return}
+  if(!state.board||typeof state.board!=='object')state.board=deepCopy(defaults.board);
+  if(!state.board.background)state.board.background='plain';
+  state.background=state.active==='board'?state.board.background:'plain';
+  state.placeValue.showNumber=true;
+  state.placeValue.showExpanded=true;
+  state.baseTen.showNumber=true;
+  state.array.showEquation=true;
+  state.fractions.showRelation=true;
+  state.clarityMigrationVersion=50;
+  saveState();
+}
 function saveState(){try{const snapshot=JSON.stringify(state);localStorage.setItem('maths-modelling-studio-v34',snapshot);localStorage.setItem('maths-modelling-studio-v33',snapshot)}catch(e){}}
 function commit(){
   if(isRestoring)return;
@@ -5559,8 +5825,9 @@ function commit(){
   saveState(); updateUndoRedo();
 }
 function updateUndoRedo(){ $('#undoBtn').disabled=historyIndex<=0; $('#redoBtn').disabled=historyIndex>=history.length-1; }
-function undo(){if(historyIndex<=0)return;historyIndex--;isRestoring=true;state=deepCopy(history[historyIndex]);isRestoring=false;renderAll();saveState();}
-function redo(){if(historyIndex>=history.length-1)return;historyIndex++;isRestoring=true;state=deepCopy(history[historyIndex]);isRestoring=false;renderAll();saveState();}
+function restoreSafeEditingView(){if(document.body.classList.contains('presentation'))return;normaliseSafeView(state)}
+function undo(){if(historyIndex<=0)return;historyIndex--;isRestoring=true;state=deepCopy(history[historyIndex]);restoreSafeEditingView();isRestoring=false;renderAll();saveState();}
+function redo(){if(historyIndex>=history.length-1)return;historyIndex++;isRestoring=true;state=deepCopy(history[historyIndex]);restoreSafeEditingView();isRestoring=false;renderAll();saveState();}
 function toast(msg){const t=$('#toast');t.textContent=msg;t.classList.add('show');clearTimeout(toast._t);toast._t=setTimeout(()=>t.classList.remove('show'),1500)}
 function esc(s){return String(s??'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]))}
 function fmt(n){if(Number.isInteger(n))return String(n);return String(round(n,3))}
@@ -5685,7 +5952,7 @@ function seedConnection(model,ctx){
   if(model==='partitionMultiplication')Object.assign(state.partitionMultiplication,{top:pair[0],bottom:pair[1],step:0,showEquation:true,showGrid:true});
 }
 function applyConnection(model,ctx){
-  saveCurrentInkLayer();seedConnection(model,ctx);state.active=model;state.ink=false;state.inkTool='pen';commit();closeConnections();closeDrawers();renderAll();
+  saveCurrentInkLayer();seedConnection(model,ctx);state.active=model;state.background='plain';state.labels=true;state.valuesVisible=true;state.showTeachingNotes=true;state.ink=false;state.inkTool='pen';commit();closeConnections();closeDrawers();renderAll();
   const stage=$('#stage');stage.classList.add('representationArrival');setTimeout(()=>stage.classList.remove('representationArrival'),420);
   toast(`Same quantity · ${MODEL_META[model][0]}`);
 }
@@ -5718,21 +5985,26 @@ function setModel(model){
   state.spotlightMode=false;state.pointerMode=false;
   state.workflow.activeQuestion='';state.workflow.analysis=null;
   state.active=model;
+  state.background=model==='board'?(state.board.background||'plain'):'plain';
+  state.labels=true;
+  state.valuesVisible=true;
+  state.showTeachingNotes=true;
   state.ink=false;
   state.inkTool='pen';
   commit(); renderAll(); closeDrawers();
 }
 function updateDrawerState(){
-  const open=$('#modelRail').classList.contains('open');
+  const open=$('#modelRail').classList.contains('open')||$('#inspector').classList.contains('open');
   document.body.classList.toggle('drawerOpen',open);
   $('#modelsBtn').setAttribute('aria-expanded',String($('#modelRail').classList.contains('open')));
+  $('#adjustBtn').setAttribute('aria-expanded',String($('#inspector').classList.contains('open')));
 }
-function toggleDrawer(){
-  const target=$('#modelRail'),opening=!target.classList.contains('open');
-  target.classList.toggle('open',opening);updateDrawerState();
-  if(opening)setTimeout(()=>$('#modelSearch')?.focus(),230);
+function toggleDrawer(which='#modelRail'){
+  const target=$(which),other=which==='#modelRail'?$('#inspector'):$('#modelRail'),opening=!target.classList.contains('open');
+  other.classList.remove('open');target.classList.toggle('open',opening);updateDrawerState();
+  if(opening&&which==='#modelRail')setTimeout(()=>$('#modelSearch')?.focus(),230);
 }
-function closeDrawers(){ $('#modelRail').classList.remove('open');updateDrawerState(); }
+function closeDrawers(){ $('#modelRail').classList.remove('open');$('#inspector').classList.remove('open');updateDrawerState(); }
 function closeActionMenus(){ $('#stageMenu')?.removeAttribute('open'); }
 
 const WORKFLOW_MAX_QUESTIONS=8,WORKFLOW_MAX_TEXT=12000;
@@ -5740,7 +6012,7 @@ const STRUCTURE_LABELS={placeValue:'Place value',order:'Ordering and comparison'
 const QUESTION_MODEL_INFO={
   placeValue:['●','Place value counters','Make the value of each digit visible'],numberLine:['↔','Number line','Emphasise order, interval or difference'],baseTen:['▦','Base ten blocks','Make exchange and regrouping tangible'],bar:['▭','Bar model','Emphasise the relationship between quantities'],fractions:['½','Fraction strips','Show equal parts and comparison'],array:['⠿','Array or equal groups','Show factors, grouping and sharing'],grid:['▦','Frame or grid','Show a fraction, percentage or repeated pattern'],areaPerimeter:['▧','Area & perimeter','Keep the inside and boundary mathematically distinct'],shapes:['◇','Shape studio','Inspect properties, symmetry and angles'],clock:['◷','Clock','Represent a time or elapsed movement'],coordinates:['⌖','Coordinates','Plot ordered pairs precisely'],column:['＋','Column method','Reveal place-value calculation steps'],multiplication:['×','Short multiplication','Reveal multiplication and exchange step by step'],partitionMultiplication:['▦','Partitioned multiplication','Expose each partial product'],division:['÷','Bus-stop division','Make each quotient digit and remainder visible'],board:['✎','Blank board','Keep the wording and choose the structure manually']
 };
-let workflowSaveTimer=null,displayDialogReturn=null,printCleanupTimer=null,displayPreviousValues=null;
+let workflowSaveTimer=null,displayDialogReturn=null,printCleanupTimer=null,presentationViewSnapshot=null;
 function saveWorkflowSoon(){clearTimeout(workflowSaveTimer);workflowSaveTimer=setTimeout(saveState,280)}
 function setWorkflowStatus(message,error=false){const el=$('#questionStatus');if(!el)return;el.textContent=message||'';el.classList.toggle('error',!!error)}
 function safePlainText(input){
@@ -5890,10 +6162,10 @@ function seedQuestionModel(model,analysis){
   else if(model==='shapes'){const lower=analysis.question.toLowerCase(),shape=Object.keys(SHAPE_2D).find(key=>lower.includes(key.toLowerCase()))||(['triangle','square','rectangle','circle','parallelogram','trapezium'].find(key=>lower.includes(key))||'rectangle');Object.assign(state.shapes,{dimension:'2d',shape2d:shape==='triangle'?'rightTriangle':shape,showProperties:true,showSymmetry:/symmetr/.test(lower),showAngles:/angle|vert/.test(lower)})}
   else if(model==='clock'){const time=analysis.question.match(/\b(\d{1,2}):(\d{2})\b/);if(time){state.clock.hour=clamp(Number(time[1]),0,23);state.clock.minute=clamp(Number(time[2]),0,59)}state.clock.showDigital=true;state.clock.showWords=true}
   else if(model==='coordinates'){const pairs=[...analysis.question.matchAll(/\((-?\d+(?:\.\d+)?),\s*(-?\d+(?:\.\d+)?)\)/g)].map(m=>[Number(m[1]),Number(m[2])]).slice(0,10);if(pairs.length)state.coordinates.points=pairs;state.coordinates.range=clamp(Math.ceil(Math.max(5,...pairs.flat().map(Math.abs))),5,20)}
-  else if(model==='column'){Object.assign(state.column,{mode:analysis.structure==='subtraction'?'sub':'add',top:Math.max(0,Math.round(positive[0]||2786)),bottom:Math.max(0,Math.round(positive[1]||1457)),step:0,showPlaceNames:true})}
-  else if(model==='multiplication'){Object.assign(state.multiplication,{top:Math.max(1,Math.round(positive[0]||326)),multiplier:clamp(Math.round(positive[1]||4),1,9),step:0,showPlaceNames:true})}
+  else if(model==='column'){Object.assign(state.column,{mode:analysis.structure==='subtraction'?'sub':'add',top:clamp(Math.round(positive[0]||2786),0,999999),bottom:clamp(Math.round(positive[1]||1457),0,999999),step:0,showPlaceNames:true})}
+  else if(model==='multiplication'){Object.assign(state.multiplication,{top:clamp(Math.round(positive[0]||326),0,999999),multiplier:clamp(Math.round(positive[1]||4),1,9),step:0,showPlaceNames:true})}
   else if(model==='partitionMultiplication'){Object.assign(state.partitionMultiplication,{top:clamp(Math.round(positive[0]||23),1,999),bottom:clamp(Math.round(positive[1]||14),1,99),step:0,showEquation:true,showGrid:true})}
-  else if(model==='division'){let divisor=clamp(Math.round(positive[1]||4),1,12),dividend=Math.max(divisor,Math.round(positive[0]||972));Object.assign(state.division,{dividend,divisor,step:0,showPlaceNames:true,showQuestion:false})}
+  else if(model==='division'){let divisor=clamp(Math.round(positive[1]||4),1,12),dividend=clamp(Math.max(divisor,Math.round(positive[0]||972)),0,999999);Object.assign(state.division,{dividend,divisor,step:0,showPlaceNames:true,showQuestion:false})}
   else if(model==='board')state.board.title=analysis.question;
 }
 function buildQuestionModel(){
@@ -5902,7 +6174,7 @@ function buildQuestionModel(){
 }
 function openQuestionDialog(){openDisplayEditor('question')}
 function modelTextSummary(){
-  const a=state.active;if(a==='home')return 'Start screen with choices for mathematical models.';if(a==='placeValue')return `Place-value counters representing ${fmt(pvValue())}.`;if(a==='baseTen')return `Base-ten blocks representing ${fmt(btValue())}.`;if(a==='numberLine')return `Number line from ${fmt(state.numberLine.min)} to ${fmt(state.numberLine.max)} with ${state.numberLine.points.length} marked point${state.numberLine.points.length===1?'':'s'} and ${state.numberLine.jumps.length} jump${state.numberLine.jumps.length===1?'':'s'}.`;if(a==='bar'){const s=state.bar;if(s.mode==='equal')return `Equal-parts bar showing ${s.equal.groups} groups of ${s.equal.value}.`;if(s.mode==='comparison')return `Comparison bar showing ${s.comparison.topValue} and ${s.comparison.bottomValue}.`;return `Part-whole bar showing a whole of ${s.whole} and ${s.segments.length} parts.`}if(a==='fractions')return `Fraction strips showing ${state.fractions.aN}/${state.fractions.aD}${state.fractions.compare?` and ${state.fractions.bN}/${state.fractions.bD}`:''}.`;if(a==='array')return `Array showing ${state.array.rows} rows and ${state.array.cols} columns, ${state.array.rows*state.array.cols} in total.`;if(a==='grid')return `${state.grid.mode} grid with ${state.grid.count} cells shaded.`;if(a==='areaPerimeter'){const m=areaCells(state.areaPerimeter);return `${state.areaPerimeter.shape} with area ${m.area} square units and perimeter ${m.perimeter} units.`}if(a==='shapes')return `Shape model showing ${state.shapes.dimension==='2d'?SHAPE_2D[state.shapes.shape2d]?.name:SHAPE_3D[state.shapes.shape3d]?.name}.`;if(a==='clock')return `Clock showing ${fmt(state.clock.hour)}:${String(state.clock.minute).padStart(2,'0')}.`;if(a==='coordinates')return `Coordinate grid with ${state.coordinates.points.length} plotted point${state.coordinates.points.length===1?'':'s'}.`;if(a==='angle')return `Angle model showing ${state.angle.degrees} degrees.`;if(a==='column')return `Column ${state.column.mode==='add'?'addition':'subtraction'} showing ${state.column.top} and ${state.column.bottom}.`;if(a==='multiplication')return `Short multiplication showing ${state.multiplication.top} times ${state.multiplication.multiplier}.`;if(a==='partitionMultiplication')return `Partitioned multiplication showing ${state.partitionMultiplication.top} times ${state.partitionMultiplication.bottom}.`;if(a==='division')return `Bus-stop division showing ${state.division.dividend} divided by ${state.division.divisor}.`;return 'Editable mathematical model.'
+  const a=state.active;if(a==='home')return 'Start screen with choices for mathematical models.';if(a==='placeValue')return `Place-value counters representing ${fmt(pvValue())}.`;if(a==='baseTen')return `Base-ten blocks representing ${fmt(btValue())}.`;if(a==='numberLine')return `Number line from ${fmt(state.numberLine.min)} to ${fmt(state.numberLine.max)} with ${state.numberLine.points.length} marked point${state.numberLine.points.length===1?'':'s'} and ${state.numberLine.jumps.length} jump${state.numberLine.jumps.length===1?'':'s'}.`;if(a==='bar'){const s=state.bar;if(s.mode==='equal')return `Equal-parts bar showing ${s.equal.groups} groups of ${s.equal.value}.`;if(s.mode==='comparison')return `Comparison bar showing ${s.comparison.topValue} and ${s.comparison.bottomValue}.`;return `Part-whole bar showing a whole of ${s.whole} and ${s.segments.length} parts.`}if(a==='fractions')return `Fraction strips showing ${state.fractions.aN}/${state.fractions.aD}${state.fractions.compare?` and ${state.fractions.bN}/${state.fractions.bD}`:''}.`;if(a==='array')return `Array showing ${state.array.rows} rows and ${state.array.cols} columns, ${state.array.rows*state.array.cols} in total.`;if(a==='grid')return `${state.grid.mode} grid with ${state.grid.count} cells shaded.`;if(a==='areaPerimeter'){const m=areaCells(state.areaPerimeter);return `${state.areaPerimeter.shape} with area ${m.area} square units and perimeter ${m.perimeter} units.`}if(a==='shapes')return `Shape model showing ${state.shapes.dimension==='2d'?SHAPE_2D[state.shapes.shape2d]?.name:SHAPE_3D[state.shapes.shape3d]?.name}.`;if(a==='clock')return `Clock showing ${fmt(state.clock.hour)}:${String(state.clock.minute).padStart(2,'0')}.`;if(a==='coordinates')return `Coordinate grid with ${state.coordinates.points.length} plotted point${state.coordinates.points.length===1?'':'s'}.`;if(a==='angle'){const displayed=state.angle.reflex?360-state.angle.degrees:state.angle.degrees;return `Angle model showing ${displayed} degrees${state.angle.reflex?' (reflex)':''}.`}if(a==='column')return `Column ${state.column.mode==='add'?'addition':'subtraction'} showing ${state.column.top} and ${state.column.bottom}.`;if(a==='multiplication')return `Short multiplication showing ${state.multiplication.top} times ${state.multiplication.multiplier}.`;if(a==='partitionMultiplication')return `Partitioned multiplication showing ${state.partitionMultiplication.top} times ${state.partitionMultiplication.bottom}.`;if(a==='division')return `Bus-stop division showing ${state.division.dividend} divided by ${state.division.divisor}.`;return 'Editable mathematical model.'
 }
 const WALL_PIECES=['title','model','prompt','vocabulary','answer'];
 const WALL_PIECE_META={
@@ -6035,7 +6307,7 @@ function renderAll(){
   const [title,hint]=MODEL_META[state.active]; $('#stageTitle').textContent=title;$('#stageHint').textContent=hint;
   document.body.classList.toggle('valuesHidden',!state.valuesVisible);
   const stage=$('#stage');document.body.dataset.model=state.active;stage.dataset.model=state.active;stage.className='stage'+(state.background==='grid'?' gridBg':state.background==='dots'?' dotsBg':state.background==='lines'?' linesBg':'')+(state.active==='home'?' homeStage':'');
-  renderStage();resizeInk();updateUndoRedo();
+  renderStage();renderInspector();resizeInk();updateUndoRedo();
   const inkCanvas=$('#inkCanvas');if(inkCanvas){inkCanvas.classList.toggle('inking',!!state.ink);inkCanvas.classList.toggle('erasing',!!state.ink&&state.inkTool==='eraser')}
   $('#inkToggle')?.classList.toggle('active',!!state.ink&&state.inkTool==='pen');
   $('#eraseInk')?.classList.toggle('active',!!state.ink&&state.inkTool==='eraser');
@@ -6054,10 +6326,10 @@ function renderStage(){
 function renderInspector(){
   const box=$('#inspector'); const [title,hint]=MODEL_META[state.active];
   if(state.active==='home'){box.innerHTML='';return}
-  box.innerHTML=`<div class="inspectorHead"><span class="inspectorEyebrow">Adjust</span><h2>${esc(title)}</h2></div><div id="controls"></div>`;
+  box.innerHTML=`<div class="inspectorHead"><span class="inspectorEyebrow">Adjust</span><h2>${esc(title)}</h2><button class="inspectorClose" id="inspectorClose" type="button" aria-label="Close model adjustments">×</button></div><div id="controls"></div>`;
   const controls=$('#controls',box);
   const renderers={home:controlsHome,placeValue:controlsPlaceValue,numberLine:controlsNumberLine,baseTen:controlsBaseTen,bar:controlsBar,fractions:controlsFractions,array:controlsArray,grid:controlsGrid,areaPerimeter:controlsAreaPerimeter,shapes:controlsShapes,clock:controlsClock,coordinates:controlsCoordinates,angle:controlsAngle,column:controlsColumn,multiplication:controlsMultiplication,partitionMultiplication:controlsPartitionMultiplication,division:controlsDivision,board:controlsBoard};
-  renderers[state.active](controls); bindControls(box);
+  renderers[state.active](controls);bindControls(box);$('#inspectorClose',box).onclick=closeDrawers;
 }
 
 function panel(title,html){return `<div class="panel"><div class="panelTitle">${title}</div>${html}</div>`}
@@ -6304,7 +6576,7 @@ function renderArray(stage){
   const splitEquation=s.mode==='array'&&s.split>0&&s.split<s.cols
     ? `${s.rows} × ${s.cols} = (${s.rows} × ${s.split}) + (${s.rows} × ${s.cols-s.split}) = ${s.showTotal?total:'?'}`
     : `${s.rows} × ${s.cols} = ${s.showTotal?total:'?'}`;
-  stage.innerHTML=`<div class="arrayWrap zeroOverlapModel"><div class="directDock compact arrayDock"><div class="choiceTabs"><button class="choiceTab ${s.mode==='array'?'active':''}" data-arraymode="array">Array</button><button class="choiceTab ${s.mode==='groups'?'active':''}" data-arraymode="groups">Equal groups</button></div><span class="stepperLabel">${s.mode==='groups'?'Groups':'Rows'}</span><span class="stepper"><button data-arraystep="rows,-1">−</button><strong>${s.rows}</strong><button data-arraystep="rows,1">+</button></span><span class="stepperLabel">${s.mode==='groups'?'In each':'Columns'}</span><span class="stepper"><button data-arraystep="cols,-1">−</button><strong>${s.cols}</strong><button data-arraystep="cols,1">+</button></span>${s.mode==='array'?`<span class="stepperLabel">Split</span><span class="stepper"><button data-arraystep="split,-1">−</button><strong>${s.split||'Off'}</strong><button data-arraystep="split,1">+</button></span><button class="directBtn" id="arrayClearSplit">No split</button>`:''}<button class="directBtn" id="arrayRotateStage">Rotate</button><button class="directBtn soft" id="arrayTotalStage">${s.showTotal?'Hide total':'Reveal total'}</button></div>${visual}<div class="arrayEquation">${state.labels&&s.showEquation?splitEquation:''}</div><div class="stageTip">${s.mode==='array'?'Tap a column number to split the array there.':'Each outlined region is one equal group.'}</div></div>`;
+  stage.innerHTML=`<div class="arrayWrap zeroOverlapModel ${s.mode==='groups'?'groupsMode':'arrayMode'}"><div class="directDock compact arrayDock"><div class="choiceTabs"><button class="choiceTab ${s.mode==='array'?'active':''}" data-arraymode="array">Array</button><button class="choiceTab ${s.mode==='groups'?'active':''}" data-arraymode="groups">Equal groups</button></div><span class="stepperLabel">${s.mode==='groups'?'Groups':'Rows'}</span><span class="stepper"><button data-arraystep="rows,-1">−</button><strong>${s.rows}</strong><button data-arraystep="rows,1">+</button></span><span class="stepperLabel">${s.mode==='groups'?'In each':'Columns'}</span><span class="stepper"><button data-arraystep="cols,-1">−</button><strong>${s.cols}</strong><button data-arraystep="cols,1">+</button></span>${s.mode==='array'?`<span class="stepperLabel">Split</span><span class="stepper"><button data-arraystep="split,-1">−</button><strong>${s.split||'Off'}</strong><button data-arraystep="split,1">+</button></span><button class="directBtn" id="arrayClearSplit">No split</button>`:''}<button class="directBtn" id="arrayRotateStage">Rotate</button><button class="directBtn soft" id="arrayTotalStage">${s.showTotal?'Hide total':'Reveal total'}</button></div>${visual}<div class="arrayEquation">${state.labels&&s.showEquation?splitEquation:''}</div><div class="stageTip">${s.mode==='array'?'Tap a column number to split the array there.':'Each outlined region is one equal group.'}</div></div>`;
 
   const fitArray=()=>{
     const frame=$('.arrayVisualFrame',stage);
@@ -6328,14 +6600,16 @@ function renderArray(stage){
     } else {
       const groups=$('.autoFitGroups',stage);
       if(!groups)return;
-      const colsPerRow=Math.max(1,Math.min(s.rows,Math.floor(availableW/220)));
+      const groupGap=Math.max(4,Math.min(8,gap));
+      const minimumGroupWidth=Math.max(190,36+s.cols*10+(s.cols-1)*groupGap);
+      const colsPerRow=Math.max(1,Math.min(s.rows,Math.floor((availableW+gap)/(minimumGroupWidth+gap))));
       const groupRows=Math.ceil(s.rows/colsPerRow);
       const groupW=(availableW-gap*(colsPerRow-1))/colsPerRow;
       const groupH=(availableH-gap*(groupRows-1))/groupRows;
-      const dot=Math.max(14,Math.min(48,Math.floor((groupW-28-gap*(s.cols-1))/s.cols),Math.floor(groupH-54)));
+      const dot=Math.max(8,Math.min(48,Math.floor((groupW-32-groupGap*(s.cols-1))/s.cols),Math.floor(groupH-54)));
       groups.style.setProperty('--group-cols',colsPerRow);
       groups.style.setProperty('--array-dot',dot+'px');
-      groups.style.setProperty('--array-gap',Math.max(4,Math.min(8,gap))+'px');
+      groups.style.setProperty('--array-gap',groupGap+'px');
     }
   };
   requestAnimationFrame(fitArray);
@@ -6433,15 +6707,15 @@ function methodProgress(step,max){return `<div class="methodProgress"><span styl
 function methodPlaceRow(names){return `<div class="methodRow placeNameRow">${names.map(n=>`<div class="methodCell">${methodPlaceLabel(n)}</div>`).join('')}</div>`}
 
 function additionPlan(a,b){
-  const digits=Math.max(String(a).length,String(b).length),cols=digits+1,A=digitArray(a,cols),B=digitArray(b,cols),result=Array(cols).fill(null),carries=Array(cols).fill(''),steps=[];let carry=0;
+  const digits=Math.max(String(a).length,String(b).length),sumDigits=String(a+b).length,cols=Math.max(digits,sumDigits),leadingCarry=sumDigits>digits,A=digitArray(a,cols),B=digitArray(b,cols),result=Array(cols).fill(null),carries=Array(cols).fill(''),steps=[];let carry=0;
   const names=placeNamesFor(cols);
-  for(let i=cols-1;i>=1;i--){
+  for(let i=cols-1;i>=(leadingCarry?1:0);i--){
     const incoming=carry,total=A[i]+B[i]+incoming,digit=total%10;carry=Math.floor(total/10);result[i]=digit;
-    if(carry)carries[i-1]=carry;
+    if(carry&&i>0)carries[i-1]=carry;
     const place=placeWord(names[i]||'place'),nextPlace=placeWord(names[i-1]||'next place');
     steps.push({index:i,result:[...result],carries:[...carries],title:`Add the ${place}`,sentence:`${A[i]} + ${B[i]}${incoming?` + ${incoming}`:''} = ${total}`,detail:carry?`Write ${digit} in the answer. Exchange ${carry*10} ${place} for ${carry} ${nextPlace}. Record the ${carry} beneath the ${nextPlace} column.`:`Write ${digit} in the answer. No exchange is needed.`})
   }
-  if(carry){result[0]=carry;if(steps.length)steps[steps.length-1].result=[...result]}
+  if(leadingCarry&&carry){result[0]=carry;if(steps.length)steps[steps.length-1].result=[...result]}
   return {cols,A,B,result,carries,steps,names}
 }
 function subtractionPlan(a,b){
@@ -6463,9 +6737,9 @@ function subtractionPlan(a,b){
   return {cols:digits,A,B,result,steps,names}
 }
 function multiplicationPlan(a,m){
-  const digits=String(a).length,cols=digits+1,A=digitArray(a,cols),result=Array(cols).fill(null),carries=Array(cols).fill(''),steps=[];let carry=0;
-  for(let i=cols-1;i>=1;i--){const product=A[i]*m+carry,digit=product%10,nextCarry=Math.floor(product/10),incoming=carry;result[i]=digit;carry=nextCarry;if(carry)carries[i-1]=carry;const names=placeNamesFor(cols),place=names[i],nextPlace=names[i-1];steps.push({index:i,result:[...result],carries:[...carries],title:`Multiply the ${placeWord(place)}`,sentence:`${A[i]} × ${m}${incoming?` + ${incoming}`:''} = ${product}`,detail:nextCarry?`Write ${digit} in the answer. Exchange ${nextCarry*10} ${placeWord(place)} for ${nextCarry} ${placeWord(nextPlace)}.`:`Write ${digit} in the answer. No exchange is needed.`})}
-  if(carry){result[0]=carry;if(steps.length)steps[steps.length-1].result=[...result]}
+  const digits=String(a).length,productDigits=String(a*m).length,cols=Math.max(digits,productDigits),leadingCarry=productDigits>digits,A=digitArray(a,cols),result=Array(cols).fill(null),carries=Array(cols).fill(''),steps=[];let carry=0;
+  for(let i=cols-1;i>=(leadingCarry?1:0);i--){const product=A[i]*m+carry,digit=product%10,nextCarry=Math.floor(product/10),incoming=carry;result[i]=digit;carry=nextCarry;if(carry&&i>0)carries[i-1]=carry;const names=placeNamesFor(cols),place=names[i],nextPlace=names[i-1];steps.push({index:i,result:[...result],carries:[...carries],title:`Multiply the ${placeWord(place)}`,sentence:`${A[i]} × ${m}${incoming?` + ${incoming}`:''} = ${product}`,detail:nextCarry?`Write ${digit} in the answer. Exchange ${nextCarry*10} ${placeWord(place)} for ${nextCarry} ${placeWord(nextPlace)}.`:`Write ${digit} in the answer. No exchange is needed.`})}
+  if(leadingCarry&&carry){result[0]=carry;if(steps.length)steps[steps.length-1].result=[...result]}
   return {cols,A,m,result,carries,steps,names:placeNamesFor(cols)}
 }
 function divisionPlan(dividend,divisor){
@@ -6481,7 +6755,7 @@ function divisionPlan(dividend,divisor){
     const remainderPlace=newRem===1?(place.endsWith('s')?place.slice(0,-1):place):place;
     let detail='';
     if(newRem&&i<digits.length-1){
-      detail=`Write ${digit} in the quotient. ${newRem} ${remainderPlace} remains. Exchange it for ${newRem*10} ${nextPlace}, then combine it with the next digit to make ${nextNumber} ${nextPlace}.`;
+      detail=`Write ${digit} in the quotient. ${newRem} ${remainderPlace} ${newRem===1?'remains':'remain'}. Exchange it for ${newRem*10} ${nextPlace}, then combine it with the next digit to make ${nextNumber} ${nextPlace}.`;
     }else if(newRem){
       detail=`Write ${digit} in the quotient. The final remainder is ${newRem}.`;
     }else{
@@ -6514,14 +6788,14 @@ function columnRowsHtml(plan,step,mode){
   return `${methodPlaceRow(plan.names)}${exchangeRow}${topRow}${bottomRow}<div class="methodRule"><span class="methodSign">${mode==='add'?'+':'−'}</span></div>${answerRow}${carryRow}`
 }
 function renderColumn(stage){
-  const s=state.column;s.top=Math.max(0,Math.floor(Number(s.top)||0));s.bottom=Math.max(0,Math.floor(Number(s.bottom)||0));normaliseMethodStep('column');const plan=s.mode==='add'?additionPlan(s.top,s.bottom):subtractionPlan(s.top,s.bottom),max=plan.steps.length,step=clamp(s.step,0,max),record=step?plan.steps[step-1]:null;
-  const invalid=plan.invalid;stage.innerHTML=`<div class="methodsStudio"><div class="directDock methodDock"><div class="choiceTabs"><button class="choiceTab ${s.mode==='add'?'active':''}" data-columnmode="add">Addition</button><button class="choiceTab ${s.mode==='sub'?'active':''}" data-columnmode="sub">Subtraction</button></div><div class="methodInputs"><input class="methodInput" id="columnTop" inputmode="numeric" value="${s.top}"><span class="methodOperatorPick">${s.mode==='add'?'+':'−'}</span><input class="methodInput" id="columnBottom" inputmode="numeric" value="${s.bottom}"><button class="directBtn" id="columnBuild">Build</button>${s.mode==='sub'?'<button class="directBtn" id="columnSwap">Swap</button>':''}</div>${methodButtons(step,max)}</div><div class="workedExample"><div class="algorithmPaper"><div class="methodQuestion">${s.top} ${s.mode==='add'?'+':'−'} ${s.bottom}</div>${invalid?'<div class="empty"><h2>Put the larger number on top</h2><p>Use Swap, then teach the exchange process clearly.</p></div>':`<div class="columnGrid" style="--method-cols:${plan.cols}">${columnRowsHtml(plan,step,s.mode)}</div>`}</div>${invalid?explanationHtml(0,1,null,'Swap the numbers',''):explanationHtml(step,max,record,`Start with the ${placeWord(plan.names.at(-1))}.`,s.mode==='add'?`${s.top} + ${s.bottom} = ${s.top+s.bottom}`:`${s.top} − ${s.bottom} = ${s.top-s.bottom}`)}</div><div class="methodHint">Work one place at a time. Predict, then reveal.</div></div>`;
-  $$('[data-columnmode]',stage).forEach(b=>b.onclick=()=>{s.mode=b.dataset.columnmode;s.step=0;commit();renderAll()});$('#columnBuild',stage).onclick=()=>{s.top=Math.max(0,Math.floor(Number($('#columnTop',stage).value)||0));s.bottom=Math.max(0,Math.floor(Number($('#columnBottom',stage).value)||0));s.step=0;commit();renderAll()};if($('#columnSwap',stage))$('#columnSwap',stage).onclick=()=>{[s.top,s.bottom]=[s.bottom,s.top];s.step=0;commit();renderAll()};bindMethodButtons(stage)
+  const s=state.column;s.top=clamp(Math.floor(Number(s.top)||0),0,999999);s.bottom=clamp(Math.floor(Number(s.bottom)||0),0,999999);normaliseMethodStep('column');const plan=s.mode==='add'?additionPlan(s.top,s.bottom):subtractionPlan(s.top,s.bottom),max=plan.steps.length,step=clamp(s.step,0,max),record=step?plan.steps[step-1]:null;
+  const invalid=plan.invalid;stage.innerHTML=`<div class="methodsStudio"><div class="directDock methodDock"><div class="choiceTabs"><button class="choiceTab ${s.mode==='add'?'active':''}" data-columnmode="add">Addition</button><button class="choiceTab ${s.mode==='sub'?'active':''}" data-columnmode="sub">Subtraction</button></div><div class="methodInputs"><input class="methodInput" id="columnTop" inputmode="numeric" maxlength="6" value="${s.top}"><span class="methodOperatorPick">${s.mode==='add'?'+':'−'}</span><input class="methodInput" id="columnBottom" inputmode="numeric" maxlength="6" value="${s.bottom}"><button class="directBtn" id="columnBuild">Build</button>${s.mode==='sub'?'<button class="directBtn" id="columnSwap">Swap</button>':''}</div>${methodButtons(step,max)}</div><div class="workedExample"><div class="algorithmPaper"><div class="methodQuestion">${s.top} ${s.mode==='add'?'+':'−'} ${s.bottom}</div>${invalid?'<div class="empty"><h2>Put the larger number on top</h2><p>Use Swap, then teach the exchange process clearly.</p></div>':`<div class="columnGrid" style="--method-cols:${plan.cols}">${columnRowsHtml(plan,step,s.mode)}</div>`}</div>${invalid?explanationHtml(0,1,null,'Swap the numbers',''):explanationHtml(step,max,record,`Start with the ${placeWord(plan.names.at(-1))}.`,s.mode==='add'?`${s.top} + ${s.bottom} = ${s.top+s.bottom}`:`${s.top} − ${s.bottom} = ${s.top-s.bottom}`)}</div><div class="methodHint">Work one place at a time. Predict, then reveal.</div></div>`;
+  $$('[data-columnmode]',stage).forEach(b=>b.onclick=()=>{s.mode=b.dataset.columnmode;s.step=0;commit();renderAll()});$('#columnBuild',stage).onclick=()=>{s.top=clamp(Math.floor(Number($('#columnTop',stage).value)||0),0,999999);s.bottom=clamp(Math.floor(Number($('#columnBottom',stage).value)||0),0,999999);s.step=0;commit();renderAll()};if($('#columnSwap',stage))$('#columnSwap',stage).onclick=()=>{[s.top,s.bottom]=[s.bottom,s.top];s.step=0;commit();renderAll()};bindMethodButtons(stage)
 }
 function controlsColumn(c){const s=state.column;c.innerHTML=panel('Written method',`<div class="buttonRow"><button class="mini ${s.mode==='add'?'active':''}" data-columnmodeins="add">Column addition</button><button class="mini ${s.mode==='sub'?'active':''}" data-columnmodeins="sub">Column subtraction</button></div>`)+panel('Calculation',field('Top number',numberInput('column.top',s.top,0,999999,1))+field('Bottom number',numberInput('column.bottom',s.bottom,0,999999,1)))+panel('Worked examples',`<div class="buttonRow"><button class="mini" data-columnpreset="2786,1457,add">2,786 + 1,457</button><button class="mini" data-columnpreset="4072,1856,sub">4,072 − 1,856</button><button class="mini" data-columnpreset="6003,2785,sub">6,003 − 2,785</button></div><p class="help">Open Display, then use Previous and Next step. In addition, exchanged digits are recorded beneath the answer. In subtraction, exchanged values are written above the top number.</p>`);$$('[data-columnmodeins]',c).forEach(b=>b.onclick=()=>{s.mode=b.dataset.columnmodeins;s.step=0;commit();renderAll()});$$('[data-columnpreset]',c).forEach(b=>b.onclick=()=>{const [a,d,m]=b.dataset.columnpreset.split(',');Object.assign(s,{top:Number(a),bottom:Number(d),mode:m,step:0});commit();renderAll()})}
 
 function multiplicationRowsHtml(plan,step){const active=step===0?plan.steps[0]?.index:(step>=plan.steps.length?-1:plan.steps[step-1]?.index),result=stepCopy(plan,step,'result'),carries=stepCopy(plan,step,'carries'),topVisible=visibleDigits(plan.A),bottom=Array(plan.cols).fill('');bottom[bottom.length-1]=plan.m;return `${methodPlaceRow(plan.names)}<div class="methodRow">${carries.map(v=>`<div class="methodCell carry">${v||''}</div>`).join('')}</div><div class="methodRow">${topVisible.map((v,i)=>`<div class="methodCell ${i===active?'active':''}">${v}</div>`).join('')}</div><div class="methodRow">${bottom.map((v,i)=>`<div class="methodCell ${i===active?'active':''}">${v}</div>`).join('')}</div><div class="methodRule"><span class="methodSign">×</span></div><div class="methodRow">${result.map((v,i)=>`<div class="methodCell answer ${v===null?'pending':''} ${i===active?'active':''}">${v===null?'':v}</div>`).join('')}</div>`}
-function renderMultiplication(stage){const s=state.multiplication;s.top=Math.max(0,Math.floor(Number(s.top)||0));s.multiplier=clamp(Math.floor(Number(s.multiplier)||1),1,9);normaliseMethodStep('multiplication');const plan=multiplicationPlan(s.top,s.multiplier),max=plan.steps.length,step=s.step,record=step?plan.steps[step-1]:null;stage.innerHTML=`<div class="methodsStudio"><div class="directDock methodDock"><div class="methodInputs"><input class="methodInput" id="multTop" inputmode="numeric" value="${s.top}"><span class="methodOperatorPick">×</span><input class="methodInput" id="multDigit" inputmode="numeric" value="${s.multiplier}"><button class="directBtn" id="multBuild">Build</button></div>${methodButtons(step,max)}</div><div class="workedExample"><div class="algorithmPaper"><div class="methodQuestion">${s.top} × ${s.multiplier}</div><div class="columnGrid" style="--method-cols:${plan.cols}">${multiplicationRowsHtml(plan,step)}</div></div>${explanationHtml(step,max,record,`Start with ${plan.A.at(-1)} × ${s.multiplier} in the ones.`,`${s.top} × ${s.multiplier} = ${s.top*s.multiplier}`)}</div><div class="methodHint">Work from right to left, one place at a time.</div></div>`;$('#multBuild',stage).onclick=()=>{s.top=Math.max(0,Math.floor(Number($('#multTop',stage).value)||0));s.multiplier=clamp(Math.floor(Number($('#multDigit',stage).value)||1),1,9);s.step=0;commit();renderAll()};bindMethodButtons(stage)}
+function renderMultiplication(stage){const s=state.multiplication;s.top=clamp(Math.floor(Number(s.top)||0),0,999999);s.multiplier=clamp(Math.floor(Number(s.multiplier)||1),1,9);normaliseMethodStep('multiplication');const plan=multiplicationPlan(s.top,s.multiplier),max=plan.steps.length,step=s.step,record=step?plan.steps[step-1]:null;stage.innerHTML=`<div class="methodsStudio"><div class="directDock methodDock"><div class="methodInputs"><input class="methodInput" id="multTop" inputmode="numeric" maxlength="6" value="${s.top}"><span class="methodOperatorPick">×</span><input class="methodInput" id="multDigit" inputmode="numeric" maxlength="1" value="${s.multiplier}"><button class="directBtn" id="multBuild">Build</button></div>${methodButtons(step,max)}</div><div class="workedExample"><div class="algorithmPaper"><div class="methodQuestion">${s.top} × ${s.multiplier}</div><div class="columnGrid" style="--method-cols:${plan.cols}">${multiplicationRowsHtml(plan,step)}</div></div>${explanationHtml(step,max,record,`Start with ${plan.A.at(-1)} × ${s.multiplier} in the ones.`,`${s.top} × ${s.multiplier} = ${s.top*s.multiplier}`)}</div><div class="methodHint">Work from right to left, one place at a time.</div></div>`;$('#multBuild',stage).onclick=()=>{s.top=clamp(Math.floor(Number($('#multTop',stage).value)||0),0,999999);s.multiplier=clamp(Math.floor(Number($('#multDigit',stage).value)||1),1,9);s.step=0;commit();renderAll()};bindMethodButtons(stage)}
 function controlsMultiplication(c){const s=state.multiplication;c.innerHTML=panel('Calculation',field('Number',numberInput('multiplication.top',s.top,0,999999,1))+field('Multiply by',numberInput('multiplication.multiplier',s.multiplier,1,9,1)))+panel('Worked examples','<div class="buttonRow"><button class="mini" data-multpreset="326,4">326 × 4</button><button class="mini" data-multpreset="1407,6">1,407 × 6</button><button class="mini" data-multpreset="2865,7">2,865 × 7</button></div><p class="help">This studio models short multiplication by a one-digit number.</p>');$$('[data-multpreset]',c).forEach(b=>b.onclick=()=>{const [a,m]=b.dataset.multpreset.split(',').map(Number);Object.assign(s,{top:a,multiplier:m,step:0});commit();renderAll()})}
 
 function placeParts(n){
@@ -6559,7 +6833,7 @@ function divisionRowsHtml(plan,step){
   const dividend=plan.digits.map((v,i)=>`<div class="busDividendDigit ${i===active?'active':''}">${carry[i]?`<span class="busCarryMark">${carry[i]}</span>`:''}<span class="busMainDigit">${v}</span></div>`).join('');
   return `<div class="busStopLayout" style="--division-cols:${plan.digits.length}"><div class="busQuotientRow">${quotient}</div><div class="busDivisor">${plan.divisor}</div><div class="busBracket"><div class="busDividendRow">${dividend}</div></div></div><div class="divisionRemainder">${step>=plan.steps.length&&plan.finalRemainder?`Remainder ${plan.finalRemainder}`:''}</div>`
 }
-function renderDivision(stage){const s=state.division;if(s.showQuestion===undefined)s.showQuestion=true;s.dividend=Math.max(0,Math.floor(Number(s.dividend)||0));s.divisor=clamp(Math.floor(Number(s.divisor)||1),1,12);normaliseMethodStep('division');const plan=divisionPlan(s.dividend,s.divisor),max=plan.steps.length,step=s.step,record=step?plan.steps[step-1]:null,quotient=Math.floor(s.dividend/s.divisor),rem=s.dividend%s.divisor;const showQuestion=!!s.showQuestion && !document.body.classList.contains('presentation');stage.innerHTML=`<div class="methodsStudio"><div class="directDock methodDock"><div class="methodInputs"><input class="methodInput" id="divDividend" inputmode="numeric" value="${s.dividend}"><span class="methodOperatorPick">÷</span><input class="methodInput" id="divDivisor" inputmode="numeric" value="${s.divisor}"><button class="directBtn" id="divBuild">Build</button><button class="directBtn soft" id="divToggleQuestion">${showQuestion?'Hide question':'Show question'}</button></div>${methodButtons(step,max)}</div><div class="workedExample divisionWorked ${showQuestion?'withQuestion':'withoutQuestion'}"><div class="algorithmPaper divisionPaper" style="--division-cols:${plan.digits.length}">${showQuestion?`<div class="methodQuestion divisionQuestion">${s.dividend} ÷ ${s.divisor}</div>`:''}${divisionRowsHtml(plan,step)}</div>${explanationHtml(step,max,record,`Start with the leftmost digit. Divide one place at a time.`,`${s.dividend} ÷ ${s.divisor} = ${quotient}${rem?` remainder ${rem}`:''}`)}</div><div class="methodHint">Start at the left. Write each quotient digit above the correct place. Carry any remainder forward to make the next number.</div></div>`;$('#divBuild',stage).onclick=()=>{s.dividend=Math.max(0,Math.floor(Number($('#divDividend',stage).value)||0));s.divisor=clamp(Math.floor(Number($('#divDivisor',stage).value)||1),1,12);s.step=0;commit();renderAll()};$('#divToggleQuestion',stage).onclick=()=>{s.showQuestion=!s.showQuestion;commit();renderAll()};bindMethodButtons(stage)}
+function renderDivision(stage){const s=state.division;if(s.showQuestion===undefined)s.showQuestion=true;s.dividend=clamp(Math.floor(Number(s.dividend)||0),0,999999);s.divisor=clamp(Math.floor(Number(s.divisor)||1),1,12);normaliseMethodStep('division');const plan=divisionPlan(s.dividend,s.divisor),max=plan.steps.length,step=s.step,record=step?plan.steps[step-1]:null,quotient=Math.floor(s.dividend/s.divisor),rem=s.dividend%s.divisor;const showQuestion=!!s.showQuestion && !document.body.classList.contains('presentation');stage.innerHTML=`<div class="methodsStudio"><div class="directDock methodDock"><div class="methodInputs"><input class="methodInput" id="divDividend" inputmode="numeric" maxlength="6" value="${s.dividend}"><span class="methodOperatorPick">÷</span><input class="methodInput" id="divDivisor" inputmode="numeric" maxlength="2" value="${s.divisor}"><button class="directBtn" id="divBuild">Build</button><button class="directBtn soft" id="divToggleQuestion">${showQuestion?'Hide question':'Show question'}</button></div>${methodButtons(step,max)}</div><div class="workedExample divisionWorked ${showQuestion?'withQuestion':'withoutQuestion'}"><div class="algorithmPaper divisionPaper" style="--division-cols:${plan.digits.length}">${showQuestion?`<div class="methodQuestion divisionQuestion">${s.dividend} ÷ ${s.divisor}</div>`:''}${divisionRowsHtml(plan,step)}</div>${explanationHtml(step,max,record,`Start with the leftmost digit. Divide one place at a time.`,`${s.dividend} ÷ ${s.divisor} = ${quotient}${rem?` remainder ${rem}`:''}`)}</div><div class="methodHint">Start at the left. Write each quotient digit above the correct place. Carry any remainder forward to make the next number.</div></div>`;$('#divBuild',stage).onclick=()=>{s.dividend=clamp(Math.floor(Number($('#divDividend',stage).value)||0),0,999999);s.divisor=clamp(Math.floor(Number($('#divDivisor',stage).value)||1),1,12);s.step=0;commit();renderAll()};$('#divToggleQuestion',stage).onclick=()=>{s.showQuestion=!s.showQuestion;commit();renderAll()};bindMethodButtons(stage)}
 function controlsDivision(c){const s=state.division;if(s.showQuestion===undefined)s.showQuestion=true;c.innerHTML=panel('Calculation',field('Dividend',numberInput('division.dividend',s.dividend,0,999999,1))+field('Divisor',numberInput('division.divisor',s.divisor,1,12,1))+field('Show question above the method',checkbox('division.showQuestion',s.showQuestion)))+panel('Worked examples','<div class="buttonRow"><button class="mini" data-divpreset="972,4">972 ÷ 4</button><button class="mini" data-divpreset="865,5">865 ÷ 5</button><button class="mini" data-divpreset="742,6">742 ÷ 6</button><button class="mini" data-divpreset="4032,8">4,032 ÷ 8</button></div><p class="help">Hide the repeated question when you only want the bus-stop method on display.</p>');$$('[data-divpreset]',c).forEach(b=>b.onclick=()=>{const [a,d]=b.dataset.divpreset.split(',').map(Number);Object.assign(s,{dividend:a,divisor:d,step:0});commit();renderAll()})}
 
 
@@ -6708,9 +6982,9 @@ const SPOTLIGHT_SELECTORS=['.counter','.btBlock','.lockedPart','.wholeLocked','.
 function clearSpotlight(){const stage=$('#stage');if(stage){stage.classList.remove('spotlightOn');$$('.spotlightCandidate,.spotlightTarget',stage).forEach(el=>el.classList.remove('spotlightCandidate','spotlightTarget'))}}
 function toggleSpotlight(){state.spotlightMode=!state.spotlightMode;if(!state.spotlightMode)clearSpotlight();saveState();updateDisplayControls();toast(state.spotlightMode?'Tap an object to spotlight it':'Spotlight off')}
 function spotlightAt(target){if(!state.spotlightMode||state.displayLocked)return;const stage=$('#stage');const candidate=target.closest(SPOTLIGHT_SELECTORS.join(','));if(!candidate||!stage.contains(candidate))return;clearSpotlight();stage.classList.add('spotlightOn');$$(SPOTLIGHT_SELECTORS.join(','),stage).forEach(el=>el.classList.add('spotlightCandidate'));candidate.classList.remove('spotlightCandidate');candidate.classList.add('spotlightTarget')}
-function togglePointer(){state.pointerMode=!state.pointerMode;const p=$('#teacherPointer');if(p)p.classList.toggle('visible',state.pointerMode);saveState();updateDisplayControls();toast(state.pointerMode?'Pointer on':'Pointer off')}
+function togglePointer(){state.pointerMode=!state.pointerMode;const p=$('#teacherPointer');if(p)p.classList.toggle('visible',state.pointerMode);if(!document.body.classList.contains('presentation'))saveState();updateDisplayControls();toast(state.pointerMode?'Pointer on':'Pointer off')}
 function moveTeacherPointer(e){if(!state.pointerMode)return;const p=$('#teacherPointer');const stage=$('#stage');if(!p||!stage)return;const r=stage.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom){p.classList.remove('active');return}p.classList.add('active','visible');p.style.transform=`translate(${e.clientX}px,${e.clientY}px) translate(-50%,-50%)`}
-function toggleValues(){state.valuesVisible=!state.valuesVisible;saveState();renderAll();updateDisplayControls();toast(state.valuesVisible?'Values shown':'Values hidden')}
+function toggleValues(){state.valuesVisible=!state.valuesVisible;if(!document.body.classList.contains('presentation'))saveState();renderAll();updateDisplayControls();toast(state.valuesVisible?'Values shown':'Values hidden')}
 function favouriteKey(){return 'maths-modelling-favourite-'+state.active}
 const LESSON_KEY='maths-modelling-studio-build41-lesson';
 let lessonDeck=loadLessonDeck(),lessonIndex=-1;
@@ -6758,17 +7032,19 @@ function openLessonDialog(){renderLessonDeck();const d=$('#lessonDialog');if(typ
 function closeLessonDialog(){const d=$('#lessonDialog');if(typeof d.close==='function'&&d.open)d.close();else d.removeAttribute('open')}
 function loadLessonScene(index,presenting=true){
   const scene=lessonDeck[index];if(!scene)return;
-  saveCurrentInkLayer();state=deepCopy(scene.snapshot);ensureV4State();state.ink=false;state.inkTool='pen';lessonIndex=index;
+  const keepTeachingNotes=presenting&&document.body.classList.contains('presentation')?state.showTeachingNotes:true;
+  saveCurrentInkLayer();state=deepCopy(scene.snapshot);ensureV4State();normaliseSafeView(state);state.ink=false;state.inkTool='pen';lessonIndex=index;
+  if(state.active!=='board')state.background='plain';state.showTeachingNotes=keepTeachingNotes;
   history=[deepCopy(state)];historyIndex=0;saveState();renderAll();
   if(presenting){document.body.classList.add('lessonPlaying');$('#lessonPlayer').classList.add('active');updateLessonPlayer()}
   else{document.body.classList.remove('lessonPlaying');$('#lessonPlayer').classList.remove('active');lessonIndex=-1}
 }
 function updateLessonPlayer(){const scene=lessonDeck[lessonIndex];if(!scene)return;const atEnd=lessonIndex>=lessonDeck.length-1;$('#lessonPlayerName').textContent=scene.name;$('#lessonPlayerPosition').textContent=`Scene ${lessonIndex+1} of ${lessonDeck.length}`;$('#lessonPrev').disabled=lessonIndex<=0;$('#lessonPrev').textContent='← Previous scene';$('#lessonNext').disabled=atEnd;$('#lessonNext').textContent='Next scene →';$('#lessonStop').textContent='End lesson'}
-function startLesson(){if(!lessonDeck.length)return;closeLessonDialog();loadLessonScene(0,true);state.showTeachingNotes=false;state.displayControlsVisible=true;togglePresent(true);updateLessonPlayer()}
+function startLesson(){if(!lessonDeck.length)return;closeLessonDialog();loadLessonScene(0,true);togglePresent(true);state.showTeachingNotes=false;state.displayControlsVisible=true;updateDisplayControls();renderStage();updateLessonPlayer()}
 function stopLesson(){document.body.classList.remove('lessonPlaying');$('#lessonPlayer').classList.remove('active');lessonIndex=-1;if(document.body.classList.contains('presentation'))togglePresent(false)}
 function stepLesson(delta){if(lessonIndex<0)return;if(delta>0&&lessonIndex>=lessonDeck.length-1)return stopLesson();loadLessonScene(clamp(lessonIndex+delta,0,lessonDeck.length-1),true)}
 function saveFavourite(){if(state.active==='home')return toast('Choose a model first');try{localStorage.setItem(favouriteKey(),JSON.stringify({model:deepCopy(state[state.active]),background:state.background,labels:state.labels,placeLabelMode:state.placeLabelMode}));toast('Favourite saved')}catch(e){toast('Could not save favourite')}}
-function loadFavourite(){if(state.active==='home')return toast('Choose a model first');try{const raw=localStorage.getItem(favouriteKey());if(!raw)return toast('No favourite saved for this model');const fav=JSON.parse(raw);state[state.active]=deepCopy(fav.model);if(fav.background)state.background=fav.background;if(typeof fav.labels==='boolean')state.labels=fav.labels;if(fav.placeLabelMode)state.placeLabelMode=fav.placeLabelMode;commit();renderAll();toast('Favourite loaded')}catch(e){toast('Could not load favourite')}}
+function loadFavourite(){if(state.active==='home')return toast('Choose a model first');try{const raw=localStorage.getItem(favouriteKey());if(!raw)return toast('No favourite saved for this model');const fav=JSON.parse(raw);state[state.active]=deepCopy(fav.model);if(fav.background)state.background=fav.background;if(typeof fav.labels==='boolean')state.labels=fav.labels;if(fav.placeLabelMode)state.placeLabelMode=fav.placeLabelMode;normaliseSafeView(state);commit();renderAll();toast('Favourite loaded')}catch(e){toast('Could not load favourite')}}
 function randInt(a,b){return Math.floor(Math.random()*(b-a+1))+a}
 function randomiseCurrent(){const a=state.active;if(a==='home')return toast('Choose a model first');
   if(a==='placeValue'){const n=randInt(100,9999);setPVFromNumber(n)}
@@ -6798,23 +7074,98 @@ function updateDisplayControls(){
   document.body.classList.toggle('displayControlsHidden',!state.displayControlsVisible);
   document.body.classList.toggle('modelLocked',!!state.displayLocked);
   const dl=$('#displayLabels');if(dl)dl.textContent=state.labels?'Hide labels':'Show labels';
-  const dv=$('#displayValues');if(dv){dv.textContent=state.valuesVisible?'Hide values':'Show values';dv.classList.toggle('active',!state.valuesVisible)}
+  const dv=$('#displayValues');if(dv){dv.textContent=state.valuesVisible?'Hide numbers':'Show numbers';dv.classList.toggle('active',!state.valuesVisible)}
   const pp=$('#displayPointer');if(pp){pp.textContent=state.pointerMode?'Stop pointer':'Pointer';pp.classList.toggle('active',state.pointerMode)}
   const pm=$('#placeModeBtn');if(pm)pm.textContent=state.placeLabelMode==='hto'?'Words':'HTO';
-  const dpm=$('#displayPlaceMode');if(dpm){dpm.textContent=state.placeLabelMode==='hto'?'Words':'HTO';dpm.hidden=!['placeValue','baseTen'].includes(state.active)}
-  const dt=$('#displayTeaching');if(dt){dt.textContent=state.showTeachingNotes?'Hide details':'Show details';dt.classList.toggle('active',state.showTeachingNotes)};
-  const dc=$('#displayDockToggle');if(dc)dc.textContent=state.displayControlsVisible?'Hide':'Controls';
+  const dpm=$('#displayPlaceMode');if(dpm){dpm.textContent=state.placeLabelMode==='hto'?'Words':'HTO';dpm.hidden=!['placeValue','baseTen','column','multiplication','division'].includes(state.active)}
+  const dt=$('#displayTeaching');if(dt){dt.hidden=!key;dt.textContent=state.showTeachingNotes?'Hide notes':'Show notes';dt.classList.toggle('active',state.showTeachingNotes)};
+  const dc=$('#displayDockToggle');if(dc){const label=state.displayControlsVisible?'Hide controls':'Show controls';dc.textContent=label;dc.title=label;dc.setAttribute('aria-label',label)}
   const di=$('#displayInk');if(di){di.textContent=state.ink&&state.inkTool==='pen'?'Stop writing':'Write';di.classList.toggle('active',state.ink&&state.inkTool==='pen')}
   const de=$('#displayEraseInk');if(de){de.textContent=state.ink&&state.inkTool==='eraser'?'Stop erasing':'Eraser';de.classList.toggle('active',state.ink&&state.inkTool==='eraser')}
-  const prev=$('#displayPrevStep'),next=$('#displayNextStep');if(prev){prev.disabled=!key||step<=0;prev.textContent='← Previous step'}if(next){next.disabled=!key||step>=max;next.textContent=step>=max?'Method complete':'Next step →'}
+  const prev=$('#displayPrevStep'),next=$('#displayNextStep');if(prev){prev.hidden=!key;prev.disabled=!key||step<=0;prev.textContent='← Previous step'}if(next){next.hidden=!key||step>=max;next.disabled=!key||step>=max;next.textContent='Next step →'}
 }
 let displayIdleTimer=null;function wakeDisplayControls(){if(!document.body.classList.contains('presentation'))return;document.body.classList.remove('displayIdle');clearTimeout(displayIdleTimer);displayIdleTimer=setTimeout(()=>document.body.classList.add('displayIdle'),2600)}
 function toggleTeach(force){const next=typeof force==='boolean'?force:!document.body.classList.contains('teachview');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('presentation')}document.body.classList.toggle('teachview',next);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage()},80)}
-function togglePresent(force){document.body.classList.remove('presentationToolsOpen');const more=document.getElementById('displayMore');if(more){more.setAttribute('aria-expanded','false');more.textContent='Tools'};const next=typeof force==='boolean'?force:!document.body.classList.contains('presentation');saveCurrentInkLayer();state.ink=false;state.inkTool='pen';if(next){document.body.classList.remove('teachview');state.displayControlsVisible=true;state.displayLocked=false}else{state.displayControlsVisible=true;state.displayLocked=false;state.spotlightMode=false;state.pointerMode=false;if(document.body.classList.contains('lessonPlaying')){document.body.classList.remove('lessonPlaying');$('#lessonPlayer')?.classList.remove('active');lessonIndex=-1}if(displayPreviousValues!==null){state.valuesVisible=displayPreviousValues;displayPreviousValues=null}document.body.classList.toggle('valuesHidden',!state.valuesVisible);document.body.classList.remove('displayComposition');document.body.removeAttribute('data-display-layout');document.body.removeAttribute('data-display-source');document.body.style.removeProperty('--display-live-head');document.body.style.removeProperty('--board-head');$('#displayAnswerText')?.classList.remove('revealed');clearSpotlight();$('#teacherPointer')?.classList.remove('visible','active')}document.body.classList.toggle('presentation',next);document.body.classList.toggle('methodActive',!!activeMethodKey());document.body.classList.remove('displayIdle');saveState();if(next)wakeDisplayControls();else clearTimeout(displayIdleTimer);updateDisplayControls();setTimeout(()=>{resizeInk();renderStage();if(document.body.classList.contains('displayComposition'))queueDisplayGeometry()},120)}
+function togglePresent(force){
+  document.body.classList.remove('presentationToolsOpen');
+  const more=document.getElementById('displayMore');
+  if(more){more.setAttribute('aria-expanded','false');more.textContent='Tools'}
+  const wasPresenting=document.body.classList.contains('presentation');
+  const next=typeof force==='boolean'?force:!wasPresenting;
+  saveCurrentInkLayer();
+
+  if(next&&!wasPresenting){
+    presentationViewSnapshot={
+      valuesVisible:state.valuesVisible,
+      labels:state.labels,
+      showTeachingNotes:state.showTeachingNotes,
+      displayControlsVisible:state.displayControlsVisible,
+      ink:state.ink,
+      inkTool:state.inkTool
+    };
+    document.body.classList.remove('teachview','displayModelOnly');
+    state.valuesVisible=true;
+    state.labels=true;
+    state.showTeachingNotes=true;
+    state.displayControlsVisible=true;
+    state.displayLocked=false;
+    state.ink=false;
+    state.inkTool='pen';
+  }else if(!next&&wasPresenting){
+    state.displayLocked=false;
+    state.spotlightMode=false;
+    state.pointerMode=false;
+    if(document.body.classList.contains('lessonPlaying')){
+      document.body.classList.remove('lessonPlaying');
+      $('#lessonPlayer')?.classList.remove('active');
+      lessonIndex=-1;
+    }
+    if(presentationViewSnapshot){
+      state.valuesVisible=presentationViewSnapshot.valuesVisible;
+      state.labels=presentationViewSnapshot.labels;
+      state.showTeachingNotes=presentationViewSnapshot.showTeachingNotes;
+      state.displayControlsVisible=presentationViewSnapshot.displayControlsVisible;
+      state.ink=presentationViewSnapshot.ink;
+      state.inkTool=presentationViewSnapshot.inkTool;
+      presentationViewSnapshot=null;
+    }else{
+      state.valuesVisible=true;
+      state.labels=true;
+      state.showTeachingNotes=true;
+      state.displayControlsVisible=true;
+      state.ink=false;
+      state.inkTool='pen';
+    }
+    document.body.classList.remove('displayComposition','displayModelOnly');
+    document.body.removeAttribute('data-display-layout');
+    document.body.removeAttribute('data-display-source');
+    document.body.style.removeProperty('--display-live-head');
+    document.body.style.removeProperty('--board-head');
+    $('#displayAnswerText')?.classList.remove('revealed');
+    clearSpotlight();
+    $('#teacherPointer')?.classList.remove('visible','active');
+  }
+
+  document.body.classList.toggle('presentation',next);
+  document.body.classList.toggle('valuesHidden',!state.valuesVisible);
+  document.body.classList.toggle('methodActive',!!activeMethodKey());
+  document.body.classList.remove('displayIdle');
+  const inkCanvas=$('#inkCanvas');
+  if(inkCanvas){
+    inkCanvas.classList.toggle('inking',!!state.ink);
+    inkCanvas.classList.toggle('erasing',!!state.ink&&state.inkTool==='eraser');
+  }
+  $('#inkToggle')?.classList.toggle('active',!!state.ink&&state.inkTool==='pen');
+  $('#eraseInk')?.classList.toggle('active',!!state.ink&&state.inkTool==='eraser');
+  if(!next)saveState();
+  if(next)wakeDisplayControls();else clearTimeout(displayIdleTimer);
+  updateDisplayControls();
+  setTimeout(()=>{resizeInk();renderStage();if(document.body.classList.contains('displayComposition'))queueDisplayGeometry()},120)
+}
 function prepareClassroomBoard(){document.body.classList.remove('displayComposition');document.body.removeAttribute('data-display-layout');document.body.removeAttribute('data-display-source');document.body.style.removeProperty('--display-live-head');document.body.style.removeProperty('--board-head')}
-function enterFocus(){prepareClassroomBoard();state.showTeachingNotes=false;state.displayControlsVisible=true;togglePresent(true)}
-async function startDisplay(){prepareClassroomBoard();state.showTeachingNotes=true;state.displayControlsVisible=true;togglePresent(true);try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen()}catch(e){toast('Classroom board is ready. Browser full screen was unavailable.')}}
-async function toggleFullscreen(){if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}togglePresent(false)}else await startDisplay()}
+function enterFocus(){prepareClassroomBoard();togglePresent(true);state.showTeachingNotes=false;updateDisplayControls();renderStage()}
+async function startDisplay(){prepareClassroomBoard();togglePresent(true);try{if(!document.fullscreenElement)await document.documentElement.requestFullscreen()}catch(e){toast('Classroom board is ready. Browser full screen was unavailable.')}}
+async function toggleFullscreen(){if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}if(document.body.classList.contains('presentation'))togglePresent(false)}else await startDisplay()}
 
 
 function inkKey(){return state.active}
@@ -6851,11 +7202,26 @@ updateLessonCount();
 $('#fullBtn').onclick=startDisplay;
 $$('.stagePopover button').forEach(button=>button.addEventListener('click',closeActionMenus));
 document.addEventListener('pointerdown',event=>$$('#stageMenu[open]').forEach(menu=>{if(!menu.contains(event.target))menu.removeAttribute('open')}),{passive:true});
-$('#modelsBtn').onclick=()=>toggleDrawer();$('#railClose').onclick=closeDrawers;$('#canvasScrim').onclick=closeDrawers;
-$('#gridToggle').onclick=()=>{state.background=state.background==='plain'?'grid':state.background==='grid'?'dots':state.background==='dots'?'lines':'plain';commit();renderAll()};
+$('#modelsBtn').onclick=()=>toggleDrawer('#modelRail');$('#adjustBtn').onclick=()=>toggleDrawer('#inspector');$('#railClose').onclick=closeDrawers;$('#canvasScrim').onclick=closeDrawers;
+$('#gridToggle').onclick=()=>{state.background=state.background==='plain'?'grid':state.background==='grid'?'dots':state.background==='dots'?'lines':'plain';if(state.active==='board')state.board.background=state.background;commit();renderAll()};
 $('#inkToggle').onclick=toggleInk;$('#eraseInk').onclick=toggleEraser;$('#clearInk').onclick=clearInk;
 const ink=$('#inkCanvas');ink.addEventListener('pointerdown',startDraw);ink.addEventListener('pointermove',moveDraw);ink.addEventListener('pointerup',endDraw);ink.addEventListener('pointercancel',endDraw);ink.addEventListener('pointerleave',endDraw);
-$('#displayExit').onclick=async()=>{if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}}togglePresent(false)};$('#displayPrevStep').onclick=()=>changeActiveMethodStep(-1);$('#displayNextStep').onclick=()=>changeActiveMethodStep(1);$('#displayTeaching').onclick=()=>{state.showTeachingNotes=!state.showTeachingNotes;saveState();updateDisplayControls()};$('#displayMore').onclick=()=>{const open=!document.body.classList.contains('presentationToolsOpen');document.body.classList.toggle('presentationToolsOpen',open);$('#displayMore').setAttribute('aria-expanded',String(open));$('#displayMore').textContent=open?'Close tools':'Tools'};$('#displayDockToggle').onclick=()=>{state.displayControlsVisible=!state.displayControlsVisible;saveState();updateDisplayControls()};$('#displayLabels').onclick=()=>{state.labels=!state.labels;commit();renderAll();updateDisplayControls()};$('#displayValues').onclick=toggleValues;$('#displayPlaceMode').onclick=togglePlaceLabelMode;$('#displayPointer').onclick=togglePointer;$('#displayInk').onclick=()=>{toggleInk();updateDisplayControls()};$('#displayEraseInk').onclick=()=>{toggleEraser();updateDisplayControls()};$('#displayClearInk').onclick=clearInk;document.addEventListener('fullscreenchange',()=>{syncVisualViewport();if(!document.fullscreenElement&&document.body.classList.contains('presentation'))togglePresent(false)});document.addEventListener('pointermove',e=>{wakeDisplayControls();moveTeacherPointer(e)},{passive:true});window.addEventListener('resize',()=>setTimeout(()=>{resizeInk();queueDisplayGeometry()},60));
+$('#displayExit').onclick=async()=>{if(document.fullscreenElement){try{await document.exitFullscreen()}catch(e){}}if(document.body.classList.contains('presentation'))togglePresent(false)};
+$('#displayPrevStep').onclick=()=>changeActiveMethodStep(-1);
+$('#displayNextStep').onclick=()=>changeActiveMethodStep(1);
+$('#displayTeaching').onclick=()=>{state.showTeachingNotes=!state.showTeachingNotes;updateDisplayControls();renderStage()};
+$('#displayMore').onclick=()=>{const open=!document.body.classList.contains('presentationToolsOpen');document.body.classList.toggle('presentationToolsOpen',open);$('#displayMore').setAttribute('aria-expanded',String(open));$('#displayMore').textContent=open?'Close tools':'Tools'};
+$('#displayDockToggle').onclick=()=>{state.displayControlsVisible=!state.displayControlsVisible;updateDisplayControls()};
+$('#displayLabels').onclick=()=>{state.labels=!state.labels;renderAll();updateDisplayControls()};
+$('#displayValues').onclick=toggleValues;
+$('#displayPlaceMode').onclick=togglePlaceLabelMode;
+$('#displayPointer').onclick=togglePointer;
+$('#displayInk').onclick=()=>{toggleInk();updateDisplayControls()};
+$('#displayEraseInk').onclick=()=>{toggleEraser();updateDisplayControls()};
+$('#displayClearInk').onclick=clearInk;
+document.addEventListener('fullscreenchange',()=>{syncVisualViewport();if(!document.fullscreenElement&&document.body.classList.contains('presentation'))togglePresent(false)});
+document.addEventListener('pointermove',e=>{wakeDisplayControls();moveTeacherPointer(e)},{passive:true});
+window.addEventListener('resize',()=>setTimeout(()=>{resizeInk();queueDisplayGeometry()},60));
 document.addEventListener('keydown',e=>{if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='z'){e.preventDefault();e.shiftKey?redo():undo()}if(e.key==='Escape'){if(document.body.classList.contains('drawerOpen')){closeDrawers();return}if(document.body.classList.contains('presentation'))togglePresent(false)}if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowRight'){e.preventDefault();changeActiveMethodStep(1)}if(document.body.classList.contains('presentation')&&activeMethodKey()&&e.key==='ArrowLeft'){e.preventDefault();changeActiveMethodStep(-1)}if(e.key.toLowerCase()==='p'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&state.active!=='home')startDisplay();if(e.key.toLowerCase()==='c'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)&&state.active!=='home'){e.preventDefault();openConnections()}if(e.key==='/'&&!['INPUT','TEXTAREA','SELECT'].includes(document.activeElement.tagName)){e.preventDefault();toggleDrawer()}});
 renderAll();updateDisplayControls();$('#inkCanvas').classList.toggle('inking',state.ink);$('#inkCanvas').classList.toggle('erasing',state.ink&&state.inkTool==='eraser');$('#inkToggle').classList.toggle('active',state.ink&&state.inkTool==='pen');$('#eraseInk').classList.toggle('active',state.ink&&state.inkTool==='eraser');
 })();
